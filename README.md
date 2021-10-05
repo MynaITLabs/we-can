@@ -1,1 +1,1 @@
-# we-can
+# WE-CAN Android Application Project
