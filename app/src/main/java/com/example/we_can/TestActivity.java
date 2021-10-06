@@ -38,7 +38,7 @@ public class TestActivity extends AppCompatActivity {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                BasicClientConnectivity obj = new BasicClientConnectivity(getApplicationContext(), wifi);
+
                 Intent myIntent = new Intent(getApplicationContext(), ClientConnectivityConfiguration.class);
                 startActivity(myIntent);
 

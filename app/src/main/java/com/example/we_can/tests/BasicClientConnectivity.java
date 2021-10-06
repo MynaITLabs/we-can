@@ -20,27 +20,15 @@ public class BasicClientConnectivity {
     public static int CX_TIME;
 
 
-
-
-
-
-
-
     /***
      * Constructor
-     */
-
-
-
-
-
+    ***/
     public static GetPhoneWifiInfo info;
 
 
     public BasicClientConnectivity(Context context, WifiManager wifi){
         this.StartTest(context, wifi);
 
-        
     }
 
     public static void StartTest(Context context, WifiManager wifi){
@@ -66,7 +54,5 @@ public class BasicClientConnectivity {
         intentFilter.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
         context.registerReceiver(broadcastReceiver, intentFilter);
     }
-
-
 
 }
