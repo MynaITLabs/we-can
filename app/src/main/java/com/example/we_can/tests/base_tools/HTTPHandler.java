@@ -5,7 +5,7 @@ import java.net.URL;
 
 public class HTTPHandler {
     String url;
-    int copnn_status_code;
+    public static int copnn_status_code;
     public HTTPHandler(String url){
         this.url = url;
         try {

@@ -26,6 +26,12 @@ public class ServerConnection extends AppCompatActivity {
             public void onClick(View view) {
                 String ip = server_entry.getText().toString();
                 http_server_handler = new HTTPHandler(ip);
+                if (http_server_handler.copnn_status_code == 1){
+
+                }
+                else {
+
+                }
             }
         });
     }
