@@ -6,7 +6,10 @@
         <entry key="../../Android/Sdk/platforms/android-31/data/res/layout/simple_spinner_dropdown_item.xml" value="0.2453125" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.23177083333333334" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.23177083333333334" />
+        <entry key="app/src/main/res/layout-w1240dp/activity_login.xml" value="0.14825970548862116" />
+        <entry key="app/src/main/res/layout-w936dp/activity_login.xml" value="0.173046875" />
         <entry key="app/src/main/res/layout/activity_client_connectivity_configuration.xml" value="0.2453125" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.245018115942029" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.31614583333333335" />
         <entry key="app/src/main/res/layout/activity_server_connection.xml" value="0.18489583333333334" />
         <entry key="app/src/main/res/layout/activity_startup.xml" value="0.13645833333333332" />
