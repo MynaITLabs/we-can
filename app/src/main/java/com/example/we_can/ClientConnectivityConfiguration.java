@@ -14,9 +14,12 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.net.wifi.WifiNetworkSuggestion;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -30,6 +33,7 @@ import android.widget.Toast;
 import com.example.we_can.tests.BasicClientConnectivity;
 import com.example.we_can.tests.base_tools.WifiReceiver;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -79,33 +83,8 @@ public class ClientConnectivityConfiguration extends AppCompatActivity {
         start_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BasicClientConnectivity obj = new BasicClientConnectivity(getApplicationContext(), wifiManager);
-                wifiManager.setWifiEnabled(false);
-                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
-                    return;
-                }
-                List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();
-                for( WifiConfiguration i : list ) {
-                    wifiManager.removeNetwork(i.networkId);
-                    System.out.println(i);
-                    //wifiManager.saveConfiguration();
-                }
-                WifiConfiguration wifiConfig = new WifiConfiguration();
-                wifiConfig.SSID = String.format("\"%s\"", "Pietronics-Guest");
-                wifiConfig.preSharedKey = String.format("\"%s\"", "12345678");
-//remember id
-                int netId = wifiManager.addNetwork(wifiConfig);
-                wifiManager.disconnect();
-                wifiManager.enableNetwork(netId, true);
-                wifiManager.reconnect();
-
+                BasicClientConnectivity cc_obj = new BasicClientConnectivity(getApplicationContext(), wifiManager);
+                cc_obj.run_test(getApplicationContext(), wifiManager);
             }
         });
 
@@ -125,9 +104,8 @@ public class ClientConnectivityConfiguration extends AppCompatActivity {
 
     private void getWifi() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Toast.makeText(ClientConnectivityConfiguration.this, "version> = marshmallow", Toast.LENGTH_SHORT).show();
+
             if (ContextCompat.checkSelfPermission(ClientConnectivityConfiguration.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(ClientConnectivityConfiguration.this, "location turned off", Toast.LENGTH_SHORT).show();
                 ActivityCompat.requestPermissions(ClientConnectivityConfiguration.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS_ACCESS_COARSE_LOCATION);
             } else {
                 Toast.makeText(ClientConnectivityConfiguration.this, "location turned on", Toast.LENGTH_SHORT).show();
@@ -151,10 +129,8 @@ public class ClientConnectivityConfiguration extends AppCompatActivity {
         switch (requestCode) {
             case MY_PERMISSIONS_ACCESS_COARSE_LOCATION:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(ClientConnectivityConfiguration.this, "permission granted", Toast.LENGTH_SHORT).show();
                 wifiManager.startScan();
             } else {
-                Toast.makeText(ClientConnectivityConfiguration.this, "permission not granted", Toast.LENGTH_SHORT).show();
                 return;
             }
             break;

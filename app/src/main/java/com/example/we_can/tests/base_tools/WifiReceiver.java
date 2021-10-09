@@ -38,12 +38,10 @@ public class WifiReceiver extends BroadcastReceiver {
             for (ScanResult scanResult : wifiList) {
                 sb.append("\n").append(scanResult.SSID).append(" - ").append(scanResult.capabilities);
                 deviceList.add(scanResult.SSID + " - " + scanResult.capabilities);
-                System.out.println("iron man");
                 ssidList.add(scanResult.SSID);
                 System.out.println(scanResult.capabilities);
                 System.out.println(scanResult.SSID);
             }
-            Toast.makeText(context, sb, Toast.LENGTH_SHORT).show();
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(context.getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, ssidList);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(adapter);
