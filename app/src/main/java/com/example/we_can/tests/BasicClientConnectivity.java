@@ -12,11 +12,14 @@ import android.net.wifi.WifiManager;
 import android.net.wifi.WifiNetworkSuggestion;
 import android.os.Build;
 import android.os.Handler;
+import android.provider.Settings;
 import android.util.Log;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 
 import com.example.we_can.tests.base_tools.GetPhoneWifiInfo;
+import com.example.we_can.tests.base_tools.HTTPHandler;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -30,7 +33,7 @@ public class BasicClientConnectivity {
     public static int CX_TIME;
     private static ArrayList<String> cc_data;
     public static int CC_Status = 0;
-
+    public static WifiManager wifi;
     /***
      * Constructor
     ***/
@@ -39,6 +42,8 @@ public class BasicClientConnectivity {
 
     public BasicClientConnectivity(Context context, WifiManager wifi){
         this.StartTest(context, wifi);
+        this.wifi = wifi;
+
 
     }
     
@@ -71,11 +76,13 @@ public class BasicClientConnectivity {
         };
         intentFilter.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
         context.registerReceiver(broadcastReceiver, intentFilter);
+
     }
 
 
 
-    public static void run_test(Context context, WifiManager wifiManager){
+    @RequiresApi(api = Build.VERSION_CODES.S)
+    public static void run_test(Context context, WifiManager wifiManager, String wifi_name, String pass, HTTPHandler httpHandler){
 
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -87,15 +94,10 @@ public class BasicClientConnectivity {
             // for ActivityCompat#requestPermissions for more details.
 
         }
-        List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();
-        for( WifiConfiguration i : list ) {
-            wifiManager.removeNetwork(i.networkId);
-            System.out.println(i);
-            //wifiManager.saveConfiguration();
-        }
+
         wifiManager.setWifiEnabled(false);
-        String networkSSID = "Pietronics-Guest";
-        String networkPass = "12345678";
+        String networkSSID = wifi_name;
+        String networkPass = pass;
 
         if (!wifiManager.isWifiEnabled()){
             wifiManager.setWifiEnabled(true);
@@ -117,7 +119,6 @@ public class BasicClientConnectivity {
             List<WifiNetworkSuggestion> suggestionsList = new ArrayList<>();
             suggestionsList.add(networkSuggestion1);
             suggestionsList.add(networkSuggestion2);
-
             wifiManager.addNetworkSuggestions(suggestionsList);
         }
 
@@ -126,24 +127,12 @@ public class BasicClientConnectivity {
             wifiConfiguration.SSID = String.format("\"%s\"", networkSSID);
             wifiConfiguration.preSharedKey = String.format("\"%s\"", networkPass);
             int wifiID = wifiManager.addNetwork(wifiConfiguration);
+            wifiManager.disableNetwork(wifiID);
+            wifiManager.removeNonCallerConfiguredNetworks();
             wifiManager.removeNetwork(wifiID);
+            wifiID = wifiManager.addNetwork(wifiConfiguration);
             wifiManager.enableNetwork(wifiID, true);
-            Handler h = new Handler();
-            Runnable r = new Runnable() {
-                public void run() {
 
-                    int i = CC_Status;
-                    if (i == 1){
-                        System.out.println("Test Completed");
-                    }
-                    System.out.println(i);
-                    h.postDelayed(this, 100);
-                }
-            };
-            r.run();
-            h.postDelayed(r, 100);
-
-//                    h.removeCallbacks(r);
         }
 
 

@@ -18,6 +18,8 @@ import android.widget.Button;
 
 import com.example.we_can.tests.BasicClientConnectivity;
 import com.example.we_can.tests.SpeedTest;
+import com.example.we_can.tests.base_tools.HTTPHandler;
+
 import android.os.Build;
 import android.widget.RadioGroup;
 
@@ -33,13 +35,14 @@ public class TestActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         Button b = findViewById(R.id.button);
         WifiManager wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-
+        HTTPHandler httpHandler = getIntent().getParcelableExtra("server_handler");
         IntentFilter intentFilter = new IntentFilter();
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 Intent myIntent = new Intent(getApplicationContext(), ClientConnectivityConfiguration.class);
+                myIntent.putExtra("server_handler", httpHandler);
                 startActivity(myIntent);
 
             }

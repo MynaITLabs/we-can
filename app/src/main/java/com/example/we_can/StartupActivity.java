@@ -32,7 +32,7 @@ public class StartupActivity extends AppCompatActivity {
         /**
          * Switch Activity from here
          */
-        Intent myIntent = new Intent(this, ServerConnection.class);
+        Intent myIntent = new Intent(this, TestActivity.class);
         startActivity(myIntent);
 
     }

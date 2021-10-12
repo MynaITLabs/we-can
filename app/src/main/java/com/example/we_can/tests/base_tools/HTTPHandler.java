@@ -1,9 +1,12 @@
 package com.example.we_can.tests.base_tools;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class HTTPHandler {
+public class HTTPHandler implements Parcelable {
     String url;
     public static int copnn_status_code;
     public HTTPHandler(String url){
@@ -19,6 +22,23 @@ public class HTTPHandler {
         }
 
     }
+
+    protected HTTPHandler(Parcel in) {
+        url = in.readString();
+    }
+
+    public static final Creator<HTTPHandler> CREATOR = new Creator<HTTPHandler>() {
+        @Override
+        public HTTPHandler createFromParcel(Parcel in) {
+            return new HTTPHandler(in);
+        }
+
+        @Override
+        public HTTPHandler[] newArray(int size) {
+            return new HTTPHandler[size];
+        }
+    };
+
     public static int setup_connection(String url) {
         // Write code to initialize the connection
         // {"request": "connection_check"}
@@ -33,4 +53,13 @@ public class HTTPHandler {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(url);
+    }
 }

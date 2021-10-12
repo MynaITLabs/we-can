@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
@@ -31,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.we_can.tests.BasicClientConnectivity;
+import com.example.we_can.tests.base_tools.HTTPHandler;
 import com.example.we_can.tests.base_tools.WifiReceiver;
 
 import java.net.URL;
@@ -63,6 +65,21 @@ public class ClientConnectivityConfiguration extends AppCompatActivity {
 
         spinner = findViewById(R.id.spinner);
         wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        EditText editText = findViewById(R.id.password_cc);
+
+        Button scan_btn = findViewById(R.id.scan_btn_cc);
+        HTTPHandler httpHandler = getIntent().getParcelableExtra("server_handler");
+
+        scan_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                receiverWifi = new WifiReceiver(wifiManager, wifiList, spinner);
+                IntentFilter intentFilter = new IntentFilter();
+                intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
+                registerReceiver(receiverWifi, intentFilter);
+                getWifi();
+            }
+        });
 
         if (!wifiManager.isWifiEnabled()) {
             Toast.makeText(getApplicationContext(), "Turning WiFi ON...", Toast.LENGTH_LONG).show();
@@ -81,26 +98,24 @@ public class ClientConnectivityConfiguration extends AppCompatActivity {
         // Start Test Button
         start_btn = findViewById(R.id.start_test_cc_btn);
         start_btn.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.S)
             @Override
             public void onClick(View view) {
+
+
+
+
+                String wifi_name = spinner.getSelectedItem().toString();
+                String pass = editText.getText().toString();
+
                 BasicClientConnectivity cc_obj = new BasicClientConnectivity(getApplicationContext(), wifiManager);
-                cc_obj.run_test(getApplicationContext(), wifiManager);
+                cc_obj.run_test(getApplicationContext(), wifiManager, wifi_name, pass, httpHandler);
             }
         });
 
     }
 
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        receiverWifi = new WifiReceiver(wifiManager, wifiList, spinner);
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
-        registerReceiver(receiverWifi, intentFilter);
-        getWifi();
 
-
-    }
 
     private void getWifi() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -120,7 +135,7 @@ public class ClientConnectivityConfiguration extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterReceiver(receiverWifi);
+
     }
 
     @Override

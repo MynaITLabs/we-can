@@ -46,7 +46,9 @@ public class WifiReceiver extends BroadcastReceiver {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(adapter);
         }
+        context.unregisterReceiver(this);
     }
+
 
 
 }

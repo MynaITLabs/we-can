@@ -2,6 +2,7 @@ package com.example.we_can;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -26,12 +27,23 @@ public class ServerConnection extends AppCompatActivity {
             public void onClick(View view) {
                 String ip = server_entry.getText().toString();
                 http_server_handler = new HTTPHandler(ip);
-                if (http_server_handler.copnn_status_code == 1){
+                int temp = 1;
+                if (temp == 1){
                     // Start a activity
+                    Intent intent = new Intent(ServerConnection.this, TestActivity.class);
+                    intent.putExtra("server_handler", http_server_handler);
+                    startActivity(intent);
                 }
-                else {
-                    // Give error
-                }
+
+//                if (http_server_handler.copnn_status_code == 1){
+//                    // Start a activity
+//                    Intent intent = new Intent(ServerConnection.this, TestActivity.class);
+//                    intent.putExtra("server_handler", http_server_handler);
+//                    startActivity(intent);
+//                }
+//                else {
+//                    // Give error
+//                }
             }
         });
     }
