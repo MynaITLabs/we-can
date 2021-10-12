@@ -31,36 +31,43 @@ public class BasicClientConnectivity {
     public static int FOUR_WAY_HS_TIME;
     public static int GROUP_HS_TIME;
     public static int CX_TIME;
-    private static ArrayList<String> cc_data;
+    public static ArrayList<String> cc_data;
     public static int CC_Status = 0;
     public static WifiManager wifi;
     /***
      * Constructor
     ***/
     public static GetPhoneWifiInfo info;
-
+    public static IntentFilter intentFilter;
+    public static BroadcastReceiver broadcastReceiver;
+    public static Context context;
 
     public BasicClientConnectivity(Context context, WifiManager wifi){
-        this.StartTest(context, wifi);
         this.wifi = wifi;
-
-
+        this.context = context;
+        this.intentFilter = new IntentFilter();
+        this.cc_data = new ArrayList<String>();
     }
-    
-    public static void StartTest(Context context, WifiManager wifi){
-        cc_data = new ArrayList<String>();
+
+
+    @RequiresApi(api = Build.VERSION_CODES.S)
+    public static void run_test(Context context, WifiManager wifiManager, String wifi_name, String pass, HTTPHandler httpHandler) {
+
+
         CC_Status = 0;
-        IntentFilter intentFilter = new IntentFilter();
-        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+
+        broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 final String action = intent.getAction();
                 WifiInfo wifiInfo = wifi.getConnectionInfo();
                 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-                Log.i("device status", timestamp.toString() + " " + wifiInfo.toString());
+//                Log.i("device status", timestamp.toString() + " " + wifiInfo.toString());
                 cc_data.add(timestamp.toString() + " " + wifiInfo.toString());
-                if (wifiInfo.getSupplicantState().toString() == "COMPLETED"){
+                System.out.println(cc_data);
+                if (wifiInfo.getSupplicantState().toString() == "COMPLETED" && wifi_name == wifiInfo.getSSID()){
                     CC_Status = 1;
+                    context.unregisterReceiver(this);
                 }
 
                 if (action.equals(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION)) {
@@ -77,12 +84,6 @@ public class BasicClientConnectivity {
         intentFilter.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
         context.registerReceiver(broadcastReceiver, intentFilter);
 
-    }
-
-
-
-    @RequiresApi(api = Build.VERSION_CODES.S)
-    public static void run_test(Context context, WifiManager wifiManager, String wifi_name, String pass, HTTPHandler httpHandler){
 
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -99,43 +100,18 @@ public class BasicClientConnectivity {
         String networkSSID = wifi_name;
         String networkPass = pass;
 
-        if (!wifiManager.isWifiEnabled()){
+        if (!wifiManager.isWifiEnabled()) {
             wifiManager.setWifiEnabled(true);
         }
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            WifiNetworkSuggestion networkSuggestion1 =
-                    new WifiNetworkSuggestion.Builder()
-                            .setSsid(networkSSID)
-                            .setWpa2Passphrase(networkPass)
-                            .build();
-
-            WifiNetworkSuggestion networkSuggestion2 =
-                    new WifiNetworkSuggestion.Builder()
-                            .setSsid(networkSSID)
-                            .setWpa3Passphrase(networkPass)
-                            .build();
-
-            List<WifiNetworkSuggestion> suggestionsList = new ArrayList<>();
-            suggestionsList.add(networkSuggestion1);
-            suggestionsList.add(networkSuggestion2);
-            wifiManager.addNetworkSuggestions(suggestionsList);
-        }
-
-        else{
-            WifiConfiguration wifiConfiguration = new WifiConfiguration();
-            wifiConfiguration.SSID = String.format("\"%s\"", networkSSID);
-            wifiConfiguration.preSharedKey = String.format("\"%s\"", networkPass);
-            int wifiID = wifiManager.addNetwork(wifiConfiguration);
-            wifiManager.disableNetwork(wifiID);
-            wifiManager.removeNonCallerConfiguredNetworks();
-            wifiManager.removeNetwork(wifiID);
-            wifiID = wifiManager.addNetwork(wifiConfiguration);
-            wifiManager.enableNetwork(wifiID, true);
-
-        }
-
-
+        WifiConfiguration wifiConfiguration = new WifiConfiguration();
+        wifiConfiguration.SSID = String.format("\"%s\"", networkSSID);
+        wifiConfiguration.preSharedKey = String.format("\"%s\"", networkPass);
+        int wifiID = wifiManager.addNetwork(wifiConfiguration);
+        wifiManager.disableNetwork(wifiID);
+        wifiManager.removeNetwork(wifiID);
+        wifiID = wifiManager.addNetwork(wifiConfiguration);
+        wifiManager.enableNetwork(wifiID, true);
 
     }
 

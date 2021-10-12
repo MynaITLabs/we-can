@@ -26,6 +26,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -66,7 +67,8 @@ public class ClientConnectivityConfiguration extends AppCompatActivity {
         spinner = findViewById(R.id.spinner);
         wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         EditText editText = findViewById(R.id.password_cc);
-
+        ProgressBar progressBar = findViewById(R.id.progress_cc);
+        progressBar.setVisibility(View.INVISIBLE);
         Button scan_btn = findViewById(R.id.scan_btn_cc);
         HTTPHandler httpHandler = getIntent().getParcelableExtra("server_handler");
 
@@ -103,15 +105,28 @@ public class ClientConnectivityConfiguration extends AppCompatActivity {
             public void onClick(View view) {
 
 
-
+                progressBar.setVisibility(View.VISIBLE);
 
                 String wifi_name = spinner.getSelectedItem().toString();
                 String pass = editText.getText().toString();
 
                 BasicClientConnectivity cc_obj = new BasicClientConnectivity(getApplicationContext(), wifiManager);
                 cc_obj.run_test(getApplicationContext(), wifiManager, wifi_name, pass, httpHandler);
+
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+                        if (wifiInfo.getSupplicantState().toString() == "COMPLETED" && wifiInfo.getSSID() == wifi_name){
+                            progressBar.setVisibility(View.INVISIBLE);
+
+                        }
+                    }
+                }, 1);
             }
         });
+
 
     }
 
