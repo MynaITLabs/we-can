@@ -14,7 +14,10 @@ import android.view.View;
 import android.view.WindowInsets;
 
 import com.example.we_can.databinding.ActivityStartupBinding;
+import com.example.we_can.tests.base_tools.HTTPHandler;
 import com.example.we_can.ui.login.LoginActivity;
+
+import java.io.IOException;
 
 /**
  * Startup Activity for Candela WE-CAN
@@ -32,7 +35,8 @@ public class StartupActivity extends AppCompatActivity {
         /**
          * Switch Activity from here
          */
-        Intent myIntent = new Intent(this, TestActivity.class);
+
+        Intent myIntent = new Intent(this, ServerConnection.class);
         startActivity(myIntent);
 
     }
