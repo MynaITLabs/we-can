@@ -271,6 +271,16 @@ public class HTTPHandler extends AsyncTask<Void, Void, String> {
     }
 
 
+    public static int send_test_init_request(){
+        return 0;
+    }
+
+    public static int send_test_finish_data(){
+        return 0;
+    }
+
+
+
     @Override
     protected String doInBackground(Void... voids) {
         return null;

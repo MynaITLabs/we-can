@@ -33,6 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.we_can.tests.BasicClientConnectivity;
+import com.example.we_can.tests.base_tools.GetPhoneWifiInfo;
 import com.example.we_can.tests.base_tools.HTTPHandler;
 import com.example.we_can.tests.base_tools.WifiReceiver;
 
@@ -70,62 +71,64 @@ public class ClientConnectivityConfiguration extends AppCompatActivity {
         ProgressBar progressBar = findViewById(R.id.progress_cc);
         progressBar.setVisibility(View.INVISIBLE);
         Button scan_btn = findViewById(R.id.scan_btn_cc);
-        HTTPHandler httpHandler = getIntent().getParcelableExtra("server_handler");
-
-        scan_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                receiverWifi = new WifiReceiver(wifiManager, wifiList, spinner);
-                IntentFilter intentFilter = new IntentFilter();
-                intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
-                registerReceiver(receiverWifi, intentFilter);
-                getWifi();
-            }
-        });
-
-        if (!wifiManager.isWifiEnabled()) {
-            Toast.makeText(getApplicationContext(), "Turning WiFi ON...", Toast.LENGTH_LONG).show();
-            wifiManager.setWifiEnabled(true);
-        }
-
-        // Start scan if permission is enabled
-        if (ActivityCompat.checkSelfPermission(ClientConnectivityConfiguration.this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(
-                    ClientConnectivityConfiguration.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS_ACCESS_COARSE_LOCATION);
-        } else {
-            wifiManager.startScan();
-        }
-
-        // Start Test Button
-        start_btn = findViewById(R.id.start_test_cc_btn);
-        start_btn.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.S)
-            @Override
-            public void onClick(View view) {
-
-
-                progressBar.setVisibility(View.VISIBLE);
-
-                String wifi_name = spinner.getSelectedItem().toString();
-                String pass = editText.getText().toString();
-
-                BasicClientConnectivity cc_obj = new BasicClientConnectivity(getApplicationContext(), wifiManager);
-                cc_obj.run_test(getApplicationContext(), wifiManager, wifi_name, pass, httpHandler);
-
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-                        if (wifiInfo.getSupplicantState().toString() == "COMPLETED" && wifiInfo.getSSID() == wifi_name){
-                            progressBar.setVisibility(View.INVISIBLE);
-
-                        }
-                    }
-                }, 1);
-            }
-        });
+        GetPhoneWifiInfo getPhoneWifiInfo = new GetPhoneWifiInfo();
+        getPhoneWifiInfo.GetWifiData(wifiManager);
+        //        HTTPHandler httpHandler = getIntent().getParcelableExtra("server_handler");
+//
+//        scan_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                receiverWifi = new WifiReceiver(wifiManager, wifiList, spinner);
+//                IntentFilter intentFilter = new IntentFilter();
+//                intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
+//                registerReceiver(receiverWifi, intentFilter);
+//                getWifi();
+//            }
+//        });
+//
+//        if (!wifiManager.isWifiEnabled()) {
+//            Toast.makeText(getApplicationContext(), "Turning WiFi ON...", Toast.LENGTH_LONG).show();
+//            wifiManager.setWifiEnabled(true);
+//        }
+//
+//        // Start scan if permission is enabled
+//        if (ActivityCompat.checkSelfPermission(ClientConnectivityConfiguration.this, Manifest.permission.ACCESS_COARSE_LOCATION)
+//                != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(
+//                    ClientConnectivityConfiguration.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS_ACCESS_COARSE_LOCATION);
+//        } else {
+//            wifiManager.startScan();
+//        }
+//
+//        // Start Test Button
+//        start_btn = findViewById(R.id.start_test_cc_btn);
+//        start_btn.setOnClickListener(new View.OnClickListener() {
+//            @RequiresApi(api = Build.VERSION_CODES.S)
+//            @Override
+//            public void onClick(View view) {
+//
+//
+//                progressBar.setVisibility(View.VISIBLE);
+//
+//                String wifi_name = spinner.getSelectedItem().toString();
+//                String pass = editText.getText().toString();
+//
+//                BasicClientConnectivity cc_obj = new BasicClientConnectivity(getApplicationContext(), wifiManager);
+//                cc_obj.run_test(getApplicationContext(), wifiManager, wifi_name, pass, httpHandler);
+//
+//                Handler handler = new Handler();
+//                handler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+//                        if (wifiInfo.getSupplicantState().toString() == "COMPLETED" && wifiInfo.getSSID() == wifi_name){
+//                            progressBar.setVisibility(View.INVISIBLE);
+//
+//                        }
+//                    }
+//                }, 1);
+//            }
+//        });
 
 
     }

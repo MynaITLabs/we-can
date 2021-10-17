@@ -37,16 +37,16 @@ public class TestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_test);
         getSupportActionBar().hide();
         Button b = findViewById(R.id.button);
-        WifiManager wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-//        HTTPHandler httpHandler = getIntent().getParcelableExtra("server_handler");
-        IntentFilter intentFilter = new IntentFilter();
-        HTTPHandler httpHandler = new HTTPHandler("http://192.168.52.100:8038/", getApplicationContext());
-        try {
-            httpHandler.setup_connection("http://192.168.52.100:8038/", "GET", getApplicationContext());
-        } catch (IOException | JSONException e) {
-            System.out.println("shivamspider");
-            e.printStackTrace();
-        }
+//        WifiManager wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+////        HTTPHandler httpHandler = getIntent().getParcelableExtra("server_handler");
+//        IntentFilter intentFilter = new IntentFilter();
+//        HTTPHandler httpHandler = new HTTPHandler("http://192.168.52.100:8038/", getApplicationContext());
+//        try {
+//            httpHandler.setup_connection("http://192.168.52.100:8038/", "GET", getApplicationContext());
+//        } catch (IOException | JSONException e) {
+//            System.out.println("shivamspider");
+//            e.printStackTrace();
+//        }
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
