@@ -62,7 +62,7 @@ public class BasicClientConnectivity {
                 final String action = intent.getAction();
                 WifiInfo wifiInfo = wifi.getConnectionInfo();
                 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-//                Log.i("device status", timestamp.toString() + " " + wifiInfo.toString());
+                Log.i("device status", timestamp.toString() + " " + wifiInfo.toString());
                 cc_data.add(timestamp.toString() + " " + wifiInfo.toString());
                 System.out.println(cc_data);
                 if (wifiInfo.getSupplicantState().toString() == "COMPLETED" && wifi_name == wifiInfo.getSSID()){
@@ -99,19 +99,32 @@ public class BasicClientConnectivity {
         wifiManager.setWifiEnabled(false);
         String networkSSID = wifi_name;
         String networkPass = pass;
-
+        Log.e("ssid", wifi_name);
+        Log.e("pass", pass);
         if (!wifiManager.isWifiEnabled()) {
             wifiManager.setWifiEnabled(true);
         }
-
+        WifiInfo connectionInfo = wifiManager.getConnectionInfo();
+        List<WifiConfiguration> configuredNetworks = wifiManager.getConfiguredNetworks();
+        for (WifiConfiguration conf : configuredNetworks){
+            if (conf.networkId == connectionInfo.getNetworkId()){
+                wifiManager.disableNetwork(conf.networkId);
+                wifiManager.removeNetwork(conf.networkId);
+                break;
+            }
+        }
         WifiConfiguration wifiConfiguration = new WifiConfiguration();
+
         wifiConfiguration.SSID = String.format("\"%s\"", networkSSID);
         wifiConfiguration.preSharedKey = String.format("\"%s\"", networkPass);
+        Log.e("log", wifiConfiguration.toString());
         int wifiID = wifiManager.addNetwork(wifiConfiguration);
         wifiManager.disableNetwork(wifiID);
         wifiManager.removeNetwork(wifiID);
+        wifiManager.setWifiEnabled(true);
         wifiID = wifiManager.addNetwork(wifiConfiguration);
         wifiManager.enableNetwork(wifiID, true);
+
 
     }
 
