@@ -15,12 +15,16 @@ import android.util.Log;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.net.NetworkInterface;
 import java.util.Collections;
 import java.util.List;
 
 public class GetPhoneWifiInfo {
-
+    public static final String DeviceData = "{\"mac\":\"\", \"os\": \"android\", \"model\" : \"\", \"manufacturer\" : \"\"}";
     public GetPhoneWifiInfo() {
 //        String s = this.GetDeviceInfo();
     }
@@ -33,30 +37,22 @@ public class GetPhoneWifiInfo {
     }
 
     @SuppressLint("MissingPermission")
-    public static String GetWifiData(WifiManager wifi) {
-        WifiInfo info = wifi.getConnectionInfo();
-        String device_model = Build.MANUFACTURER;
-        String b = Build.MODEL;
+    public static JSONObject GetWifiData(WifiManager wifi) {
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(DeviceData);
+            jsonObject.put("mac", getMacAddr());
+            jsonObject.put("manufacturer", Build.MANUFACTURER);
+            jsonObject.put("model", Build.DEVICE);
+//            Log.i("GetWifiData", jsonObject.toString());
 
-        //        String device_model = Build.;
-        Log.e("device model", info.toString());
-        b = Build.BRAND;
-
-        Log.e("shivam model", getMacAddr());
-
-        //        String device_model = Build.;
-        Log.e("device model", b);
-        b = Build.DEVICE;
-
-        //        String device_model = Build.;
-        Log.e("device model", b);
-        b = Build.getRadioVersion();
-
-        //        String device_model = Build.;
-        Log.e("device model", b);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
 
-        return "";
+
+        return jsonObject;
     }
 
     public static String getMacAddr() {

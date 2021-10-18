@@ -272,6 +272,39 @@ public class HTTPHandler extends AsyncTask<Void, Void, String> {
 
 
     public static int send_test_init_request(){
+        String base_url = url;
+        String alive_state_url = base_url + "/?request=reg_test";
+        RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+
+        StringRequest sr = new StringRequest(Request.Method.GET, alive_state_url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+//                        Intent intent = new Intent(context, TestActivity.class);
+//                        context.startActivity(intent);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.toString());
+                            String status = jsonObject.getJSONObject("payload").get("status").toString();
+                            if (status.toString().equals("running")){
+                                set_server_state(1);
+                            }
+//                            Log.e("hhh", (String) jsonObject.get("payload"));
+                        } catch (Exception e) {
+                            set_server_state(0);
+                            e.printStackTrace();
+                        }
+                        Log.e("HttpClient", "success! response: " + response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        set_server_state(0);
+                        Log.e("HttpClient", "error: " + error.toString());
+                    }
+                });
+        mRequestQueue.add(sr);
         return 0;
     }
 
