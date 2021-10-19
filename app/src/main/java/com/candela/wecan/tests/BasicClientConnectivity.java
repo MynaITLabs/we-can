@@ -9,7 +9,9 @@ import android.content.pm.PackageManager;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.net.wifi.WifiNetworkSuggestion;
 import android.os.Build;
+import android.preference.Preference;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
@@ -17,6 +19,7 @@ import androidx.core.app.ActivityCompat;
 
 import com.candela.wecan.tests.base_tools.GetPhoneWifiInfo;
 import com.candela.wecan.tests.base_tools.HTTPHandler;
+import com.candela.wecan.tests.base_tools.WifiReceiver;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -61,7 +64,6 @@ public class BasicClientConnectivity {
                 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
                 Log.i("device status", timestamp.toString() + " " + wifiInfo.toString());
                 cc_data.add(timestamp.toString() + " " + wifiInfo.toString());
-                System.out.println(cc_data);
                 if (wifiInfo.getSupplicantState().toString() == "COMPLETED" && wifi_name == wifiInfo.getSSID()){
                     CC_Status = 1;
                     context.unregisterReceiver(this);
@@ -104,11 +106,10 @@ public class BasicClientConnectivity {
         WifiInfo connectionInfo = wifiManager.getConnectionInfo();
         List<WifiConfiguration> configuredNetworks = wifiManager.getConfiguredNetworks();
         for (WifiConfiguration conf : configuredNetworks){
-            if (conf.networkId == connectionInfo.getNetworkId()){
-                wifiManager.disableNetwork(conf.networkId);
-                wifiManager.removeNetwork(conf.networkId);
-                break;
-            }
+
+            wifiManager.disableNetwork(conf.networkId);
+            wifiManager.removeNetwork(conf.networkId);
+
         }
         WifiConfiguration wifiConfiguration = new WifiConfiguration();
 
@@ -116,10 +117,11 @@ public class BasicClientConnectivity {
         wifiConfiguration.preSharedKey = String.format("\"%s\"", networkPass);
         Log.e("log", wifiConfiguration.toString());
         int wifiID = wifiManager.addNetwork(wifiConfiguration);
-        wifiManager.disableNetwork(wifiID);
-        wifiManager.removeNetwork(wifiID);
-        wifiManager.setWifiEnabled(true);
+
+
+
         wifiID = wifiManager.addNetwork(wifiConfiguration);
+        wifiManager.disconnect();
         wifiManager.enableNetwork(wifiID, true);
 
 

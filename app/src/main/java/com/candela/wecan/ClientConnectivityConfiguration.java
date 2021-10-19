@@ -16,6 +16,7 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -111,12 +112,16 @@ public class ClientConnectivityConfiguration extends AppCompatActivity {
                     @Override
                     public void run() {
                         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-                        if (wifiInfo.getSupplicantState().toString() == "COMPLETED" && wifiInfo.getSSID() == wifi_name){
+                        if (wifiInfo.getSupplicantState().toString().equals("COMPLETED") && (wifiInfo.getSSID().equals(String.format("\"%s\"", wifi_name)))){
                             progressBar.setVisibility(View.INVISIBLE);
+                            System.out.println(cc_obj.cc_data);
+                            handler.removeCallbacks(this);
+                        }
+                        else{
 
                         }
                     }
-                }, 1);
+                }, 10000);
             }
         });
 
