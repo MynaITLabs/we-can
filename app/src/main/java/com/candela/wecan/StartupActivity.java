@@ -30,12 +30,12 @@ public class StartupActivity extends AppCompatActivity {
 //        LF_Resource p = new LF_Resource(143);
 //        p.start();
 
-
-        Intent myIntent = new Intent(this, ServerConnection.class);
-        startActivity(myIntent);
-
-//        Intent myIntent = new Intent(this, navigation.class);
+//
+//        Intent myIntent = new Intent(this, ServerConnection.class);
 //        startActivity(myIntent);
+
+        Intent myIntent = new Intent(this, navigation.class);
+        startActivity(myIntent);
 
 
     }
