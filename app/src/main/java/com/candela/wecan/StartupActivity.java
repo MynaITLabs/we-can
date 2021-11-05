@@ -8,7 +8,7 @@ import android.os.Bundle;
 import com.candela.wecan.databinding.ActivityStartupBinding;
 import com.candela.wecan.tests.IPERF;
 
-//import com.candela.wecan.tests.base_tools.LF_Resource;
+import com.candela.wecan.tests.base_tools.LF_Resource;
 
 import java.util.ArrayList;
 import java.util.Arrays;
