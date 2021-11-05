@@ -31,11 +31,11 @@ public class StartupActivity extends AppCompatActivity {
 //        p.start();
 
 
-//        Intent myIntent = new Intent(this, ServerConnection.class);
-//        startActivity(myIntent);
-
-        Intent myIntent = new Intent(this, navigation.class);
+        Intent myIntent = new Intent(this, ServerConnection.class);
         startActivity(myIntent);
+
+//        Intent myIntent = new Intent(this, navigation.class);
+//        startActivity(myIntent);
 
 
     }
