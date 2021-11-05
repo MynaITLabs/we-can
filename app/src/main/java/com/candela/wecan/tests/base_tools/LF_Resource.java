@@ -1,7 +1,8 @@
 package com.candela.wecan.tests.base_tools;
 
 import candela.lfresource.lfresource;
-
+//LF_Resource p = new LF_Resource(143);
+//        p.start();
 public class LF_Resource extends Thread {
     long minPrime;
     public LF_Resource(long minPrime) {
