@@ -24,8 +24,8 @@ public class StartupActivity extends AppCompatActivity {
         /**
          * Switch Activity from here
          */
-//        TestActivity test = new TestActivity();
-//        IPERF obj = new IPERF(test, "", "", "", "");
+        TestActivity test = new TestActivity();
+        IPERF obj = new IPERF(test, "", "", "", "");
 
 
         Intent myIntent = new Intent(this, navigation.class);
