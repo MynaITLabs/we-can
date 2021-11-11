@@ -2,6 +2,7 @@ package com.candela.wecan;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,8 +17,10 @@ import com.candela.wecan.tests.base_tools.LF_Resource;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 //import candela.lfresource.lfresource;
 //import com.candela.wecan.tests.base_tools.LF_Resource;
@@ -36,6 +39,9 @@ public class StartupActivity extends AppCompatActivity {
     private static final String FILE_NAME = "data.conf";
     private TextView server_ip;
     static int state;
+    private Boolean server_connected_status = true;
+    private String ip, ssid, passwd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,13 +53,14 @@ public class StartupActivity extends AppCompatActivity {
 //        p.start();
         FileInputStream fis = null;
         try {
-            fis =openFileInput(FILE_NAME);
+            fis = openFileInput(FILE_NAME);
             InputStreamReader isr = new InputStreamReader(fis);
             BufferedReader br = new BufferedReader(isr);
             StringBuilder sb = new StringBuilder();
-            String ip;
-
             ip= br.readLine();
+            ssid = br.readLine();
+            passwd = br.readLine();
+
             server_ip.setText(ip);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -105,6 +112,7 @@ public class StartupActivity extends AppCompatActivity {
                         }
                     }
                 }, 2000);
+
 
             }
         });
