@@ -5,8 +5,10 @@
       <map>
         <entry key="../../Android/Sdk/platforms/android-31/data/res/layout/simple_spinner_dropdown_item.xml" value="0.2453125" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.23177083333333334" />
+        <entry key="app/src/main/res/drawable/ic_baseline_info_24.xml" value="0.3645833333333333" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.23177083333333334" />
         <entry key="app/src/main/res/drawable/ic_lock.xml" value="0.315625" />
+        <entry key="app/src/main/res/drawable/ic_menu_gallery.xml" value="0.3645833333333333" />
         <entry key="app/src/main/res/drawable/ic_server.xml" value="0.315625" />
         <entry key="app/src/main/res/drawable/ic_wifi.xml" value="0.315625" />
         <entry key="app/src/main/res/layout-w1240dp/activity_login.xml" value="0.14825970548862116" />
@@ -16,7 +18,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.31614583333333335" />
         <entry key="app/src/main/res/layout/activity_navigation.xml" value="0.253125" />
         <entry key="app/src/main/res/layout/activity_server_connection.xml" value="0.18489583333333334" />
-        <entry key="app/src/main/res/layout/activity_startup.xml" value="0.13645833333333332" />
+        <entry key="app/src/main/res/layout/activity_startup.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_test.xml" value="0.2109375" />
         <entry key="app/src/main/res/layout/app_bar_navigation.xml" value="0.21302083333333333" />
         <entry key="app/src/main/res/layout/content_navigation.xml" value="0.16" />
@@ -26,6 +28,7 @@
         <entry key="app/src/main/res/layout/nav_header_navigation.xml" value="0.21302083333333333" />
         <entry key="app/src/main/res/menu/activity_main_drawer.xml" value="0.253125" />
         <entry key="app/src/main/res/menu/navigation.xml" value="0.253125" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.3645833333333333" />
         <entry key="app/src/main/res/xml/network_security_config.xml" value="0.2046875" />
       </map>
     </option>

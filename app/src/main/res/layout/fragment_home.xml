@@ -14,25 +14,13 @@
         android:id="@+id/imageView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/ip_show4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_candelalogo" />
-
-    <TextView
-        android:id="@+id/ip_show"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="192.168.100.23"
-        android:textSize="20dp"
-        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/ip_show2"
-        app:layout_constraintTop_toBottomOf="@+id/ip_show5"
-        app:layout_constraintVertical_bias="0.021" />
+        app:layout_constraintHorizontal_bias="0.55"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.024"
+        app:srcCompat="@drawable/ic_candelalogo" />
 
     <TextView
         android:id="@+id/ip_show2"
@@ -41,13 +29,28 @@
         android:text="Server IP :"
         android:textSize="20dp"
         android:textStyle="bold"
+        android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.258"
+        app:layout_constraintHorizontal_bias="0.167"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ip_show4"
-        app:layout_constraintVertical_bias="0.021" />
+        app:layout_constraintVertical_bias="0.0" />
 
+    <TextView
+        android:id="@+id/ip_show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No IP"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.229"
+        app:layout_constraintStart_toEndOf="@+id/ip_show2"
+        app:layout_constraintTop_toBottomOf="@+id/ip_show5"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/ip_show5"
@@ -56,26 +59,40 @@
         android:text="Up/Down"
         android:textSize="20dp"
         android:textStyle="bold"
+        android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.701"
+        app:layout_constraintHorizontal_bias="0.634"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.169" />
+        app:layout_constraintVertical_bias="0.147" />
 
     <TextView
         android:id="@+id/ip_show4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:text="Server Status :"
+        android:textColor="#000000"
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/ip_show5"
-        app:layout_constraintHorizontal_bias="0.822"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4"
+        app:layout_constraintVertical_bias="0.024" />
+
+    <Button
+        android:id="@+id/client_connectivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#4CAF50"
+        android:text="CC Test"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.279"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.169" />
+        app:layout_constraintTop_toBottomOf="@+id/ip_show2"
+        app:layout_constraintVertical_bias="0.349" />
 
     <Button
         android:id="@+id/layer3_test3"
@@ -88,7 +105,7 @@
         app:layout_constraintHorizontal_bias="0.725"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ip_show"
-        app:layout_constraintVertical_bias="0.708" />
+        app:layout_constraintVertical_bias="0.556" />
 
     <Button
         android:id="@+id/layer3_test"
@@ -101,19 +118,7 @@
         app:layout_constraintHorizontal_bias="0.723"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ip_show"
-        app:layout_constraintVertical_bias="0.501" />
-
-    <Button
-        android:id="@+id/client_connectivity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#4CAF50"
-        android:text="CC Test"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.279"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ip_show2" />
+        app:layout_constraintVertical_bias="0.346" />
 
     <Button
         android:id="@+id/layer3_test2"
@@ -126,7 +131,7 @@
         app:layout_constraintHorizontal_bias="0.272"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ip_show2"
-        app:layout_constraintVertical_bias="0.708" />
+        app:layout_constraintVertical_bias="0.557" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
