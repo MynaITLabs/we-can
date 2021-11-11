@@ -25,8 +25,12 @@ public class LF_Resource extends Thread {
         this.resource = resource;
         this.pi = new PlatformInfo();
 
-        this.pi.set_manufacturer("samsung");
-        this.pi.set_model("a11");
+        this.pi.manufacturer = "samsung";
+        this.pi.model = "a11";
+        this.pi.wifi_capabilities = new Vector<>();
+        this.pi.dhcp_info = new Vector<>();
+        this.pi.username = "";
+
     }
 
     public String getResource(){
