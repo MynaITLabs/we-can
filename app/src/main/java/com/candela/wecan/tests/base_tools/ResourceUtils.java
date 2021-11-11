@@ -1,8 +1,11 @@
 package com.candela.wecan.tests.base_tools;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.os.HardwarePropertiesManager;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,7 +28,8 @@ public class ResourceUtils extends AppCompatActivity implements AndroidUI{
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.Q)
+
+    @SuppressLint({"HardwareIds", "MissingPermission"})
     @Override
     public Vector<StringKeyVal> requestPortUpdate(String s) {
         Vector<StringKeyVal> data_structure = new Vector<StringKeyVal>();
@@ -35,8 +39,15 @@ public class ResourceUtils extends AppCompatActivity implements AndroidUI{
         data_structure.add(new StringKeyVal("RSSI",String.valueOf(wifiManager.getConnectionInfo().getRssi())));
         data_structure.add(new StringKeyVal("Frequency",String.valueOf(wifiManager.getConnectionInfo().getFrequency())));
         data_structure.add(new StringKeyVal("Link speed",String.valueOf(wifiManager.getConnectionInfo().getLinkSpeed())));
-        data_structure.add(new StringKeyVal("Tx Link speed",String.valueOf(wifiManager.getConnectionInfo().getTxLinkSpeedMbps())));
-//        data_structure.add(new StringKeyVal("Link speed",String.valueOf(wifiManager.getConnectionInfo().getLinkSpeed())));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            data_structure.add(new StringKeyVal("Tx Link speed",String.valueOf(wifiManager.getConnectionInfo().getTxLinkSpeedMbps())));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            data_structure.add(new StringKeyVal("Wi-Fi standard",String.valueOf(wifiManager.getConnectionInfo().getWifiStandard())));
+            data_structure.add(new StringKeyVal("Max Supported Rx Link speed",String.valueOf(wifiManager.getConnectionInfo().getMaxSupportedRxLinkSpeedMbps())));
+        }
+        data_structure.add(new StringKeyVal("Max Supported Rx Link speed",String.valueOf(wifiManager.getConnectionInfo().getMacAddress())));
 
 
         return data_structure;
