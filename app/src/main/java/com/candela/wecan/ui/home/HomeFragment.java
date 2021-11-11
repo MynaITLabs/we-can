@@ -1,7 +1,6 @@
 package com.candela.wecan.ui.home;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +41,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChanged(@Nullable String s) {
 //                refresh_button = getView().findViewById(R.id.refresh);
-                ip_show = getView().findViewById(R.id.ip_show);
+                ip_show = getView().findViewById(R.id.server_ip_info);
 
                 FileInputStream fis = null;
                 try {

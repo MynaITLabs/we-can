@@ -17,42 +17,70 @@
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4">
+        app:layout_constraintStart_toStartOf="parent">
 
     </ImageView>
 
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="411dp"
+        android:layout_height="154dp"
+        android:background="#FFFFFF"
+        android:backgroundTint="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/textView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.998" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="411dp"
+        android:layout_height="154dp"
+        android:background="#FFFFFF"
+        android:backgroundTint="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/textView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
     <EditText
         android:id="@+id/ip_enter_page"
-        android:layout_width="222dp"
-        android:layout_height="45dp"
-        android:background="#83932020"
+        style="@style/Widget.AppCompat.EditText"
+        android:layout_width="294dp"
+        android:layout_height="47dp"
+        android:background="#52009688"
         android:ems="10"
-        android:hint="Please Eneter server IP"
+        android:hint=" Enter Server IP"
         android:inputType="textPersonName"
+
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="#000000"
         android:textColorHint="#000000"
-
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/enter_button"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
-        app:layout_constraintVertical_bias="0.964" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.864" />
 
     <Button
         android:id="@+id/enter_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#FD140B"
+        android:layout_width="174dp"
+        android:layout_height="51dp"
+        android:backgroundTint="#009688"
         android:text="Enter Test Room"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.756" />
+        app:layout_constraintVertical_bias="0.95" />
 
     <TextView
         android:id="@+id/textView2"
@@ -68,23 +96,6 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="match_parent"
-        android:layout_height="108sp"
-        android:background="@color/white"
-        android:text="\n WE-CAN \t\t\t\t\t"
-        android:textAlignment="textEnd"
-        android:textColor="@color/black"
-        android:textSize="23sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
@@ -105,16 +116,30 @@
 
     <ImageView
         android:id="@+id/imageView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView4"
-        app:layout_constraintEnd_toEndOf="@+id/textView4"
-        app:layout_constraintHorizontal_bias="0.151"
-        app:layout_constraintStart_toStartOf="@+id/textView4"
+        android:layout_width="226dp"
+        android:layout_height="64dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.056"
         app:srcCompat="@drawable/ic_candelalogo" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="222dp"
+        android:layout_height="34dp"
+        android:fontFamily="sans-serif-black"
+        android:text="WE-CAN"
+        android:textAlignment="center"
+        android:textColor="#2196F3"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.13999999" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

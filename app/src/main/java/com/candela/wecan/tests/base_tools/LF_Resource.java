@@ -1,26 +1,62 @@
 package com.candela.wecan.tests.base_tools;
 
+import java.util.Vector;
+
+import candela.lfresource.AndroidUI;
+import candela.lfresource.LANforgeMgr;
+import candela.lfresource.PlatformInfo;
+import candela.lfresource.StringKeyVal;
 import candela.lfresource.lfresource;
 //LF_Resource p = new LF_Resource(143);
 //        p.start();
 public class LF_Resource extends Thread {
+
     long minPrime;
-    public LF_Resource(long minPrime) {
+
+    public lfresource lfresource;
+    public PlatformInfo pi;
+    public String ip_address;
+    public String resource;
+
+    public LF_Resource(long minPrime, String ip_address, String resource) {
         this.minPrime = minPrime;
+        this.lfresource = new lfresource();
+        this.ip_address = ip_address;
+        this.resource = resource;
+        this.pi = new PlatformInfo();
+
+        this.pi.set_manufacturer("samsung");
+        this.pi.set_model("a11");
+    }
+
+    public String getResource(){
+        return resource;
     }
 
     public void run() {
         // compute primes larger than minPrime
-        lfresource lfresource = new lfresource();
+
         String[] args = new String[6];
         args[0] = "-s";
         args[1] = "192.168.52.100"; //.put("-s", "192.168.100.222");
         args[2] = "--resource"; //.put("-s", "192.168.100.222");
         args[3] =  "2";
-//                  //.put("-s", "192.168.100.222");
-        args[4] = "--realm";
-        args[5] = "222";
-        lfresource.init(false, args);
+        this.lfresource.init(false, args);
+        LANforgeMgr.setPlatformInfo(this.pi);
 
+        AndroidUI androidUI = new AndroidUI() {
+            @Override
+            public void setResourceInfo(int i, int i1) {
+
+            }
+
+            @Override
+            public Vector<StringKeyVal> requestPortUpdate(String s) {
+                return null;
+            }
+        };
+        short i =LANforgeMgr.getResourceId();
+        resource = String.valueOf(i);
+//        System.out.println("Shivamiron:" + resource);
     }
 }
