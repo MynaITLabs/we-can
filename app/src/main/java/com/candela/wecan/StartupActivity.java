@@ -39,7 +39,7 @@ public class StartupActivity extends AppCompatActivity {
     private static final String FILE_NAME = "data.conf";
     private TextView server_ip;
     static int state;
-    private Boolean server_connected_status = true;
+    private Boolean server_connected_status = false;
     private String ip, ssid, passwd;
 
     @Override
@@ -80,6 +80,33 @@ public class StartupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String ip = server_ip.getText().toString();
+                String data = ip + "\n" + ssid + "\n" + passwd;
+                if( ip.length() == 0 )
+                    server_ip.setError( "IP is required!" );
+                else{
+                    server_connected_status = true;
+                    FileOutputStream fos = null;
+                    try {
+                        fos = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
+                        fos.write(data.getBytes(StandardCharsets.UTF_8));
+//                        Toast.makeText(v.getContext(), "Configuration Saved Successfully ", Toast.LENGTH_SHORT).show();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }finally {
+                        if (fos != null){
+                            try {
+                                fos.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                    Log.d( "onClick: ", "Data ==> " + ip);
+                }
+
+
                 LF_Resource p = new LF_Resource(143, ip, "2");
                 p.start();
                 state = p.lfresource.get_state();
