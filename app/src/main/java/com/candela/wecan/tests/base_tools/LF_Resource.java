@@ -42,9 +42,11 @@ public class LF_Resource extends Thread {
 
         String[] args = new String[6];
         args[0] = "-s";
-        args[1] = "192.168.52.100"; //.put("-s", "192.168.100.222");
+        args[1] = this.ip_address; //.put("-s", "192.168.100.222");
         args[2] = "--resource"; //.put("-s", "192.168.100.222");
-        args[3] =  "2";
+        args[3] = this.resource;
+//        args[4] = "--realm"; //.put("-s", "192.168.100.222");
+//        args[5] =  "-1";
         this.lfresource.init(false, args);
         LANforgeMgr.setPlatformInfo(this.pi);
 
