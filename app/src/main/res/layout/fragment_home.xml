@@ -9,11 +9,23 @@
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="140dp">
 
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/conn_status"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.516"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.222"
+        app:srcCompat="@drawable/ic_candelalogo" />
+
 
     <TextView
         android:id="@+id/conn_status"
-        android:layout_width="142dp"
-        android:layout_height="34dp"
+        android:layout_width="140dp"
+        android:layout_height="25dp"
         android:background="#4CAF50"
         android:textAlignment="center"
         android:textColor="#000000"
@@ -21,10 +33,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/server_ip_info"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintHorizontal_bias="0.514"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.924" />
+        app:layout_constraintVertical_bias="0.959" />
 
     <TextView
         android:id="@+id/server_ip_info"
@@ -49,11 +61,11 @@
         android:layout_height="62dp"
         android:backgroundTint="#4CAF50"
         android:text="CC Test"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/client_connectivity2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.428" />
+        app:layout_constraintVertical_bias="0.828" />
 
     <Button
         android:id="@+id/client_connectivity2"
@@ -65,19 +77,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.596" />
-
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/conn_status"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.516"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.222"
-        app:srcCompat="@drawable/ic_candelalogo" />
+        app:layout_constraintVertical_bias="0.642" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
