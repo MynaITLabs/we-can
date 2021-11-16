@@ -39,7 +39,7 @@ public class StartupActivity extends AppCompatActivity {
     private static final String FILE_NAME = "data.conf";
     private TextView server_ip;
     static int state;
-    private Boolean server_connected_status = false;
+//    private Boolean server_connected_status = false;
     private String ip, ssid, passwd;
 
     @Override
@@ -79,12 +79,12 @@ public class StartupActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String ip = server_ip.getText().toString();
+                String ip = server_ip.getText().toString().trim();
                 String data = ip + "\n" + ssid + "\n" + passwd;
                 if( ip.length() == 0 )
                     server_ip.setError( "IP is required!" );
                 else{
-                    server_connected_status = true;
+//                    server_connected_status = true;
                     FileOutputStream fos = null;
                     try {
                         fos = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
@@ -138,7 +138,7 @@ public class StartupActivity extends AppCompatActivity {
                             openServerConnection();
                         }
                     }
-                }, 2000);
+                }, 1000);
 
 
             }
