@@ -23,4 +23,5 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Configuration</string>
     <string name="menu_slideshow">About US</string>
+    <string name="splash_welcome">WELCOM TO WE-CAN PROJECT</string>
 </resources>
