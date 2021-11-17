@@ -62,7 +62,7 @@ public class StartupActivity extends AppCompatActivity {
             ssid = br.readLine();
             passwd = br.readLine();
             resource_id = br.readLine();
-
+            System.out.println("lol" + resource_id);
             server_ip.setText(ip);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -83,8 +83,9 @@ public class StartupActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 //                String resource_code = "-1";
-                String new_resource_id = resource_id;
-
+//                String new_resource_id = resource_id;
+                System.out.println("hoja bhai");
+                System.out.println(server_ip.getText() + resource_id + new_resource_id);
                 String new_ip = server_ip.getText().toString().trim();
                 if( new_ip.length() == 0 )
                     server_ip.setError( "IP is required!" );
@@ -93,13 +94,13 @@ public class StartupActivity extends AppCompatActivity {
                         resource_id = "-1";
                         connect_server(new_ip, resource_id, v);
                     }
-                    else if(ip == new_ip){
+                    else if(ip.equals(new_ip)){
                         if (resource_id == null){
                             resource_id = "-1";
                             connect_server(new_ip, resource_id, v);
 
                         }else{
-                            resource_id = resource_id;
+
                             connect_server(new_ip, resource_id, v);
                         }
                     }
@@ -108,30 +109,7 @@ public class StartupActivity extends AppCompatActivity {
                         connect_server(new_ip, resource_id, v);
                         Log.d("onClick: ", "IP NOT EQUAL");
                     }
-                    String data = new_ip + "\n" + ssid + "\n" + passwd + "\n" + new_resource_id;
-//                    server_connected_status = true;
-                    FileOutputStream fos = null;
-                    try {
-                        fos = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
-                        fos.write(data.getBytes(StandardCharsets.UTF_8));
-//                        Toast.makeText(v.getContext(), "Configuration Saved Successfully ", Toast.LENGTH_SHORT).show();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }finally {
-                        if (fos != null){
-                            try {
-                                fos.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                    Log.d("onClick: ", "Data ==> " + new_ip);
-                    Log.d("onClick: ", "SSID ==> " + ssid);
-                    Log.d("onClick: ", "PASS ==> " + passwd);
-                    Log.d("onClick: ", "RES_ID ==> " + resource_id);
+
                 }
 
             }
@@ -153,7 +131,7 @@ public class StartupActivity extends AppCompatActivity {
         }
 
         public void connect_server(String ip, String resource_id, View v){
-            LF_Resource p = new LF_Resource(143, ip, resource_id);
+            LF_Resource p = new LF_Resource(143, ip, resource_id, getApplicationContext());
             p.start();
             state = p.lfresource.get_state();
             Handler handler = new Handler();
@@ -182,10 +160,41 @@ public class StartupActivity extends AppCompatActivity {
                     if (state == RUNNING){
                         Toast.makeText(v.getContext(), "Connected to LANforge Server", Toast.LENGTH_LONG).show();
                         new_resource_id = p.getResource();
+                        System.out.println("sprideman" + new_resource_id);
+                        save_db(ip, new_resource_id);
                         openServerConnection();
                     }
                 }
             }, 1000);
 
+
+        }
+
+        public void save_db(String ip, String new_resource_id){
+            System.out.println("chaman");
+            String data = ip + "\n" + ssid + "\n" + passwd + "\n" + new_resource_id;
+//                    server_connected_status = true;
+            FileOutputStream fos = null;
+            try {
+                fos = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
+                fos.write(data.getBytes(StandardCharsets.UTF_8));
+//                        Toast.makeText(v.getContext(), "Configuration Saved Successfully ", Toast.LENGTH_SHORT).show();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }finally {
+                if (fos != null){
+                    try {
+                        fos.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            Log.d("onClick: ", "Data ==> " + ip);
+            Log.d("onClick: ", "SSID ==> " + ssid);
+            Log.d("onClick: ", "PASS ==> " + passwd);
+            Log.d("onClick: ", "RES_ID ==> " + resource_id);
         }
 }

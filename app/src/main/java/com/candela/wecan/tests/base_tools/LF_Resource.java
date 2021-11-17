@@ -1,5 +1,7 @@
 package com.candela.wecan.tests.base_tools;
 
+import android.content.Context;
+
 import java.util.Vector;
 
 import candela.lfresource.AndroidUI;
@@ -17,9 +19,12 @@ public class LF_Resource extends Thread {
     public PlatformInfo pi;
     public String ip_address;
     public String resource;
+    public Context context;
 
-    public LF_Resource(long minPrime, String ip_address, String resource) {
+
+    public LF_Resource(long minPrime, String ip_address, String resource, Context context) {
         this.minPrime = minPrime;
+        this.context = context;
         this.lfresource = new lfresource();
         this.ip_address = ip_address;
         this.resource = resource;
@@ -30,11 +35,14 @@ public class LF_Resource extends Thread {
         this.pi.wifi_capabilities = new Vector<>();
         this.pi.dhcp_info = new Vector<>();
         this.pi.username = "";
+        ResourceUtils ru = new ResourceUtils(this.context);
+        ru.requestPortUpdate("");
 
     }
 
     public String getResource(){
-        return resource;
+        return String.valueOf(LANforgeMgr.getResourceId());
+
     }
 
     public void run() {
@@ -45,10 +53,12 @@ public class LF_Resource extends Thread {
         args[1] = this.ip_address; //.put("-s", "192.168.100.222");
         args[2] = "--resource"; //.put("-s", "192.168.100.222");
         args[3] = this.resource;
-//        args[4] = "--realm"; //.put("-s", "192.168.100.222");
-//        args[5] =  "-1";
+        args[4] = "--realm"; //.put("-s", "192.168.100.222");
+        args[5] =  "-1";
+
+
         this.lfresource.init(false, args);
-        LANforgeMgr.setPlatformInfo(this.pi);
+//        LANforgeMgr.setPlatformInfo(this.pi);
 
         AndroidUI androidUI = new AndroidUI() {
             @Override
