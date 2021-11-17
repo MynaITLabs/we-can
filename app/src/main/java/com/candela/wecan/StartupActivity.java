@@ -42,6 +42,8 @@ public class StartupActivity extends AppCompatActivity {
 //    private Boolean server_connected_status = false;
     private String ip, ssid, passwd, resource_id;
     public String new_resource_id;
+    private String realm_id ="-1";
+    private String new_realm_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +64,7 @@ public class StartupActivity extends AppCompatActivity {
             ssid = br.readLine();
             passwd = br.readLine();
             resource_id = br.readLine();
-            System.out.println("lol" + resource_id);
+            realm_id = br.readLine();
             server_ip.setText(ip);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -92,21 +94,21 @@ public class StartupActivity extends AppCompatActivity {
                 else{
                     if (ip == null){
                         resource_id = "-1";
-                        connect_server(new_ip, resource_id, v);
+                        connect_server(new_ip, resource_id, realm_id, v);
                     }
                     else if(ip.equals(new_ip)){
                         if (resource_id == null){
                             resource_id = "-1";
-                            connect_server(new_ip, resource_id, v);
+                            connect_server(new_ip, resource_id, realm_id, v);
 
                         }else{
 
-                            connect_server(new_ip, resource_id, v);
+                            connect_server(new_ip, resource_id, realm_id, v);
                         }
                     }
                     else if (!(ip.equals(new_ip))){
                         resource_id = "-1";
-                        connect_server(new_ip, resource_id, v);
+                        connect_server(new_ip, resource_id, realm_id, v);
                         Log.d("onClick: ", "IP NOT EQUAL");
                     }
 
@@ -130,8 +132,8 @@ public class StartupActivity extends AppCompatActivity {
 
         }
 
-        public void connect_server(String ip, String resource_id, View v){
-            LF_Resource p = new LF_Resource(143, ip, resource_id, getApplicationContext());
+        public void connect_server(String ip, String resource_id, String realm_id, View v){
+            LF_Resource p = new LF_Resource(143, ip, resource_id, realm_id, getApplicationContext());
             p.start();
             state = p.lfresource.get_state();
             Handler handler = new Handler();
@@ -160,8 +162,9 @@ public class StartupActivity extends AppCompatActivity {
                     if (state == RUNNING){
                         Toast.makeText(v.getContext(), "Connected to LANforge Server", Toast.LENGTH_LONG).show();
                         new_resource_id = p.getResource();
+                        new_realm_id = p.getRealm();
                         System.out.println("sprideman" + new_resource_id);
-                        save_db(ip, new_resource_id);
+                        save_db(ip, new_resource_id, new_realm_id);
                         openServerConnection();
                     }
                 }
@@ -170,9 +173,9 @@ public class StartupActivity extends AppCompatActivity {
 
         }
 
-        public void save_db(String ip, String new_resource_id){
+        public void save_db(String ip, String new_resource_id, String new_realm_id){
             System.out.println("chaman");
-            String data = ip + "\n" + ssid + "\n" + passwd + "\n" + new_resource_id;
+            String data = ip + "\n" + ssid + "\n" + passwd + "\n" + new_resource_id + "\n" + new_realm_id;
 //                    server_connected_status = true;
             FileOutputStream fos = null;
             try {

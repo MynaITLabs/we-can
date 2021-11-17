@@ -13,6 +13,7 @@ import candela.lfresource.lfresource;
 //        p.start();
 public class LF_Resource extends Thread {
 
+    private String realm_id;
     long minPrime;
 
     public lfresource lfresource;
@@ -22,12 +23,13 @@ public class LF_Resource extends Thread {
     public Context context;
 
 
-    public LF_Resource(long minPrime, String ip_address, String resource, Context context) {
+    public LF_Resource(long minPrime, String ip_address, String resource, String realm_id, Context context) {
         this.minPrime = minPrime;
         this.context = context;
         this.lfresource = new lfresource();
         this.ip_address = ip_address;
         this.resource = resource;
+        this.realm_id = realm_id;
         this.pi = new PlatformInfo();
 
         this.pi.manufacturer = "samsung";
@@ -45,6 +47,11 @@ public class LF_Resource extends Thread {
 
     }
 
+    public String getRealm(){
+        return String.valueOf(LANforgeMgr.getRealmId());
+
+    }
+
     public void run() {
         // compute primes larger than minPrime
 
@@ -54,25 +61,10 @@ public class LF_Resource extends Thread {
         args[2] = "--resource"; //.put("-s", "192.168.100.222");
         args[3] = this.resource;
         args[4] = "--realm"; //.put("-s", "192.168.100.222");
-        args[5] =  "-1";
-
-
+        args[5] = this.realm_id;
         this.lfresource.init(false, args);
 //        LANforgeMgr.setPlatformInfo(this.pi);
 
-        AndroidUI androidUI = new AndroidUI() {
-            @Override
-            public void setResourceInfo(int i, int i1) {
 
-            }
-
-            @Override
-            public Vector<StringKeyVal> requestPortUpdate(String s) {
-                return null;
-            }
-        };
-        short i =LANforgeMgr.getResourceId();
-        resource = String.valueOf(i);
-//        System.out.println("Shivamiron:" + resource);
     }
 }
