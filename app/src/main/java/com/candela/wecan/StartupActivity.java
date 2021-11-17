@@ -2,6 +2,7 @@ package com.candela.wecan;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +23,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
+import com.candela.wecan.tests.base_tools.file_handler;
+import com.candela.wecan.tests.base_tools.file_handler.*;
 //import candela.lfresource.lfresource;
 //import com.candela.wecan.tests.base_tools.LF_Resource;
 
@@ -39,7 +42,7 @@ public class StartupActivity extends AppCompatActivity {
     private static final String FILE_NAME = "data.conf";
     private TextView server_ip;
     static int state;
-//    private Boolean server_connected_status = false;
+    //    private Boolean server_connected_status = false;
     private String ip, ssid, passwd;
 
     @Override
@@ -77,8 +80,14 @@ public class StartupActivity extends AppCompatActivity {
         }
 
         button.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("NewApi")
             @Override
             public void onClick(View v) {
+                file_handler file_obj = new file_handler(getApplicationContext());
+                file_obj.set_val("Key", "Value");
+                String txt = file_obj.get_val("Key");
+
+                System.out.println("Data "+txt);
                 String ip = server_ip.getText().toString().trim();
                 String data = ip + "\n" + ssid + "\n" + passwd;
                 if( ip.length() == 0 )
@@ -151,11 +160,11 @@ public class StartupActivity extends AppCompatActivity {
 //        Intent myIntent = new Intent(this, ServerConnection.class);
 //        startActivity(myIntent);
 
-        public void openServerConnection () {
+    public void openServerConnection () {
 
-            Intent myIntent = new Intent(this, navigation.class);
-            startActivity(myIntent);
+        Intent myIntent = new Intent(this, navigation.class);
+        startActivity(myIntent);
 
 
-        }
+    }
 }
