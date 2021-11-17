@@ -18,7 +18,12 @@ import java.util.Map;
 public class file_handler extends AppCompatActivity {
     private static final String FILE_NAME = "data.conf";
     private String text_data;
+    public static Context context;
 
+    public file_handler(Context context){
+
+            this.context = context;
+    }
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void set_val(String key, String value){
         FileInputStream fis = null;
@@ -26,7 +31,7 @@ public class file_handler extends AppCompatActivity {
 
         try {
             Map<String, String> dataMap = new HashMap<String, String>();
-            fis = openFileInput(FILE_NAME);
+            fis = this.context.openFileInput(FILE_NAME);
             InputStreamReader isr = new InputStreamReader(fis);
             BufferedReader br = new BufferedReader(isr);
             text_data= br.readLine();
@@ -61,7 +66,7 @@ public class file_handler extends AppCompatActivity {
         FileInputStream fis = null;
         try {
             Map<String, String> dataMap = new HashMap<String, String>();
-            fis = openFileInput(FILE_NAME);
+            fis = this.context.openFileInput(FILE_NAME);
             InputStreamReader isr = new InputStreamReader(fis);
             BufferedReader br = new BufferedReader(isr);
             StringBuilder sb = new StringBuilder();
