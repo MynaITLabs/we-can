@@ -45,6 +45,7 @@ public class StartupActivity extends AppCompatActivity {
     //    private Boolean server_connected_status = false;
     private String ip, ssid, passwd;
 
+    @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,30 +55,12 @@ public class StartupActivity extends AppCompatActivity {
         server_ip = findViewById(R.id.ip_enter_page);
 //        LF_Resource p = new LF_Resource(143, "192.168.52.100", "2");
 //        p.start();
-        FileInputStream fis = null;
-        try {
-            fis = openFileInput(FILE_NAME);
-            InputStreamReader isr = new InputStreamReader(fis);
-            BufferedReader br = new BufferedReader(isr);
-            StringBuilder sb = new StringBuilder();
-            ip= br.readLine();
-            ssid = br.readLine();
-            passwd = br.readLine();
 
-            server_ip.setText(ip);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (fis != null){
-                try {
-                    fis.close();
-                }catch (IOException e){
-                    e.printStackTrace();
-                }
-            }
-        }
+        file_handler file_obj = new file_handler(getApplicationContext());
+//        file_obj.set_val("Server", "192.168.200.15");
+        ip = file_obj.get_val("SALE_PRODUCTS");
+        server_ip.setText(ip);
+        Log.d("SALE_PRODUCTS: ", ""+ ip);
 
         button.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("NewApi")
@@ -85,34 +68,20 @@ public class StartupActivity extends AppCompatActivity {
             public void onClick(View v) {
                 file_handler file_obj = new file_handler(getApplicationContext());
                 file_obj.set_val("Key", "Value");
-                String txt = file_obj.get_val("Key");
+                String txt = file_obj.get_val("SALES");
 
-                System.out.println("Data "+txt);
+                System.out.println("Data SALES "+txt);
                 String ip = server_ip.getText().toString().trim();
                 String data = ip + "\n" + ssid + "\n" + passwd;
                 if( ip.length() == 0 )
                     server_ip.setError( "IP is required!" );
                 else{
-//                    server_connected_status = true;
-                    FileOutputStream fos = null;
-                    try {
-                        fos = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
-                        fos.write(data.getBytes(StandardCharsets.UTF_8));
-//                        Toast.makeText(v.getContext(), "Configuration Saved Successfully ", Toast.LENGTH_SHORT).show();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }finally {
-                        if (fos != null){
-                            try {
-                                fos.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                    Log.d( "onClick: ", "Data ==> " + ip);
+//                    Toast.makeText(v.getContext(), "Configuration Saved Successfully ", Toast.LENGTH_SHORT).show();
+                file_handler file_obj1 = new file_handler(getApplicationContext());
+//        file_obj.set_val("Server", "192.168.200.15");
+                ip = file_obj1.get_val("SALE_PRODUCTS");
+                server_ip.setText(ip);
+
                 }
 
 
