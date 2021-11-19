@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
@@ -13,8 +14,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.candela.wecan.tests.base_tools.LF_Resource;
+import com.candela.wecan.tests.base_tools.Logcat;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -24,7 +27,6 @@ import java.nio.charset.StandardCharsets;
 
 //import candela.lfresource.lfresource;
 //import com.candela.wecan.tests.base_tools.LF_Resource;
-
 
 /**
  * Startup Activity for Candela WE-CAN
@@ -39,7 +41,7 @@ public class StartupActivity extends AppCompatActivity {
     private static final String FILE_NAME = "data.conf";
     private TextView server_ip;
     static int state;
-//    private Boolean server_connected_status = false;
+    //    private Boolean server_connected_status = false;
     private String ip, ssid, passwd, resource_id;
     public String new_resource_id;
     private String realm_id ="-1";
@@ -52,8 +54,11 @@ public class StartupActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         button = (Button) findViewById(R.id.enter_button);
         server_ip = findViewById(R.id.ip_enter_page);
-//        LF_Resource p = new LF_Resource(143, "192.168.52.100", "2");
-//        p.start();
+        Logcat logca = new Logcat();
+        logca.sg();
+
+        /* Checks if external storage is available for read and write */
+
         FileInputStream fis = null;
         try {
             fis = openFileInput(FILE_NAME);
@@ -124,80 +129,80 @@ public class StartupActivity extends AppCompatActivity {
 //        Intent myIntent = new Intent(this, ServerConnection.class);
 //        startActivity(myIntent);
 
-        public void openServerConnection () {
+    public void openServerConnection () {
 
-            Intent myIntent = new Intent(this, navigation.class);
-            startActivity(myIntent);
+        Intent myIntent = new Intent(this, navigation.class);
+        startActivity(myIntent);
 
 
-        }
+    }
 
-        public void connect_server(String ip, String resource_id, String realm_id, View v){
-            LF_Resource p = new LF_Resource(143, ip, resource_id, realm_id, getApplicationContext());
-            p.start();
-            state = p.lfresource.get_state();
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    state = p.lfresource.get_state();
-                    if (state == STOPPED){
-                        Toast.makeText(v.getContext(), "Server STOPPED", Toast.LENGTH_LONG).show();
-                    }
-                    if (state == STARTING){
-                        Toast.makeText(v.getContext(), "Server is STARTING", Toast.LENGTH_LONG).show();
-                    }
-                    if (state == RUNNING){
-                        Toast.makeText(v.getContext(), "Server is RUNNING", Toast.LENGTH_LONG).show();
-                    }
+    public void connect_server(String ip, String resource_id, String realm_id, View v){
+        LF_Resource p = new LF_Resource(143, ip, resource_id, realm_id, getApplicationContext());
+        p.start();
+        state = p.lfresource.get_state();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                state = p.lfresource.get_state();
+                if (state == STOPPED){
+                    Toast.makeText(v.getContext(), "Server STOPPED", Toast.LENGTH_LONG).show();
                 }
-            }, 1000);
-
-            Handler handler1 = new Handler();
-            handler1.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    handler.removeCallbacks(this);
-                    state = p.lfresource.get_state();
-                    if (state == RUNNING){
-                        Toast.makeText(v.getContext(), "Connected to LANforge Server", Toast.LENGTH_LONG).show();
-                        new_resource_id = p.getResource();
-                        new_realm_id = p.getRealm();
-                        System.out.println("sprideman" + new_resource_id);
-                        save_db(ip, new_resource_id, new_realm_id);
-                        openServerConnection();
-                    }
+                if (state == STARTING){
+                    Toast.makeText(v.getContext(), "Server is STARTING", Toast.LENGTH_LONG).show();
                 }
-            }, 1000);
-
-
-        }
-
-        public void save_db(String ip, String new_resource_id, String new_realm_id){
-            System.out.println("chaman");
-            String data = ip + "\n" + ssid + "\n" + passwd + "\n" + new_resource_id + "\n" + new_realm_id;
-//                    server_connected_status = true;
-            FileOutputStream fos = null;
-            try {
-                fos = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
-                fos.write(data.getBytes(StandardCharsets.UTF_8));
-//                        Toast.makeText(v.getContext(), "Configuration Saved Successfully ", Toast.LENGTH_SHORT).show();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }finally {
-                if (fos != null){
-                    try {
-                        fos.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                if (state == RUNNING){
+                    Toast.makeText(v.getContext(), "Server is RUNNING", Toast.LENGTH_LONG).show();
                 }
             }
-            Log.d("onClick: ", "Data ==> " + ip);
-            Log.d("onClick: ", "SSID ==> " + ssid);
-            Log.d("onClick: ", "PASS ==> " + passwd);
-            Log.d("onClick: ", "RES_ID ==> " + resource_id);
+        }, 1000);
+
+        Handler handler1 = new Handler();
+        handler1.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                handler.removeCallbacks(this);
+                state = p.lfresource.get_state();
+                if (state == RUNNING){
+                    Toast.makeText(v.getContext(), "Connected to LANforge Server", Toast.LENGTH_LONG).show();
+                    new_resource_id = p.getResource();
+                    new_realm_id = p.getRealm();
+                    System.out.println("sprideman" + new_resource_id);
+                    save_db(ip, new_resource_id, new_realm_id);
+                    openServerConnection();
+                }
+            }
+        }, 1000);
+
+
+    }
+
+    public void save_db(String ip, String new_resource_id, String new_realm_id){
+        System.out.println("chaman");
+        String data = ip + "\n" + ssid + "\n" + passwd + "\n" + new_resource_id + "\n" + new_realm_id;
+//                    server_connected_status = true;
+        FileOutputStream fos = null;
+        try {
+            fos = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
+            fos.write(data.getBytes(StandardCharsets.UTF_8));
+//                        Toast.makeText(v.getContext(), "Configuration Saved Successfully ", Toast.LENGTH_SHORT).show();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            if (fos != null){
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
+        Log.d("onClick: ", "Data ==> " + ip);
+        Log.d("onClick: ", "SSID ==> " + ssid);
+        Log.d("onClick: ", "PASS ==> " + passwd);
+        Log.d("onClick: ", "RES_ID ==> " + resource_id);
+    }
 }
