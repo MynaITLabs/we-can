@@ -1,9 +1,13 @@
 package com.candela.wecan.ui.home;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -29,7 +33,7 @@ public class HomeFragment extends Fragment {
     private Button refresh_button;
     private static final String FILE_NAME = "data.conf";
     private TextView ip_show;
-
+    public String ip, ip1;
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
@@ -40,33 +44,12 @@ public class HomeFragment extends Fragment {
         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-//                refresh_button = getView().findViewById(R.id.refresh);
                 ip_show = getView().findViewById(R.id.server_ip_info);
-
-                FileInputStream fis = null;
-                try {
-                    fis = getActivity().openFileInput(FILE_NAME);
-                    InputStreamReader isr = new InputStreamReader(fis);
-                    BufferedReader br = new BufferedReader(isr);
-                    StringBuilder sb = new StringBuilder();
-                    String ip;
-
-                    ip= br.readLine();
+                SharedPreferences sprf = getActivity().getSharedPreferences("userdata", Context.MODE_PRIVATE);
+                ip = sprf.getString("ip", "192.168.0.0") + "\n" + sprf.getString("realm_id", "") + "\n" + sprf.getString("resource_id", "");
+                    Log.d("onChangedIP: ", ip);
                     ip_show.setText(ip);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    if (fis != null){
-                        try {
-                            fis.close();
-                        }catch (IOException e){
-                            e.printStackTrace();
-                        }
-                    }
                 }
-            }
         });
         return root;
     }
