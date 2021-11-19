@@ -3,8 +3,10 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -19,89 +21,35 @@ import java.util.Map;
 public class file_handler extends AppCompatActivity {
     private static final String FILE_NAME = "data.conf";
     private String text_data;
-    public static Context context;
 
-    public file_handler(Context context){
-
-            this.context = context;
+    public file_handler(){
     }
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public void set_val(String key, String value){
-        FileInputStream fis = null;
-        FileOutputStream fos = null;
 
+    public void save_db(String ip, String new_resource_id, String new_realm_id){
+        System.out.println("chaman");
+        SharedPreferences sprf = getSharedPreferences("userdata", Context.MODE_PRIVATE);
         try {
-            Map<String, String> dataMap = new HashMap<String, String>();
-            fis = this.context.openFileInput(FILE_NAME);
-            InputStreamReader isr = new InputStreamReader(fis);
-            BufferedReader br = new BufferedReader(isr);
-            text_data= br.readLine();
-            String updated_string = null;// "SALES:0,SALE_PRODUCTS:1,EXPENSES:2,EXPENSES_ITEMS:3";
-
-            String[] pairs = text_data.split(",");
-            for (int i=0;i<pairs.length;i++) {
-                String pair = pairs[i];
-                String[] keyValue = pair.split(":");
-                dataMap.put(keyValue[0], keyValue[1]);
-            }
-            dataMap.put(key, value);
-//            System.out.println("server_ip is " + dataMap);
-//            Log.d("server_ip: ", ""+ dataMap);
-            for (String i : dataMap.keySet()) {
-                String keyVal = i + ":" + dataMap.get(i);
-                updated_string.concat(keyVal + ',');
-            }
-
-            fos = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
-            fos.write(updated_string.getBytes(StandardCharsets.UTF_8));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+            SharedPreferences.Editor editor = sprf.edit();
+            editor.putString("ip", ip);
+            editor.putString("realm", new_realm_id);
+            editor.putString("resource", new_resource_id);
+            editor.commit();
+        }catch (Exception e) {
             e.printStackTrace();
         }
-
+        Log.d("onClick: ", "IN File Handler ");
+        Log.d("onClick: ", "Data ==> " + ip);
+        Log.d("onClick: ", "RES_ID ==> " + new_resource_id);
+        Log.d("onClick: ", "REALM_ID ==> " + new_realm_id);
     }
 
 
 
-
-    public String get_val(String key){
-        String text_data = "SALES:0,SALE_PRODUCTS:1,EXPENSES:2,EXPENSES_ITEMS:3";
-        FileInputStream fis = null;
-        try {
-            Map<String, String> dataMap = new HashMap<String, String>();
-            fis = this.context.openFileInput(FILE_NAME);
-            InputStreamReader isr = new InputStreamReader(fis);
-            BufferedReader br = new BufferedReader(isr);
-//            StringBuilder sb = new StringBuilder();
-//            text_data = br.readLine();
-            String[] pairs = text_data.split(",");
-            for (int i=0;i<pairs.length;i++) {
-                String pair = pairs[i];
-                String[] keyValue = pair.split(":");
-                dataMap.put(keyValue[0], keyValue[1]);
-            }
-            String value = dataMap.get(key);
-            return value;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-
-    public void clear(String[] args){
-        FileOutputStream fos = null;
-
-        try {
-            fos = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
-            fos.write("".getBytes(StandardCharsets.UTF_8));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+    public String getip(){
+        String ip;
+            SharedPreferences sprf = getSharedPreferences("userdata", Context.MODE_PRIVATE);
+            ip = sprf.getString("ip", "");
+            return ip;
     }
 
 }
