@@ -1,6 +1,8 @@
 package com.candela.wecan.tests.base_tools;
 
 import android.content.Context;
+import android.os.Handler;
+import android.widget.Toast;
 
 import java.util.Vector;
 
@@ -52,9 +54,24 @@ public class LF_Resource extends Thread {
         return String.valueOf(LANforgeMgr.getRealmId());
 
     }
-
+    public boolean getConnState(){
+        return LANforgeMgr.isConnected();
+    }
     public void run() {
         // compute primes larger than minPrime
+        Handler handler_state = new Handler();
+        handler_state.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (getConnState()){
+                    Toast.makeText(context, "Server is Connected", Toast.LENGTH_LONG).show();
+                }
+                if (!getConnState()){
+                    Toast.makeText(context, "Server is Disconnected", Toast.LENGTH_LONG).show();
+                }
+            }
+        }, 1000);
+
 
         String[] args = new String[6];
         args[0] = "-s";
@@ -64,6 +81,7 @@ public class LF_Resource extends Thread {
         args[4] = "--realm"; //.put("-s", "192.168.100.222");
         args[5] = this.realm_id;
         this.lfresource.init(false, args);
+
 //        LANforgeMgr.setPlatformInfo(this.pi);
 
 

@@ -98,32 +98,14 @@ public class StartupActivity extends AppCompatActivity {
         public void connect_server(String ip, String resource_id, String realm_id, View v, SharedPreferences sharedPreferences){
             LF_Resource p = new LF_Resource(143, ip, resource_id, realm_id, getApplicationContext());
             p.start();
-            state = p.lfresource.get_state();
+
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    state = p.lfresource.get_state();
-                    if (state == STOPPED){
-                        Toast.makeText(v.getContext(), "Server STOPPED", Toast.LENGTH_LONG).show();
-                    }
-                    if (state == STARTING){
-                        Toast.makeText(v.getContext(), "Server is STARTING", Toast.LENGTH_LONG).show();
-                    }
-                    if (state == RUNNING){
-                        Toast.makeText(v.getContext(), "Server is RUNNING", Toast.LENGTH_LONG).show();
-                    }
-                }
-            }, 1000);
-
-            Handler handler1 = new Handler();
-            handler1.postDelayed(new Runnable() {
 
                 @Override
                 public void run() {
-                    handler.removeCallbacks(this);
                     state = p.lfresource.get_state();
-                    if (state == RUNNING){
+                    if (p.getConnState()){
                         Toast.makeText(v.getContext(), "Connected to LANforge Server", Toast.LENGTH_LONG).show();
                         String new_resource_id = p.getResource();
                         String new_realm_id = p.getRealm();
@@ -146,16 +128,5 @@ public class StartupActivity extends AppCompatActivity {
         }
 
 
-    public void save_db(String ip, String new_resource_id, String new_realm_id){
-        System.out.println("chaman");
-        SharedPreferences sprf = getSharedPreferences("userdata", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sprf.edit();
-        editor.putString("ip", ip);
-        editor.putString("realm_id", new_realm_id);
-        editor.putString("resource_id", new_resource_id);
-        editor.commit();
-        Log.d("onClick: ", "Data ==> " + ip);
-        Log.d("onClick: ", "RES_ID ==> " + new_resource_id);
-        Log.d("onClick: ", "REALM_ID ==> " + new_realm_id);
-    }
+
 }
