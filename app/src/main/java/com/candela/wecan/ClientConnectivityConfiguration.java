@@ -94,7 +94,7 @@ public class ClientConnectivityConfiguration extends AppCompatActivity {
         // Start Test Button
         start_btn = findViewById(R.id.start_test_cc_btn);
         start_btn.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.S)
+            @RequiresApi(api = Build.VERSION_CODES.Q)
             @Override
             public void onClick(View view) {
 

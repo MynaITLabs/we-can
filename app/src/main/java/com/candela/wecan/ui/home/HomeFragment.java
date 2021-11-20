@@ -25,6 +25,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Map;
 
 public class HomeFragment extends Fragment {
 
@@ -45,10 +46,13 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChanged(@Nullable String s) {
                 ip_show = getView().findViewById(R.id.server_ip_info);
-                SharedPreferences sprf = getActivity().getSharedPreferences("userdata", Context.MODE_PRIVATE);
-                ip = sprf.getString("ip", "192.168.0.0") + "\n" + sprf.getString("realm_id", "") + "\n" + sprf.getString("resource_id", "");
-                    Log.d("onChangedIP: ", ip);
-                    ip_show.setText(ip);
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userdata", Context.MODE_PRIVATE);
+                Map<String,?> keys = sharedPreferences.getAll();
+                String current_ip = (String) keys.get("current-ip");
+                String current_resource = (String) keys.get("current-resource");
+                String current_realm = (String) keys.get("current-realm");
+                ip_show.setText("SERVER: " + current_ip + "\n" + "REALM: " + current_realm +"\n" + "CARD: " + current_resource);
+//                server_ip.setText(last_ip);
                 }
         });
         return root;
