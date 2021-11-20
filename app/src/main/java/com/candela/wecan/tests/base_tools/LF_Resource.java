@@ -38,6 +38,7 @@ public class LF_Resource extends Thread {
         this.pi.dhcp_info = new Vector<>();
         this.pi.username = "";
         ResourceUtils ru = new ResourceUtils(this.context);
+        LANforgeMgr.setUI(ru);
         ru.requestPortUpdate("");
 
     }
