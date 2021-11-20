@@ -24,6 +24,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 //import candela.lfresource.lfresource;
 //import com.candela.wecan.tests.base_tools.LF_Resource;
@@ -42,10 +43,7 @@ public class StartupActivity extends AppCompatActivity {
     private static final String FILE_NAME = "data.conf";
     private TextView server_ip;
     static int state;
-    private String ip, ssid, passwd, resource_id;
-    public String new_resource_id;
-    private String realm_id ="-1";
-    private String new_realm_id;
+    private String ssid, passwd;
     public Context context;
 
 
@@ -56,52 +54,39 @@ public class StartupActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         button = (Button) findViewById(R.id.enter_button);
         server_ip = findViewById(R.id.ip_enter_page);
-//        LF_Resource p = new LF_Resource(143, "192.168.52.100", "2");
-//        p.start();
-
-        SharedPreferences sprf = getBaseContext().getSharedPreferences("userdata", Context.MODE_PRIVATE);
-        ip = sprf.getString("ip", "192.168.0.0");
-        System.out.println("onCreate: "+ip);
-        server_ip.setText(ip);
-
+        SharedPreferences sharedpreferences = getBaseContext().getSharedPreferences("userdata", Context.MODE_PRIVATE);
+        Map<String,?> keys = sharedpreferences.getAll();
+        String last_ip = (String) keys.get("last");
+        server_ip.setText(last_ip);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
 
-                System.out.println(server_ip.getText() + resource_id + new_resource_id);
-                String new_ip = server_ip.getText().toString().trim();
-                if( new_ip.length() == 0 )
-                    server_ip.setError( "IP is required!" );
-                else{
-                    if (ip == null){
-                        resource_id = "-1";
-                        connect_server(new_ip, resource_id, realm_id, v);
-                    }
-                    else if(ip.equals(new_ip)){
-                        if (resource_id == null){
-                            resource_id = "-1";
-                            connect_server(new_ip, resource_id, realm_id, v);
-
-                        }else{
-
-                            connect_server(new_ip, resource_id, realm_id, v);
-                        }
-                    }
-                    else if (!(ip.equals(new_ip))){
-                        resource_id = "-1";
-                        connect_server(new_ip, resource_id, realm_id, v);
-                        Log.d("onClick: ", "IP NOT EQUAL");
-                    }
-
+                if (keys.keySet().contains(server_ip.getText().toString())){
+                    Map<String,?> keys = sharedpreferences.getAll();
+                    String ip = server_ip.getText().toString();
+                    String realm_id = (String) keys.get("realm-" + ip);
+                    String resource_id = (String) keys.get("resource-" + ip);
+                    connect_server(server_ip.getText().toString(), resource_id, realm_id, view, sharedpreferences);
                 }
+                else{
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putString(server_ip.getText().toString(), "-1");
+                    editor.putString("resource-" + server_ip.getText().toString(), "-1");
+                    editor.putString("realm-" + server_ip.getText().toString(), "-1");
+                    editor.apply();
+                    editor.commit();
+                    Map<String,?> keys = sharedpreferences.getAll();
+                    String ip = server_ip.getText().toString();
+                    String realm_id = (String) keys.get("realm-" + ip);
+                    String resource_id = (String) keys.get("resource-" + ip);
+                    connect_server(server_ip.getText().toString(), resource_id, realm_id, view, sharedpreferences);
+                }
+
 
             }
         });
     }
-
-//
-//        Intent myIntent = new Intent(this, ServerConnection.class);
-//        startActivity(myIntent);
 
         public void openServerConnection () {
 
@@ -110,7 +95,7 @@ public class StartupActivity extends AppCompatActivity {
 
         }
 
-        public void connect_server(String ip, String resource_id, String realm_id, View v){
+        public void connect_server(String ip, String resource_id, String realm_id, View v, SharedPreferences sharedPreferences){
             LF_Resource p = new LF_Resource(143, ip, resource_id, realm_id, getApplicationContext());
             p.start();
             state = p.lfresource.get_state();
@@ -140,15 +125,20 @@ public class StartupActivity extends AppCompatActivity {
                     state = p.lfresource.get_state();
                     if (state == RUNNING){
                         Toast.makeText(v.getContext(), "Connected to LANforge Server", Toast.LENGTH_LONG).show();
-                        new_resource_id = p.getResource();
-                        new_realm_id = p.getRealm();
-//                        file_handler file_handler_obj = new file_handler();
-                        Log.d("onClick: ", "Data ==> " + ip);
-                        Log.d("onClick: ", "SSID ==> " + ssid);
-                        Log.d("onClick: ", "PASS ==> " + passwd);
-                        Log.d("onClick: ", "RES_ID ==> " + new_resource_id);
-                        Log.d("onClick: ", "REALM_ID ==> " + new_realm_id);
-                        save_db(ip, new_resource_id, new_realm_id);
+                        String new_resource_id = p.getResource();
+                        String new_realm_id = p.getRealm();
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString(ip, "-1");
+                        editor.putString("last", ip);
+                        editor.putString("resource-" + ip, new_resource_id);
+                        editor.putString("realm-" + ip, new_realm_id);
+
+                        editor.putString("current-ip", ip);
+                        editor.putString("current-resource", new_resource_id);
+                        editor.putString("current-realm", new_realm_id);
+
+                        editor.apply();
+                        editor.commit();
                         openServerConnection();
                     }
                 }
