@@ -59,18 +59,18 @@ public class LF_Resource extends Thread {
     }
     public void run() {
         // compute primes larger than minPrime
-        Handler handler_state = new Handler();
-        handler_state.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (getConnState()){
-                    Toast.makeText(context, "Server is Connected", Toast.LENGTH_LONG).show();
-                }
-                if (!getConnState()){
-                    Toast.makeText(context, "Server is Disconnected", Toast.LENGTH_LONG).show();
-                }
-            }
-        }, 1000);
+//        Handler handler_state = new Handler();
+//        handler_state.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (getConnState()){
+//                    Toast.makeText(context, "Server is Connected", Toast.LENGTH_LONG).show();
+//                }
+//                if (!getConnState()){
+//                    Toast.makeText(context, "Server is Disconnected", Toast.LENGTH_LONG).show();
+//                }
+//            }
+//        }, 1000);
 
 
         String[] args = new String[6];
