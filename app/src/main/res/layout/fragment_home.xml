@@ -70,7 +70,20 @@
         app:layout_constraintVertical_bias="0.739" />
 
     <Button
-        android:id="@+id/client_connectivity"
+        android:id="@+id/update_lf"
+        android:layout_width="285dp"
+        android:layout_height="62dp"
+        android:backgroundTint="#4CAF50"
+        android:text="UPdate"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.611"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.355" />
+
+    <Button
+        android:id="@+id/client_connectivity3"
         android:layout_width="285dp"
         android:layout_height="62dp"
         android:backgroundTint="#4CAF50"

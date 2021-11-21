@@ -134,7 +134,7 @@ public class StartupActivity extends AppCompatActivity {
 
                         editor.apply();
                         editor.commit();
-                        CardUtils cardUtils = new CardUtils(getApplicationContext());
+//                        CardUtils cardUtils = new CardUtils(getApplicationContext());
                         openServerConnection();
                     }
                 }
