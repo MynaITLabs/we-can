@@ -43,7 +43,7 @@ public class LF_Resource extends Thread {
         this.ru = new ResourceUtils(this.context);
 
         LANforgeMgr.setUI(ru);
-        this.ru.requestPortUpdate("wlan0");
+//        this.ru.requestPortUpdate("wlan0");
         LANforgeMgr.setPlatformInfo(this.pi);
 
 
