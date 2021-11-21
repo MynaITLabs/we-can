@@ -47,9 +47,9 @@ public class ResourceUtils extends AppCompatActivity implements AndroidUI{
             data_structure.add(new StringKeyVal("Wi-Fi standard",String.valueOf(wifiManager.getConnectionInfo().getWifiStandard())));
             data_structure.add(new StringKeyVal("Max Supported Rx Link speed",String.valueOf(wifiManager.getConnectionInfo().getMaxSupportedRxLinkSpeedMbps())));
         }
-        data_structure.add(new StringKeyVal("Max Supported Rx Link speed",String.valueOf(wifiManager.getConnectionInfo().getMacAddress())));
-
-        System.out.println("kabutops: "  + data_structure);
+//        data_structure.add(new StringKeyVal("MAC",String.valueOf(wifiManager.getConnectionInfo().getMacAddress())));
+//        System.out.println(wifiManager.getDhcpInfo().);
+//        System.out.println("kabutops: "  + data_structure);
         return data_structure;
     }
 }
