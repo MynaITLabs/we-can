@@ -9,6 +9,7 @@ import java.util.Vector;
 import candela.lfresource.AndroidUI;
 import candela.lfresource.LANforgeMgr;
 import candela.lfresource.PlatformInfo;
+import candela.lfresource.Port;
 import candela.lfresource.StringKeyVal;
 import candela.lfresource.lfresource;
 //LF_Resource p = new LF_Resource(143);
@@ -23,7 +24,7 @@ public class LF_Resource extends Thread {
     public String ip_address;
     public String resource;
     public Context context;
-
+    public ResourceUtils ru;
 
     public LF_Resource(long minPrime, String ip_address, String resource, String realm_id, Context context) {
         this.minPrime = minPrime;
@@ -39,9 +40,12 @@ public class LF_Resource extends Thread {
         this.pi.wifi_capabilities = new Vector<>();
         this.pi.dhcp_info = new Vector<>();
         this.pi.username = "";
-        ResourceUtils ru = new ResourceUtils(this.context);
+        this.ru = new ResourceUtils(this.context);
+
         LANforgeMgr.setUI(ru);
-        ru.requestPortUpdate("");
+        this.ru.requestPortUpdate("wlan0");
+        LANforgeMgr.setPlatformInfo(this.pi);
+
 
     }
 
@@ -82,7 +86,7 @@ public class LF_Resource extends Thread {
         args[5] = this.realm_id;
         this.lfresource.init(false, args);
 
-//        LANforgeMgr.setPlatformInfo(this.pi);
+//
 
 
     }

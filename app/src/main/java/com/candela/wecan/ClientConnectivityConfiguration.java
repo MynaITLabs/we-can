@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -16,6 +17,7 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -49,7 +51,7 @@ public class ClientConnectivityConfiguration extends AppCompatActivity {
     WifiReceiver receiverWifi;
     Button start_btn;
 
-    @RequiresApi(api = Build.VERSION_CODES.R)
+//    @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,18 +89,17 @@ public class ClientConnectivityConfiguration extends AppCompatActivity {
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
                     ClientConnectivityConfiguration.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS_ACCESS_COARSE_LOCATION);
-        } else {
-            wifiManager.startScan();
         }
-//
+
         // Start Test Button
         start_btn = findViewById(R.id.start_test_cc_btn);
         start_btn.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("NewApi")
             @RequiresApi(api = Build.VERSION_CODES.Q)
             @Override
             public void onClick(View view) {
-
-
+//                System.out.println(.setWifiEnabled(true));
+                wifiManager.startScan();
 
 
                 String wifi_name = spinner.getSelectedItem().toString();

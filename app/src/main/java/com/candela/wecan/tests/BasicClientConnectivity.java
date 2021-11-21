@@ -9,7 +9,7 @@ import android.content.pm.PackageManager;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.net.wifi.WifiNetworkSuggestion;
+//import android.net.wifi.WifiNetworkSuggestion;
 import android.os.Build;
 import android.preference.Preference;
 import android.util.Log;
@@ -50,7 +50,7 @@ public class BasicClientConnectivity {
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.S)
+//    @RequiresApi(api = Build.VERSION_CODES)
     public static void run_test(Context context, WifiManager wifiManager, String wifi_name, String pass, HTTPHandler httpHandler) {
 
 
@@ -122,6 +122,7 @@ public class BasicClientConnectivity {
 
         wifiID = wifiManager.addNetwork(wifiConfiguration);
         wifiManager.disconnect();
+        wifiManager.disableNetwork(wifiID);
         wifiManager.enableNetwork(wifiID, true);
 
 

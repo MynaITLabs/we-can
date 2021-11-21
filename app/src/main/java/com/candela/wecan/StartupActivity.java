@@ -1,10 +1,14 @@
 package com.candela.wecan;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -14,6 +18,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.candela.wecan.tests.base_tools.CardUtils;
 import com.candela.wecan.tests.base_tools.LF_Resource;
 import com.candela.wecan.tests.base_tools.file_handler;
 
@@ -24,6 +29,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.security.Permission;
 import java.util.Map;
 
 //import candela.lfresource.lfresource;
@@ -58,6 +64,13 @@ public class StartupActivity extends AppCompatActivity {
         Map<String,?> keys = sharedpreferences.getAll();
         String last_ip = (String) keys.get("last");
         server_ip.setText(last_ip);
+        checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION, 1);
+        checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, 2);
+        checkPermission(Manifest.permission.ACCESS_WIFI_STATE, 3);
+        checkPermission(Manifest.permission.ACCESS_NETWORK_STATE, 4);
+        checkPermission(Manifest.permission.CHANGE_WIFI_STATE, 5);
+//        Intent myIntent = new Intent(this, ClientConnectivityConfiguration.class);
+//        startActivity(myIntent);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,12 +134,24 @@ public class StartupActivity extends AppCompatActivity {
 
                         editor.apply();
                         editor.commit();
+                        CardUtils cardUtils = new CardUtils(getApplicationContext());
                         openServerConnection();
                     }
                 }
             }, 1000);
         }
 
+    // Function to check and request permission
+    public void checkPermission(String permission, int requestCode)
+    {
+        // Checking if permission is not granted
+        if (ContextCompat.checkSelfPermission(StartupActivity.this, permission) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(StartupActivity.this, new String[] { permission }, requestCode);
+        }
+        else {
+            Toast.makeText(StartupActivity.this, "Permission already granted", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 
 }

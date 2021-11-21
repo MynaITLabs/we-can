@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.candela.wecan.R;
 import com.candela.wecan.databinding.FragmentHomeBinding;
+import com.candela.wecan.tests.base_tools.CardUtils;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -41,6 +42,14 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        Button button = root.findViewById(R.id.update_lf);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CardUtils cardUtils = new CardUtils(getContext());
+            }
+        });
+
 //        final TextView textView = binding.textHome;
         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -56,6 +65,8 @@ public class HomeFragment extends Fragment {
                 }
         });
         return root;
+
+
     }
 
     @Override

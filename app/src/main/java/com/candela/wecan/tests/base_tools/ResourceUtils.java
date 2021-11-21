@@ -49,7 +49,7 @@ public class ResourceUtils extends AppCompatActivity implements AndroidUI{
         }
         data_structure.add(new StringKeyVal("Max Supported Rx Link speed",String.valueOf(wifiManager.getConnectionInfo().getMacAddress())));
 
-
+        System.out.println("kabutops: "  + data_structure);
         return data_structure;
     }
 }
