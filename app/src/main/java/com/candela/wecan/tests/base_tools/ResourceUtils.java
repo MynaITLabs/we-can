@@ -139,14 +139,14 @@ public class ResourceUtils extends AppCompatActivity implements AndroidUI{
 
 
     public PlatformInfo requestPlatformUpdate() {
-       PlatformInfo pi = new PlatformInfo();
+        PlatformInfo pi = new PlatformInfo();
 
-       // TODO:  Fix me, PlatformInfo, Build and WifiManager objects provide useful info.
+        // TODO:  Fix me, PlatformInfo, Build and WifiManager objects provide useful info.
 
-       pi.manufacturer = "samsung";
-       pi.model = "a11";
-       pi.wifi_capabilities = new Vector<>();
-       pi.username = "";
-       return pi;
+        pi.manufacturer = "samsung";
+        pi.model = "a11";
+        pi.wifi_capabilities = new Vector<>();
+        pi.username = "";
+        return pi;
     }
 }

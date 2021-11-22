@@ -56,18 +56,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.165" />
 
-    <Button
-        android:id="@+id/client_connectivity2"
-        android:layout_width="285dp"
-        android:layout_height="62dp"
-        android:backgroundTint="#4CAF50"
-        android:text="CC Test"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.611"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.739" />
 
     <Button
         android:id="@+id/update_lf"
@@ -95,5 +83,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.854" />
 
+    <Button
+        android:id="@+id/client_connectivity2"
+        android:layout_width="285dp"
+        android:layout_height="62dp"
+        android:backgroundTint="#4CAF50"
+        android:text="CC Test"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.611"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.739" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
