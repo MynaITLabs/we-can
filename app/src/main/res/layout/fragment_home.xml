@@ -23,27 +23,28 @@
         app:layout_constraintVertical_bias="0.024"
         app:srcCompat="@drawable/ic_candelalogo" />
 
-    <TextView
-        android:id="@+id/conn_status"
-        android:layout_width="140dp"
-        android:layout_height="25dp"
-        android:layout_marginBottom="10dp"
-        android:background="#4CAF50"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.741"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.058" />
+<!--    <TextView-->
+<!--        android:id="@+id/conn_status"-->
+<!--        android:layout_width="140dp"-->
+<!--        android:layout_height="25dp"-->
+<!--        android:layout_marginBottom="10dp"-->
+<!--        android:background="#4CAF50"-->
+<!--        android:textAlignment="center"-->
+<!--        android:textColor="#000000"-->
+<!--        android:textSize="20dp"-->
+<!--        android:textStyle="bold"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.741"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.058" />-->
+
 
     <TextView
         android:id="@+id/server_ip_info"
-        android:layout_width="355dp"
-        android:layout_height="60dp"
+        android:layout_width="182dp"
+        android:layout_height="80dp"
         android:background="#4CAF50"
         android:text="No IP"
         android:textAlignment="textStart"
@@ -52,10 +53,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.886"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.165" />
-
+        app:layout_constraintVertical_bias="0.024" />
 
     <Button
         android:id="@+id/update_lf"
