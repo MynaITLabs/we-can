@@ -206,13 +206,13 @@ public class ResourceUtils extends AppCompatActivity implements AndroidUI{
 
 
 
-        System.out.println("PIDATA " + "manufacturer:" + manufacturer + "\n" + "model: " + model
-                + "\n" + "product: " + product + "\n" + "username: " + username + "\n" + "release: "
-                + release +  "\n" + "version_incremental: " + version_incremental + "\n" +
-                "version_sdk_number: " + version_sdk_number + "\n" + "board: " + board + "\n" +
-                "brand: " + brand + "\n" + "cpu_abi: " + cpu_abi + "\n" + "cpu_abi2: " + cpu_abi2 + "\n" +
-               "hardware: " + hardware + "\n" + "host: " + host + "\n" + "id: " + id + "\n" +
-                "availMem: " + availMem + "\n" + "totalMem: " + totalMem);
+//        System.out.println("PIDATA " + "manufacturer:" + manufacturer + "\n" + "model: " + model
+//                + "\n" + "product: " + product + "\n" + "username: " + username + "\n" + "release: "
+//                + release +  "\n" + "version_incremental: " + version_incremental + "\n" +
+//                "version_sdk_number: " + version_sdk_number + "\n" + "board: " + board + "\n" +
+//                "brand: " + brand + "\n" + "cpu_abi: " + cpu_abi + "\n" + "cpu_abi2: " + cpu_abi2 + "\n" +
+//               "hardware: " + hardware + "\n" + "host: " + host + "\n" + "id: " + id + "\n" +
+//                "availMem: " + availMem + "\n" + "totalMem: " + totalMem);
                 return pi;
     }
 }
