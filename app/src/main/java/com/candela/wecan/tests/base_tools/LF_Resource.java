@@ -40,7 +40,9 @@ public class LF_Resource extends Thread {
         this.pi.wifi_capabilities = new Vector<>();
 //        this.pi.dhcp_info = new Vector<>();
         this.pi.username = "";
+
         this.ru = new ResourceUtils(this.context);
+        this.pi = ru.requestPlatformUpdate();
 
         LANforgeMgr.setUI(ru);
         LANforgeMgr.setPlatformInfo(this.pi);
