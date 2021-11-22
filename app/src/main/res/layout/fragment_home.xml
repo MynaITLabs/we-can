@@ -42,7 +42,7 @@
 
     <TextView
         android:id="@+id/server_ip_info"
-        android:layout_width="355dp"
+        android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="#4CAF50"
         android:text="No IP"

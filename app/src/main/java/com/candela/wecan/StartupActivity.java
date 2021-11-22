@@ -46,7 +46,6 @@ public class StartupActivity extends AppCompatActivity {
     static final int STARTING = 0;
     static final int RUNNING = 1;
     static final int STOPPED = 2;
-    private static final String FILE_NAME = "data.conf";
     private TextView server_ip;
     static int state;
     private String ssid, passwd;
