@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.net.wifi.SupplicantState;
+import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
@@ -142,11 +143,46 @@ public class ResourceUtils extends AppCompatActivity implements AndroidUI{
         PlatformInfo pi = new PlatformInfo();
 
         // TODO:  Fix me, PlatformInfo, Build and WifiManager objects provide useful info.
+        String manufacturer;
+        String model;
+        String product;
+        String username;
+        String release;
+        String version_incremental;
+        int version_sdk_number;
+        String board;
+        String brand;
+        String cpu_abi;
+        String cpu_abi2;
+        String hardware;
+        String host;
+        String id;
+        long availMem;
+        long totalMem;
+        Vector<String> wifi_capabilities;
+        Vector<String> wifi_encryption ;
 
-        pi.manufacturer = "samsung";
-        pi.model = "a11";
+
+        pi.manufacturer = Build.MANUFACTURER;
+        pi.model = android.os.Build.MODEL;
+        pi.product = Build.PRODUCT;
+        pi.username = Build.USER;
+        pi.release = Build.VERSION.RELEASE;
+        pi.version_incremental = Build.VERSION.INCREMENTAL;
+        pi.version_sdk_number = String.valueOf(Build.VERSION.SDK_INT);
         pi.wifi_capabilities = new Vector<>();
-        pi.username = "";
+        pi.board = Build.BOARD;
+        pi.brand = Build.BRAND;
+//        pi.cpu_abi = ;
+//        pi.cpu_abi2 = ;
+        pi.hardware = Build.HARDWARE;
+        pi.host = Build.HOST;
+        pi.id = Build.ID;
+        pi.availMem = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+        pi.totalMem = Runtime.getRuntime().totalMemory();
+
+//        pi.wifi_capabilities = ;
+//        pi.wifi_encryption = ;
         return pi;
     }
 }
