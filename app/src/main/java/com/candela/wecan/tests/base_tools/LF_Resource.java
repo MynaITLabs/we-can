@@ -33,6 +33,14 @@ public class LF_Resource extends Thread {
         this.ip_address = ip_address;
         this.resource = resource;
         this.realm_id = realm_id;
+        this.pi = new PlatformInfo();
+
+        this.pi.manufacturer = "samsung";
+        this.pi.model = "a11";
+        this.pi.wifi_capabilities = new Vector<>();
+//        this.pi.dhcp_info = new Vector<>();
+        this.pi.username = "";
+
         this.ru = new ResourceUtils(this.context);
         this.pi = ru.requestPlatformUpdate();
 
@@ -70,13 +78,15 @@ public class LF_Resource extends Thread {
 //        }, 1000);
 
 
-        String[] args = new String[6];
+        String[] args = new String[8];
         args[0] = "-s";
         args[1] = this.ip_address; //.put("-s", "192.168.100.222");
         args[2] = "--resource"; //.put("-s", "192.168.100.222");
         args[3] = this.resource;
         args[4] = "--realm"; //.put("-s", "192.168.100.222");
         args[5] = this.realm_id;
+        args[6] = "--mgt_dev"; //.put("-s", "192.168.100.222");
+        args[7] = "wlan0";
         this.lfresource.init(false, args);
 
 //
