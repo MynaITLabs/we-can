@@ -145,15 +145,17 @@ public class ResourceUtils extends AppCompatActivity implements AndroidUI{
     public PlatformInfo requestPlatformUpdate() {
         PlatformInfo pi = new PlatformInfo();
 
-//        // TODO:  Fix me, PlatformInfo, Build and WifiManager objects provide useful info.
-//<<<<<<< HEAD
-//
-//        pi.manufacturer = Build.MANUFACTURER;
-//        pi.model = Build.MODEL;
-//
-//        pi.wifi_capabilities = new Vector<>();
-////        pi.username = ;
-//        return pi;
+        // TODO:  Fix me, PlatformInfo, Build and WifiManager objects provide useful info.
+
+        pi.manufacturer = Build.MANUFACTURER;
+        pi.model = Build.MODEL;
+        pi.wifi_capabilities = new Vector<>();
+        pi.username = "";
+        return pi;
+
+
+    }
+}
 //=======
 //        String manufacturer = Build.MANUFACTURER;
 //        String model = Build.MODEL;
@@ -222,11 +224,6 @@ public class ResourceUtils extends AppCompatActivity implements AndroidUI{
 ////                "brand: " + brand + "\n" + "cpu_abi: " + cpu_abi + "\n" + "cpu_abi2: " + cpu_abi2 + "\n" +
 ////               "hardware: " + hardware + "\n" + "host: " + host + "\n" + "id: " + id + "\n" +
 ////                "availMem: " + availMem + "\n" + "totalMem: " + totalMem);
-                return pi;
-
-    }
-}
-
 /*
 public String manufacturer;
     public String model;
