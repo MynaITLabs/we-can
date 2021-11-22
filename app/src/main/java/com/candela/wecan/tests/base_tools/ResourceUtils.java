@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Vector;
 
 import candela.lfresource.AndroidUI;
+import candela.lfresource.PlatformInfo;
 import candela.lfresource.StringKeyVal;
 
 public class ResourceUtils extends AppCompatActivity implements AndroidUI{
@@ -135,5 +136,10 @@ public class ResourceUtils extends AppCompatActivity implements AndroidUI{
             return data_structure;
         }
 
+    }
+
+    @Override
+    public PlatformInfo requestPlatformUpdate() {
+        return null;
     }
 }

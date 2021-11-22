@@ -38,7 +38,7 @@ public class LF_Resource extends Thread {
         this.pi.manufacturer = "samsung";
         this.pi.model = "a11";
         this.pi.wifi_capabilities = new Vector<>();
-        this.pi.dhcp_info = new Vector<>();
+//        this.pi.dhcp_info = new Vector<>();
         this.pi.username = "";
         this.ru = new ResourceUtils(this.context);
 
