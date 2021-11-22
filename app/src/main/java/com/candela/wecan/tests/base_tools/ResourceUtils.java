@@ -36,6 +36,7 @@ import java.util.Vector;
 
 import candela.lfresource.AndroidUI;
 import candela.lfresource.StringKeyVal;
+import candela.lfresource.PlatformInfo;
 
 public class ResourceUtils extends AppCompatActivity implements AndroidUI{
     public static Context context;
@@ -46,10 +47,8 @@ public class ResourceUtils extends AppCompatActivity implements AndroidUI{
 
     @Override
     public void setResourceInfo(int i, int i1) {
-
+       // TODO:  Store this info for next time.
     }
-
-
 
     @SuppressLint({"HardwareIds", "MissingPermission", "NewApi"})
     @Override
@@ -135,5 +134,17 @@ public class ResourceUtils extends AppCompatActivity implements AndroidUI{
             return data_structure;
         }
 
+    }
+
+    public PlatformInfo requestPlatformUpdate() {
+       PlatformInfo pi = new PlatformInfo();
+
+       // TODO:  Fix me, PlatformInfo, Build and WifiManager objects provide useful info.
+
+       pi.manufacturer = "samsung";
+       pi.model = "a11";
+       pi.wifi_capabilities = new Vector<>();
+       pi.username = "";
+       return pi;
     }
 }
