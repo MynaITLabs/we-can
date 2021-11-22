@@ -57,8 +57,8 @@ public class ResourceUtils extends AppCompatActivity implements AndroidUI{
         Vector<StringKeyVal> data_structure = new Vector<StringKeyVal>();
         if (s.equals("wlan0")){
             WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-            data_structure.add(new StringKeyVal("SSID",wifiManager.getConnectionInfo().getSSID().toString()));
-            data_structure.add(new StringKeyVal("BSSID",wifiManager.getConnectionInfo().getBSSID().toString()));
+            data_structure.add(new StringKeyVal("SSID",wifiManager.getConnectionInfo().getSSID().replaceAll("\"","")));
+            data_structure.add(new StringKeyVal("BSSID",wifiManager.getConnectionInfo().getBSSID()));
             data_structure.add(new StringKeyVal("RSSI",String.valueOf(wifiManager.getConnectionInfo().getRssi())));
             data_structure.add(new StringKeyVal("Frequency",String.valueOf(wifiManager.getConnectionInfo().getFrequency())));
             data_structure.add(new StringKeyVal("Link speed",String.valueOf(wifiManager.getConnectionInfo().getLinkSpeed())));
@@ -143,10 +143,32 @@ public class ResourceUtils extends AppCompatActivity implements AndroidUI{
 
         // TODO:  Fix me, PlatformInfo, Build and WifiManager objects provide useful info.
 
-        pi.manufacturer = "samsung";
-        pi.model = "a11";
+        pi.manufacturer = Build.MANUFACTURER;
+        pi.model = Build.MODEL;
+
         pi.wifi_capabilities = new Vector<>();
-        pi.username = "";
+//        pi.username = ;
         return pi;
     }
 }
+
+/*
+public String manufacturer;
+    public String model;
+    public String product;
+    public String username;
+    public String release;
+    public String version_incremental;
+    public String version_sdk_number;
+    public String board;
+    public String brand;
+    public String cpu_abi;
+    public String cpu_abi2;
+    public String hardware;
+    public String host;
+    public String id;
+    public long availMem;
+    public long totalMem;
+    public Vector<String> wifi_capabilities;
+    public Vector<String> wifi_encryption;
+ */
