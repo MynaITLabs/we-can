@@ -139,6 +139,7 @@ public class ResourceUtils extends AppCompatActivity implements AndroidUI{
     }
 
 
+    @SuppressLint("WifiManagerLeak")
     public PlatformInfo requestPlatformUpdate() {
         PlatformInfo pi = new PlatformInfo();
 
@@ -162,7 +163,6 @@ public class ResourceUtils extends AppCompatActivity implements AndroidUI{
         Vector<String> wifi_capabilities;
         Vector<String> wifi_encryption ;
 
-
         pi.manufacturer = Build.MANUFACTURER;
         pi.model = android.os.Build.MODEL;
         pi.product = Build.PRODUCT;
@@ -173,14 +173,16 @@ public class ResourceUtils extends AppCompatActivity implements AndroidUI{
         pi.wifi_capabilities = new Vector<>();
         pi.board = Build.BOARD;
         pi.brand = Build.BRAND;
-//        pi.cpu_abi = ;
-//        pi.cpu_abi2 = ;
+        pi.cpu_abi = Build.CPU_ABI;
+        pi.cpu_abi2 = Build.CPU_ABI2;
         pi.hardware = Build.HARDWARE;
         pi.host = Build.HOST;
         pi.id = Build.ID;
         pi.availMem = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
         pi.totalMem = Runtime.getRuntime().totalMemory();
-
+        WifiManager mainWifiObj;
+        mainWifiObj = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        mainWifiObj.getConnectionInfo();
 //        pi.wifi_capabilities = ;
 //        pi.wifi_encryption = ;
         return pi;
