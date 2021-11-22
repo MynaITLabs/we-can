@@ -3,6 +3,7 @@ package com.candela.wecan.tests.base_tools;
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.net.wifi.ScanResult;
 import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
@@ -139,38 +140,38 @@ public class ResourceUtils extends AppCompatActivity implements AndroidUI{
     }
 
 
-    @SuppressLint("WifiManagerLeak")
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    @SuppressLint({"WifiManagerLeak", "NewApi", "HardwareIds", "MissingPermission"})
     public PlatformInfo requestPlatformUpdate() {
         PlatformInfo pi = new PlatformInfo();
 
         // TODO:  Fix me, PlatformInfo, Build and WifiManager objects provide useful info.
-        String manufacturer;
-        String model;
-        String product;
-        String username;
-        String release;
-        String version_incremental;
-        int version_sdk_number;
-        String board;
-        String brand;
-        String cpu_abi;
-        String cpu_abi2;
-        String hardware;
-        String host;
-        String id;
-        long availMem;
-        long totalMem;
-        Vector<String> wifi_capabilities;
-        Vector<String> wifi_encryption ;
+        String manufacturer = Build.MANUFACTURER;
+        String model = Build.MODEL;
+        String product = Build.PRODUCT;
+        String username = Build.USER;
+        String release = Build.VERSION.RELEASE;
+        String version_incremental = Build.VERSION.INCREMENTAL;
+        int version_sdk_number = Build.VERSION.SDK_INT;
+        String board = Build.BOARD;
+        String brand = Build.BRAND;
+        String cpu_abi = Build.CPU_ABI;
+        String[] cpu_abi2 = (Build.SUPPORTED_ABIS);
+        String hardware = Build.HARDWARE;
+        String host = Build.HOST;
+        String id = Build.ID;
+        long availMem  = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+        long totalMem  = Runtime.getRuntime().totalMemory();
+        Vector<StringKeyVal> wifi_capabilities = new Vector<StringKeyVal>();
+//        Vector<String> wifi_encryption ;
 
         pi.manufacturer = Build.MANUFACTURER;
-        pi.model = android.os.Build.MODEL;
+        pi.model = Build.MODEL;
         pi.product = Build.PRODUCT;
         pi.username = Build.USER;
         pi.release = Build.VERSION.RELEASE;
         pi.version_incremental = Build.VERSION.INCREMENTAL;
         pi.version_sdk_number = String.valueOf(Build.VERSION.SDK_INT);
-        pi.wifi_capabilities = new Vector<>();
         pi.board = Build.BOARD;
         pi.brand = Build.BRAND;
         pi.cpu_abi = Build.CPU_ABI;
@@ -180,11 +181,38 @@ public class ResourceUtils extends AppCompatActivity implements AndroidUI{
         pi.id = Build.ID;
         pi.availMem = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
         pi.totalMem = Runtime.getRuntime().totalMemory();
-        WifiManager mainWifiObj;
-        mainWifiObj = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-        mainWifiObj.getConnectionInfo();
+//        List<ScanResult> scanResults = ((WifiManager) getSystemService(Context.WIFI_SERVICE)).getScanResults();
 //        pi.wifi_capabilities = ;
 //        pi.wifi_encryption = ;
-        return pi;
+
+//        https://developer.android.com/reference/android/net/wifi/ScanResult#WIFI_STANDARD_11N
+
+
+        WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+
+        Boolean AC_11 = wifiManager.isWifiStandardSupported(ScanResult.WIFI_STANDARD_11AC);
+        Boolean AX_11 = wifiManager.isWifiStandardSupported(ScanResult.WIFI_STANDARD_11AX);
+        Boolean N_11 = wifiManager.isWifiStandardSupported(ScanResult.WIFI_STANDARD_11N);
+        Boolean legacy = wifiManager.isWifiStandardSupported(ScanResult.WIFI_STANDARD_LEGACY);
+
+        wifi_capabilities.add(new StringKeyVal("supports_5G", String.valueOf((wifiManager.is5GHzBandSupported()))));
+        wifi_capabilities.add(new StringKeyVal("supports_6G", String.valueOf((wifiManager.is6GHzBandSupported()))));
+//        wifi_capabilities.add(new StringKeyVal("supports_2G", String.valueOf((wifiManager.is24GHzBandSupported())))); // This line gives an error
+        wifi_capabilities.add(new StringKeyVal("11-AC", String.valueOf(AC_11)));
+        wifi_capabilities.add(new StringKeyVal("11-AX", String.valueOf(AX_11)));
+        wifi_capabilities.add(new StringKeyVal("11-N", String.valueOf(N_11)));
+        wifi_capabilities.add(new StringKeyVal("LEGACY", String.valueOf(legacy)));
+
+
+
+
+        System.out.println("PIDATA " + "manufacturer:" + manufacturer + "\n" + "model: " + model
+                + "\n" + "product: " + product + "\n" + "username: " + username + "\n" + "release: "
+                + release +  "\n" + "version_incremental: " + version_incremental + "\n" +
+                "version_sdk_number: " + version_sdk_number + "\n" + "board: " + board + "\n" +
+                "brand: " + brand + "\n" + "cpu_abi: " + cpu_abi + "\n" + "cpu_abi2: " + cpu_abi2 + "\n" +
+               "hardware: " + hardware + "\n" + "host: " + host + "\n" + "id: " + id + "\n" +
+                "availMem: " + availMem + "\n" + "totalMem: " + totalMem);
+                return pi;
     }
 }
