@@ -78,13 +78,15 @@ public class LF_Resource extends Thread {
 //        }, 1000);
 
 
-        String[] args = new String[6];
+        String[] args = new String[8];
         args[0] = "-s";
         args[1] = this.ip_address; //.put("-s", "192.168.100.222");
         args[2] = "--resource"; //.put("-s", "192.168.100.222");
         args[3] = this.resource;
         args[4] = "--realm"; //.put("-s", "192.168.100.222");
         args[5] = this.realm_id;
+        args[6] = "--mgt_dev"; //.put("-s", "192.168.100.222");
+        args[7] = "wlan0";
         this.lfresource.init(false, args);
 
 //
