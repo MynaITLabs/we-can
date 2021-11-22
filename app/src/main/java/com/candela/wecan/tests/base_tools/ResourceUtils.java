@@ -104,7 +104,7 @@ public class ResourceUtils extends AppCompatActivity implements AndroidUI{
 
             return data_structure;
         }
-        else if (s.equals("rmnet_data1")){
+        else if (s.startsWith("epdg") || (s.startsWith("rmnet"))){
             TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
             data_structure.add(new StringKeyVal("Network-Operator",String.valueOf(telephonyManager.getNetworkOperatorName())));
             List<CellInfo> cellInfos = telephonyManager.getAllCellInfo();
