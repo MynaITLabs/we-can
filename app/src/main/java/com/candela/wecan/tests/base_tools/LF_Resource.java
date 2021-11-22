@@ -1,5 +1,6 @@
 package com.candela.wecan.tests.base_tools;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ public class LF_Resource extends Thread {
     public Context context;
     public ResourceUtils ru;
 
+    @SuppressLint("NewApi")
     public LF_Resource(long minPrime, String ip_address, String resource, String realm_id, Context context) {
         this.minPrime = minPrime;
         this.context = context;
