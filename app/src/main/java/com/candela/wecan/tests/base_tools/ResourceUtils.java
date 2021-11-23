@@ -164,7 +164,7 @@ public class ResourceUtils extends AppCompatActivity implements AndroidUI{
         long availMem  = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
         long totalMem  = Runtime.getRuntime().totalMemory();
         Vector<StringKeyVal> wifi_capabilities = new Vector<StringKeyVal>();
-        Vector<String> wifi_encryption ;
+        Vector<StringKeyVal> wifi_encryption = new Vector<StringKeyVal>();
 
         pi.wifi_capabilities = wifi_capabilities;
 
@@ -184,11 +184,9 @@ public class ResourceUtils extends AppCompatActivity implements AndroidUI{
         pi.id = Build.ID;
         pi.availMem = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
         pi.totalMem = Runtime.getRuntime().totalMemory();
+//        WIFI-CAPABILITIES
+
 //        List<ScanResult> scanResults = ((WifiManager) getSystemService(Context.WIFI_SERVICE)).getScanResults();
-
-////        https://developer.android.com/reference/android/net/wifi/ScanResult#WIFI_STANDARD_11N
-
-
         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 
         Boolean AC_11 = wifiManager.isWifiStandardSupported(ScanResult.WIFI_STANDARD_11AC);
@@ -212,13 +210,30 @@ public class ResourceUtils extends AppCompatActivity implements AndroidUI{
         wifi_capabilities.add(new StringKeyVal("11-N", String.valueOf(N_11)));
         wifi_capabilities.add(new StringKeyVal("LEGACY", String.valueOf(legacy)));
 
+//        WIFI-ENCRYPTION
+        Boolean wpa3sea = wifiManager.isWpa3SaeSupported();
+        Boolean Wpa3SuiteB = wifiManager.isWpa3SuiteBSupported();
+        Boolean passpoint = wifiManager.isP2pSupported();
+        wifi_encryption.add(new StringKeyVal("wpa3sea", String.valueOf(wpa3sea)));
+        wifi_encryption.add(new StringKeyVal("Wpa3SuiteB", String.valueOf(Wpa3SuiteB)));
+        wifi_encryption.add(new StringKeyVal("passpoint", String.valueOf(passpoint)));
+
+        if (Build.VERSION.SDK_INT >= 31){
+            wifi_encryption.add(new StringKeyVal("Wpa3SaeH2e", String.valueOf(true)));
+        }
+        else {
+            wifi_encryption.add(new StringKeyVal("Wpa3SaeH2e", String.valueOf(true)));
+        }
+
+
 //        System.out.println("PIDATA " + "manufacturer:" + manufacturer + "\n" + "model: " + model
 //                + "\n" + "product: " + product + "\n" + "username: " + username + "\n" + "release: "
 //                + release +  "\n" + "version_incremental: " + version_incremental + "\n" +
 //                "version_sdk_number: " + version_sdk_number + "\n" + "board: " + board + "\n" +
 //                "brand: " + brand + "\n" + "cpu_abi: " + cpu_abi + "\n" + "cpu_abi2: " + cpu_abi2 + "\n" +
 //               "hardware: " + hardware + "\n" + "host: " + host + "\n" + "id: " + id + "\n" +
-//                "availMem: " + availMem + "\n" + "totalMem: " + totalMem);
+//                "availMem: " + availMem + "\n" + "totalMem: " + totalMem + "\n" + "wifi_capabilities: "
+//                + wifi_capabilities + "\n" + "wifi_encryption: " + wifi_encryption);
 
         return pi;
     }
