@@ -225,15 +225,16 @@ public class ResourceUtils extends AppCompatActivity implements AndroidUI{
             wifi_encryption.add(new StringKeyVal("Wpa3SaeH2e", String.valueOf(true)));
         }
 
+// for debugging printing in logcat
 
-//        System.out.println("PIDATA " + "manufacturer:" + manufacturer + "\n" + "model: " + model
-//                + "\n" + "product: " + product + "\n" + "username: " + username + "\n" + "release: "
-//                + release +  "\n" + "version_incremental: " + version_incremental + "\n" +
-//                "version_sdk_number: " + version_sdk_number + "\n" + "board: " + board + "\n" +
-//                "brand: " + brand + "\n" + "cpu_abi: " + cpu_abi + "\n" + "cpu_abi2: " + cpu_abi2 + "\n" +
-//               "hardware: " + hardware + "\n" + "host: " + host + "\n" + "id: " + id + "\n" +
-//                "availMem: " + availMem + "\n" + "totalMem: " + totalMem + "\n" + "wifi_capabilities: "
-//                + wifi_capabilities + "\n" + "wifi_encryption: " + wifi_encryption);
+        System.out.println("manufacturer:" + manufacturer + "\n" + "model: " + model
+                + "\n" + "product: " + product + "\n" + "username: " + username + "\n" + "release: "
+                + release +  "\n" + "version_incremental: " + version_incremental + "\n" +
+                "version_sdk_number: " + version_sdk_number + "\n" + "board: " + board + "\n" +
+                "brand: " + brand + "\n" + "cpu_abi: " + cpu_abi + "\n" + "cpu_abi2: " + cpu_abi2 + "\n" +
+               "hardware: " + hardware + "\n" + "host: " + host + "\n" + "id: " + id + "\n" +
+                "availMem: " + availMem + "\n" + "totalMem: " + totalMem + "\n" + "wifi_capabilities: "
+                + wifi_capabilities + "\n" + "wifi_encryption: " + wifi_encryption);
 
         return pi;
     }
