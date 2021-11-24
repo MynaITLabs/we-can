@@ -1,7 +1,14 @@
 package com.candela.wecan.ui.home;
 
+import static android.net.wifi.WifiConfiguration.*;
+
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,10 +20,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Context;
 import com.candela.wecan.R;
 import com.candela.wecan.databinding.FragmentHomeBinding;
 import com.candela.wecan.tests.base_tools.CardUtils;
@@ -26,10 +35,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.Map;
+import java.util.Vector;
+
+import candela.lfresource.StringKeyVal;
 
 public class HomeFragment extends Fragment {
-
+    public static Context context;
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
     private Button refresh_button;
@@ -52,16 +65,119 @@ public class HomeFragment extends Fragment {
 
 //        final TextView textView = binding.textHome;
         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @RequiresApi(api = Build.VERSION_CODES.R)
             @Override
             public void onChanged(@Nullable String s) {
+                TextView tv_data;
+                tv_data = getView().findViewById(R.id.data);
+                String manufacturer = Build.MANUFACTURER;
+                String model = Build.MODEL;
+                String product = Build.PRODUCT;
+                String username = Build.USER;
+                String release = Build.VERSION.RELEASE;
+                String version_incremental = Build.VERSION.INCREMENTAL;
+                int version_sdk_number = Build.VERSION.SDK_INT;
+                String board = Build.BOARD;
+                String brand = Build.BRAND;
+                String cpu_abi = Build.CPU_ABI;
+                String[] cpu_abi2 = (Build.SUPPORTED_ABIS);
+                String hardware = Build.HARDWARE;
+                String host = Build.HOST;
+                String id = Build.ID;
+                long availMem  = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+                long totalMem  = Runtime.getRuntime().totalMemory();
+                Vector<StringKeyVal> wifi_capabilities = new Vector<StringKeyVal>();
+                Vector<StringKeyVal> wifi_encryption = new Vector<StringKeyVal>();
+
+
+                WifiManager wifiManager = (WifiManager) getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                WifiInfo info = wifiManager.getConnectionInfo();
+                List<ScanResult> networkList = wifiManager.getScanResults();
+//                networkList info [SSID: Candela-Office, BSSID: 00:31:92:c0:67:be, capabilities: [WPA2-PSK-CCMP][RSN-PSK-CCMP][ESS][WPS], level: -49, frequency: 2427, timestamp: 686867706546, distance: ?(cm), distanceSd: ?(cm), passpoint: no, ChannelBandwidth: 1, centerFreq0: 2437, centerFreq1: 0, standard: 11n, 80211mcResponder: is not supported, Radio Chain Infos: null, SSID: CT-Living Space, BSSID: b0:39:56:1c:3a:b6, capabilities: [WPA2-PSK-CCMP][RSN-PSK-CCMP][ESS][WPS], level: -54, frequency: 2422, timestamp: 686867706568, distance: ?(cm), distanceSd: ?(cm), passpoint: no, ChannelBandwidth: 0, centerFreq0: 2422, centerFreq1: 0, standard: 11n, 80211mcResponder: is not supported, Radio Chain Infos: null, SSID: DIRECT-4ZF5-E4200series, BSSID: 36:9f:7b:0b:68:f5, capabilities: [WPA2-PSK-CCMP][RSN-PSK-CCMP][ESS][WPS], level: -63, frequency: 2427, timestamp: 686867706587, distance: ?(cm), distanceSd: ?(cm), passpoint: no, ChannelBandwidth: 0, centerFreq0: 2427, centerFreq1: 0, standard: 11n, 80211mcResponder: is not supported, Radio Chain Infos: null, SSID: , BSSID: 06:31:92:c0:7c:8e, capabilities: [WPA2-PSK-CCMP][RSN-PSK-CCMP][ESS], level: -65, frequency: 2427, timestamp: 686867706594, distance: ?(cm), distanceSd: ?(cm), passpoint: no, ChannelBandwidth: 1, centerFreq0: 2437, centerFreq1: 0, standard: 11n, 80211mcResponder: is not supported, Radio Chain Infos: null, SSID: Candela-Office, BSSID: 00:31:92:c0:7c:8e, capabilities: [WPA2-PSK-CCMP][RSN-PSK-CCMP][ESS][WPS], level: -66, frequency: 2427, timestamp: 686867706612, distance: ?(cm), distanceSd: ?(cm), passpoint: no, ChannelBandwidth: 1, centerFreq0: 2437, centerFreq1: 0, standard: 11n, 80211mcResponder: is not supported, Radio Chain Infos: null, SSID: Candela-QA, BSSID: dc:ef:09:e3:b8:7b, capabilities: [WPA2-PSK-CCMP][RSN-PSK-CCMP][ESS][WPS], level: -74, frequency: 2452, timestamp: 686867706619, distance: ?(cm), distanceSd: ?(cm), passpoint: no, ChannelBandwidth: 0, centerFreq0: 2452, centerFreq1: 0, standard: 11n, 80211mcResponder: is not supported, Radio Chain Infos: null, SSID: Maverick, BSSID: 00:03:7f:12:cf:ce, capabilities: [ESS], level: -75, frequency: 2412, timestamp: 686867706627, distance: ?(cm), distanceSd: ?(cm), passpoint: no, ChannelBandwidth: 0, centerFreq0: 2412, centerFreq1: 0, standard: 11ax, 80211mcResponder: is not supported, Radio Chain Infos: null, SSID: Apple-2.4G, BSSID: b4:f9:49:17:e1:45, capabilities: [WPA-PSK-TKIP][WPA2-PSK-CCMP][RSN-PSK-CCMP][ESS], level: -77, frequency: 2447, timestamp: 686867706642, distance: ?(cm), distanceSd: ?(cm), passpoint: no, ChannelBandwidth: 0, centerFreq0: 2447, centerFreq1: 0, standard: 11n, 80211mcResponder: is not supported, Radio Chain Infos: null, SSID: 062samo, BSSID: 70:5d:cc:d4:ce:0e, capabilities: [ESS][WPS], level: -77, frequency: 2437, timestamp: 686867706634, distance: ?(cm), distanceSd: ?(cm), passpoint: no, ChannelBandwidth: 1, centerFreq0: 2447, centerFreq1: 0, standard: 11n, 80211mcResponder: is not supported, Radio Chain Infos: null, SSID: Router2, BSSID: 78:d2:94:4a:aa:eb, capabilities: [WPA2-PSK-CCMP][RSN-PSK-CCMP][ESS][WPS], level: -87, frequency: 2437, timestamp: 686867706649, distance: ?(cm), distanceSd: ?(cm), passpoint: no, ChannelBandwidth: 0, centerFreq0: 2437, centerFreq1: 0, standard: 11n, 80211mcResponder: is not supported, Radio Chain Infos: null, SSID: Candela-Office, BSSID: 00:31:92:c0:7c:3e, capabilities: [WPA2-PSK-CCMP][RSN-PSK-CCMP][ESS][WPS], level: -88, frequency: 2427, timestamp: 686867706658, distance: ?(cm), distanceSd: ?(cm), passpoint: no, ChannelBandwidth: 1, centerFreq0: 2437, centerFreq1: 0, standard: 11n, 80211mcResponder: is not supported, Radio Chain Infos: null]
+                ScanResult sss = networkList.get(0);
+                System.out.println("Capabilities000 " + sss);
+                System.out.println("networkList " + networkList);
+                Boolean AC_11 = null;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    AC_11 = wifiManager.isWifiStandardSupported(ScanResult.WIFI_STANDARD_11AC);
+                }
+                Boolean AX_11 = null;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    AX_11 = wifiManager.isWifiStandardSupported(ScanResult.WIFI_STANDARD_11AX);
+                }
+                Boolean N_11 = null;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    N_11 = wifiManager.isWifiStandardSupported(ScanResult.WIFI_STANDARD_11N);
+                }
+                Boolean legacy = null;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    legacy = wifiManager.isWifiStandardSupported(ScanResult.WIFI_STANDARD_LEGACY);
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    wifi_capabilities.add(new StringKeyVal("supports_5G", String.valueOf((wifiManager.is5GHzBandSupported()))));
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    wifi_capabilities.add(new StringKeyVal("supports_6G", String.valueOf((wifiManager.is6GHzBandSupported()))));
+                }
+
+                if (Build.VERSION.SDK_INT >= 31) {
+                    // This was added in API 31, I guess before then 2.4 was always supported.
+                    wifi_capabilities.add(new StringKeyVal("supports_2G", String.valueOf((wifiManager.is24GHzBandSupported())))); // This line gives an error
+                }
+                else {
+                    wifi_capabilities.add(new StringKeyVal("supports_2G", String.valueOf(true)));
+                }
+
+                wifi_capabilities.add(new StringKeyVal("11-AC", String.valueOf(AC_11)));
+                wifi_capabilities.add(new StringKeyVal("11-AX", String.valueOf(AX_11)));
+                wifi_capabilities.add(new StringKeyVal("11-N", String.valueOf(N_11)));
+                wifi_capabilities.add(new StringKeyVal("LEGACY", String.valueOf(legacy)));
+
+//        WIFI-ENCRYPTION
+                Boolean wpa3sea = null;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    wpa3sea = wifiManager.isWpa3SaeSupported();
+                }
+                Boolean Wpa3SuiteB = null;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    Wpa3SuiteB = wifiManager.isWpa3SuiteBSupported();
+                }
+                Boolean passpoint = wifiManager.isP2pSupported();
+                wifi_encryption.add(new StringKeyVal("wpa3sea", String.valueOf(wpa3sea)));
+                wifi_encryption.add(new StringKeyVal("Wpa3SuiteB", String.valueOf(Wpa3SuiteB)));
+                wifi_encryption.add(new StringKeyVal("passpoint", String.valueOf(passpoint)));
+
+                if (Build.VERSION.SDK_INT >= 31){
+                    wifi_encryption.add(new StringKeyVal("Wpa3SaeH2e", String.valueOf(true)));
+                }
+                else {
+                    wifi_encryption.add(new StringKeyVal("Wpa3SaeH2e", String.valueOf(true)));
+                }
+
+
+
                 ip_show = getView().findViewById(R.id.server_ip_info);
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userdata", Context.MODE_PRIVATE);
                 Map<String,?> keys = sharedPreferences.getAll();
                 String current_ip = (String) keys.get("current-ip");
                 String current_resource = (String) keys.get("current-resource");
                 String current_realm = (String) keys.get("current-realm");
+                String password = (String) keys.get("current-passwd");
+
                 ip_show.setText("SERVER: " + current_ip + "\n" + "REALM: " + current_realm +"\n" + "CARD: " + current_resource);
 //                server_ip.setText(last_ip);
+
+
+                String data = "Manufacturer:" + manufacturer + "\n" + "Model: " + model
+                        + "\n" + "Product: " + product + "\n" + "Username: " + username + "\n" + "Release: "
+                        + release +  "\n" + "version_incremental: " + version_incremental + "\n" +
+                        "Version_sdk_number: " + version_sdk_number + "\n" + "Board: " + board + "\n" +
+                        "Brand: " + brand + "\n" + "CPU_abi: " + cpu_abi + "\n" +
+                        "Hardware: " + hardware + "\n" + "Host: " + host + "\n" + "ID: " + id + "\n" +
+                        "AvailMem: " + availMem + "\n" + "TotalMem: " + totalMem + "\n" + "Wi-Fi Capabilities: "
+                        + wifi_capabilities + "\n" + "Wi-Fi Encryption: " + wifi_encryption + "\n"
+                        + "WifiInfo: " + info.getSSID() + "\n" + "Password: " + password + "\n";
+                tv_data.setText(data);
                 }
         });
         return root;
