@@ -66,35 +66,21 @@
         android:text="UPdate"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.611"
+        app:layout_constraintHorizontal_bias="0.595"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.355" />
+        app:layout_constraintVertical_bias="0.95" />
 
-    <Button
-        android:id="@+id/client_connectivity3"
-        android:layout_width="285dp"
-        android:layout_height="62dp"
-        android:backgroundTint="#4CAF50"
-        android:text="CC Test"
-        app:layout_constraintBottom_toTopOf="@+id/client_connectivity2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.611"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.854" />
-
-    <Button
-        android:id="@+id/client_connectivity2"
-        android:layout_width="285dp"
-        android:layout_height="62dp"
-        android:backgroundTint="#4CAF50"
-        android:text="CC Test"
+    <TextView
+        android:id="@+id/data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.611"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.739" />
+        app:layout_constraintVertical_bias="0.424"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

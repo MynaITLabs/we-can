@@ -8,19 +8,6 @@
     tools:context=".StartupActivity"
     android:background="@color/white">
 
-<!--    <ImageView-->
-<!--        android:id="@+id/bgimage"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:adjustViewBounds="true"-->
-<!--        android:background="@drawable/enter_page"-->
-<!--        android:scaleType="fitXY"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent">-->
-
-<!--    </ImageView>-->
-
     <pl.droidsonroids.gif.GifImageView
         android:id="@+id/gifImageView"
         android:layout_width="300dp"
@@ -28,16 +15,33 @@
         android:src="@drawable/candela_splash"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintHorizontal_bias="0.531"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.498"
+        app:layout_constraintVertical_bias="0.387"
         tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="299dp"
+        android:layout_height="24dp"
+        android:fontFamily="sans-serif-black"
+        android:text="WELCOMES YOU TO"
+        android:textAlignment="center"
+        android:textColor="#2196F3"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.526"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.202" />
 
     <ImageView
         android:id="@+id/imageView7"
-        android:layout_width="411dp"
-        android:layout_height="154dp"
+        android:layout_width="416dp"
+        android:layout_height="235dp"
         android:background="#FFFFFF"
         android:backgroundTint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="@+id/textView3"
@@ -49,8 +53,8 @@
 
     <ImageView
         android:id="@+id/imageView8"
-        android:layout_width="407dp"
-        android:layout_height="190dp"
+        android:layout_width="459dp"
+        android:layout_height="102dp"
         android:background="#FFFFFF"
         android:backgroundTint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="@+id/textView3"
@@ -58,7 +62,30 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.046" />
+        app:layout_constraintVertical_bias="0.027" />
+
+    <EditText
+        android:id="@+id/user_name"
+        style="@style/Widget.AppCompat.EditText"
+        android:layout_width="294dp"
+        android:layout_height="47dp"
+        android:background="#52009688"
+        android:ems="10"
+        android:hint=" Enter User Name"
+        android:inputType="textPersonName"
+
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="#000000"
+        android:textColorHint="#000000"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/ip_enter_page"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView7"
+        app:layout_constraintVertical_bias="0.64" />
 
     <EditText
         android:id="@+id/ip_enter_page"
@@ -137,23 +164,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.056"
         app:srcCompat="@drawable/ic_candelalogo" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="310dp"
-        android:layout_height="18dp"
-        android:fontFamily="sans-serif-black"
-        android:text="WELCOMES YOU TO"
-        android:textAlignment="center"
-        android:textColor="#2196F3"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.445"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.213" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
