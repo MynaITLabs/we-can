@@ -45,8 +45,7 @@
         android:id="@+id/server_ip_info"
         android:layout_width="182dp"
         android:layout_height="80dp"
-        android:background="#4CAF50"
-        android:text="No IP"
+        android:background="#D3D3D3"
         android:textAlignment="textStart"
         android:textColor="#000000"
         android:textSize="14sp"
@@ -71,16 +70,102 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.95" />
 
-    <TextView
-        android:id="@+id/data"
+<!--    <ScrollView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="400dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintVertical_bias="0.5"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/data"-->
+<!--        >-->
+
+    <TableLayout
+        android:id="@+id/table"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toTopOf="@+id/update_lf"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.424"
-        />
+        tools:ignore="MissingConstraints">
 
+        <!--        <TableRow android:background="@color/teal_200">-->
+
+        <!--            <TextView-->
+        <!--                android:layout_width="0dp"-->
+        <!--                android:layout_height="match_parent"-->
+        <!--                android:layout_weight="2"-->
+        <!--                android:gravity="center"-->
+        <!--                android:padding="10sp"-->
+        <!--                android:text="Sl. No"-->
+        <!--                android:textColor="@color/black"-->
+        <!--                android:textSize="14sp"-->
+        <!--                android:textStyle="bold" />-->
+
+        <!--            <TextView-->
+        <!--                android:layout_width="0dp"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_weight="4"-->
+        <!--                android:gravity="center"-->
+        <!--                android:padding="10sp"-->
+        <!--                android:text="Key"-->
+        <!--                android:textColor="@color/black"-->
+        <!--                android:textSize="14sp"-->
+        <!--                android:textStyle="bold" />-->
+
+        <!--            <TextView-->
+        <!--                android:layout_width="0dp"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_weight="4"-->
+        <!--                android:gravity="center"-->
+        <!--                android:padding="10sp"-->
+        <!--                android:text="Value"-->
+        <!--                android:textColor="@color/black"-->
+        <!--                android:textSize="14sp"-->
+        <!--                android:textStyle="bold">-->
+
+        <!--            </TextView>-->
+        <!--        </TableRow>-->
+
+        <!--        <TableRow-->
+        <!--            android:background="@color/purple_200"-->
+        <!--            android:id="@+id/item">-->
+
+        <!--            <TextView-->
+        <!--                android:layout_width="0dp"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_weight="2"-->
+        <!--                android:gravity="center"-->
+        <!--                android:padding="10sp"-->
+        <!--                android:text="1"-->
+        <!--                android:id="@+id/sl"-->
+        <!--                android:textSize="12sp" />-->
+
+        <!--            <TextView-->
+        <!--                android:layout_width="0dp"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_weight="4"-->
+        <!--                android:gravity="center"-->
+        <!--                android:padding="10sp"-->
+        <!--                android:id="@+id/key"-->
+        <!--                android:text="Manufacturer"-->
+        <!--                android:textSize="12sp" />-->
+
+        <!--            <TextView-->
+        <!--                android:layout_width="0dp"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_weight="4"-->
+        <!--                android:gravity="center"-->
+        <!--                android:padding="10sp"-->
+        <!--                android:id="@+id/value"-->
+        <!--                android:text="samsung"-->
+        <!--                android:textSize="12sp" />-->
+
+        <!--        </TableRow>-->
+    </TableLayout>
+<!--    </ScrollView>-->
 </androidx.constraintlayout.widget.ConstraintLayout>

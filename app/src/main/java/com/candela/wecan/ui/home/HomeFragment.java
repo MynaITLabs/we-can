@@ -4,6 +4,7 @@ import static android.net.wifi.WifiConfiguration.*;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
@@ -11,11 +12,14 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -35,6 +39,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
@@ -68,27 +73,25 @@ public class HomeFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.R)
             @Override
             public void onChanged(@Nullable String s) {
-                TextView tv_data;
-                tv_data = getView().findViewById(R.id.data);
-                String manufacturer = Build.MANUFACTURER;
-                String model = Build.MODEL;
-                String product = Build.PRODUCT;
-                String username = Build.USER;
-                String release = Build.VERSION.RELEASE;
-                String version_incremental = Build.VERSION.INCREMENTAL;
-                int version_sdk_number = Build.VERSION.SDK_INT;
-                String board = Build.BOARD;
-                String brand = Build.BRAND;
-                String cpu_abi = Build.CPU_ABI;
-                String[] cpu_abi2 = (Build.SUPPORTED_ABIS);
-                String hardware = Build.HARDWARE;
-                String host = Build.HOST;
-                String id = Build.ID;
+                Map <String,String> data =  new HashMap<String,String>();
+                data.put("MANUFACTURER", Build.MANUFACTURER);
+                data.put("MODEL", Build.MODEL);
+                data.put("PRODUCT", Build.PRODUCT);
+                data.put("RELEASE", Build.VERSION.RELEASE);
+                data.put("INCREMENTAL", Build.VERSION.INCREMENTAL);
+                data.put("SDK No.", String.valueOf(Build.VERSION.SDK_INT));
+                data.put("BOARD", Build.BOARD);
+                data.put("BRAND", Build.BRAND);
+                data.put("CPU_ABI", Build.CPU_ABI);
+                data.put("HARDWARE", Build.HARDWARE);
+                data.put("HOST", Build.HOST);
+                data.put("ID", Build.ID);
+
                 long availMem  = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
                 long totalMem  = Runtime.getRuntime().totalMemory();
                 Vector<StringKeyVal> wifi_capabilities = new Vector<StringKeyVal>();
+                Vector<StringKeyVal> wifi_mode = new Vector<StringKeyVal>();
                 Vector<StringKeyVal> wifi_encryption = new Vector<StringKeyVal>();
-
 
                 WifiManager wifiManager = (WifiManager) getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
                 WifiInfo info = wifiManager.getConnectionInfo();
@@ -98,40 +101,48 @@ public class HomeFragment extends Fragment {
                 System.out.println("Capabilities000 " + sss);
                 System.out.println("networkList " + networkList);
                 Boolean AC_11 = null;
+                Boolean AX_11 = null;
+                Boolean N_11 = null;
+                Boolean legacy = null;
+
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     AC_11 = wifiManager.isWifiStandardSupported(ScanResult.WIFI_STANDARD_11AC);
                 }
-                Boolean AX_11 = null;
+
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     AX_11 = wifiManager.isWifiStandardSupported(ScanResult.WIFI_STANDARD_11AX);
                 }
-                Boolean N_11 = null;
+
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     N_11 = wifiManager.isWifiStandardSupported(ScanResult.WIFI_STANDARD_11N);
                 }
-                Boolean legacy = null;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     legacy = wifiManager.isWifiStandardSupported(ScanResult.WIFI_STANDARD_LEGACY);
                 }
+
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    wifi_capabilities.add(new StringKeyVal("supports_5G", String.valueOf((wifiManager.is5GHzBandSupported()))));
+                    wifi_capabilities.add(new StringKeyVal("5G", String.valueOf((wifiManager.is5GHzBandSupported()))));
+                }else {
+                    wifi_capabilities.add(new StringKeyVal("5G", String.valueOf(true)));
                 }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    wifi_capabilities.add(new StringKeyVal("supports_6G", String.valueOf((wifiManager.is6GHzBandSupported()))));
+                    wifi_capabilities.add(new StringKeyVal("6G", String.valueOf((wifiManager.is6GHzBandSupported()))));
+                }else {
+                    wifi_capabilities.add(new StringKeyVal("6G", String.valueOf(true)));
                 }
 
                 if (Build.VERSION.SDK_INT >= 31) {
                     // This was added in API 31, I guess before then 2.4 was always supported.
-                    wifi_capabilities.add(new StringKeyVal("supports_2G", String.valueOf((wifiManager.is24GHzBandSupported())))); // This line gives an error
+                    wifi_capabilities.add(new StringKeyVal("2G", String.valueOf((wifiManager.is24GHzBandSupported())))); // This line gives an error
                 }
                 else {
-                    wifi_capabilities.add(new StringKeyVal("supports_2G", String.valueOf(true)));
+                    wifi_capabilities.add(new StringKeyVal("2G", String.valueOf(true)));
                 }
 
-                wifi_capabilities.add(new StringKeyVal("11-AC", String.valueOf(AC_11)));
-                wifi_capabilities.add(new StringKeyVal("11-AX", String.valueOf(AX_11)));
-                wifi_capabilities.add(new StringKeyVal("11-N", String.valueOf(N_11)));
-                wifi_capabilities.add(new StringKeyVal("LEGACY", String.valueOf(legacy)));
+                wifi_mode.add(new StringKeyVal("11-AC", String.valueOf(AC_11)));
+                wifi_mode.add(new StringKeyVal("11-AX", String.valueOf(AX_11)));
+                wifi_mode.add(new StringKeyVal("11-N", String.valueOf(N_11)));
+//                wifi_mode.add(new StringKeyVal("LEGACY", String.valueOf(legacy)));
 
 //        WIFI-ENCRYPTION
                 Boolean wpa3sea = null;
@@ -143,18 +154,16 @@ public class HomeFragment extends Fragment {
                     Wpa3SuiteB = wifiManager.isWpa3SuiteBSupported();
                 }
                 Boolean passpoint = wifiManager.isP2pSupported();
-                wifi_encryption.add(new StringKeyVal("wpa3sea", String.valueOf(wpa3sea)));
-                wifi_encryption.add(new StringKeyVal("Wpa3SuiteB", String.valueOf(Wpa3SuiteB)));
-                wifi_encryption.add(new StringKeyVal("passpoint", String.valueOf(passpoint)));
+                wifi_encryption.add(new StringKeyVal("wpa3S", String.valueOf(wpa3sea)));
+                wifi_encryption.add(new StringKeyVal("wpa3SB", String.valueOf(Wpa3SuiteB)));
+                wifi_encryption.add(new StringKeyVal("P.P", String.valueOf(passpoint)));
 
                 if (Build.VERSION.SDK_INT >= 31){
-                    wifi_encryption.add(new StringKeyVal("Wpa3SaeH2e", String.valueOf(true)));
+                    wifi_encryption.add(new StringKeyVal("wpa3SH2e", String.valueOf(true)));
                 }
                 else {
-                    wifi_encryption.add(new StringKeyVal("Wpa3SaeH2e", String.valueOf(true)));
+                    wifi_encryption.add(new StringKeyVal("wpa3SaeH2e", String.valueOf(true)));
                 }
-
-
 
                 ip_show = getView().findViewById(R.id.server_ip_info);
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userdata", Context.MODE_PRIVATE);
@@ -163,21 +172,78 @@ public class HomeFragment extends Fragment {
                 String current_resource = (String) keys.get("current-resource");
                 String current_realm = (String) keys.get("current-realm");
                 String password = (String) keys.get("current-passwd");
+                String username = (String) keys.get("user_name");
 
-                ip_show.setText("SERVER: " + current_ip + "\n" + "REALM: " + current_realm +"\n" + "CARD: " + current_resource);
+                ip_show.setText("USERNAME: " + username + "\nSERVER IP: " + current_ip + "\nREALM: " + current_realm + "\nCARD: " + current_resource);
 //                server_ip.setText(last_ip);
+                data.put("WiFi CAPABILITY", String.valueOf(wifi_capabilities));
+                data.put("WiFi ENCRYPTION", String.valueOf(wifi_encryption));
+                data.put("SSID", info.getSSID());
+                data.put("SSID PASSWORD", password);
+                data.put("WiFi MODE", String.valueOf(wifi_mode));
+                data.put("USERNAME", username);
 
+                final TableLayout table = (TableLayout) getView().findViewById(R.id.table);
+                table.setPadding(10, 0, 10,0);
+                TableRow heading = new TableRow(getActivity());
+                heading.setBackgroundColor(Color.rgb(120, 156,175));
+                TextView sl_head = new TextView(getActivity());
+                sl_head.setText(" SL. ");
+                sl_head.setTextColor(Color.BLACK);
+                sl_head.setGravity(Gravity.LEFT);
+                heading.addView(sl_head);
+                TextView key_head = new TextView(getActivity());
+                key_head.setText(" KEY ");
+                key_head.setTextColor(Color.BLACK);
+                key_head.setGravity(Gravity.LEFT);
+                heading.addView(key_head);
+                TextView val_head = new TextView(getActivity());
+                val_head.setText(" VALUE ");
+                val_head.setTextColor(Color.BLACK);
+                val_head.setGravity(Gravity.LEFT);
+                heading.addView(val_head);
+                table.addView(heading);
 
-                String data = "Manufacturer:" + manufacturer + "\n" + "Model: " + model
-                        + "\n" + "Product: " + product + "\n" + "Username: " + username + "\n" + "Release: "
-                        + release +  "\n" + "version_incremental: " + version_incremental + "\n" +
-                        "Version_sdk_number: " + version_sdk_number + "\n" + "Board: " + board + "\n" +
-                        "Brand: " + brand + "\n" + "CPU_abi: " + cpu_abi + "\n" +
-                        "Hardware: " + hardware + "\n" + "Host: " + host + "\n" + "ID: " + id + "\n" +
-                        "AvailMem: " + availMem + "\n" + "TotalMem: " + totalMem + "\n" + "Wi-Fi Capabilities: "
-                        + wifi_capabilities + "\n" + "Wi-Fi Encryption: " + wifi_encryption + "\n"
-                        + "WifiInfo: " + info.getSSID() + "\n" + "Password: " + password + "\n";
-                tv_data.setText(data);
+                int i = 1;
+                for (Map.Entry<String,String> entry : data.entrySet() ) {
+                    TableRow tbrow = new TableRow(getActivity());
+                    if (i%2 == 0){
+                        tbrow.setBackgroundColor(Color.rgb(211,211,211));
+                    }else {
+                        tbrow.setBackgroundColor(Color.rgb(192,192,192));
+                    }
+
+                    TextView sl_view = new TextView(getActivity());
+                    sl_view.setText(String.valueOf(i));
+                    sl_view.setTextSize(12);
+                    sl_view.setTextColor(Color.BLACK);
+                    sl_view.setGravity(Gravity.LEFT);
+                    tbrow.addView(sl_view);
+                    TextView key_view = new TextView(getActivity());
+                    key_view.setText(entry.getKey());
+                    key_view.setTextSize(12);
+                    key_view.setTextColor(Color.BLACK);
+                    key_view.setGravity(Gravity.LEFT);
+                    tbrow.addView(key_view);
+                    TextView val_view = new TextView(getActivity());
+                    val_view.setText(entry.getValue());
+                    val_view.setTextSize(12);
+                    val_view.setTextColor(Color.BLACK);
+                    val_view.setGravity(Gravity.LEFT);
+                    tbrow.addView(val_view);
+                    table.addView(tbrow);
+                    i= i+1;
+                }
+
+//                String data = "Manufacturer: " + manufacturer + "\n" + "Model: " + model
+//                        + "\n" + "Product: " + product + "\n" + "Username: " + username + "\n" + "Release: "
+//                        + release +  "\n" + "version_incremental: " + version_incremental + "\n" +
+//                        "Version_sdk_number: " + version_sdk_number + "\n" + "Board: " + board + "\n" +
+//                        "Brand: " + brand + "\n" + "CPU_abi: " + cpu_abi + "\n" +
+//                        "Hardware: " + hardware + "\n" + "Host: " + host + "\n" + "ID: " + id + "\n" +
+//                        "AvailMem: " + availMem + "\n" + "TotalMem: " + totalMem + "\n" + "Wi-Fi Capabilities: "
+//                        + wifi_capabilities + "\n" + "Wi-Fi Encryption: " + wifi_encryption + "\n"
+//                        + "WifiInfo: " + info.getSSID() + "\n" + "Password: " + password + "\n";
                 }
         });
         return root;
