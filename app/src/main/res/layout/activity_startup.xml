@@ -26,7 +26,7 @@
         android:layout_width="299dp"
         android:layout_height="24dp"
         android:fontFamily="sans-serif-black"
-        android:text="WELCOMES YOU TO"
+        android:text="WELCOME TO"
         android:textAlignment="center"
         android:textColor="#2196F3"
         android:textSize="14sp"
