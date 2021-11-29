@@ -187,22 +187,58 @@ public class ResourceUtils extends AppCompatActivity implements AndroidUI{
 //        WIFI-CAPABILITIES
 
 //        List<ScanResult> scanResults = ((WifiManager) getSystemService(Context.WIFI_SERVICE)).getScanResults();
+
+        Boolean AC_11;
+        Boolean AX_11;
+        Boolean N_11;
+        Boolean legacy;
+
         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        if (Build.VERSION.SDK_INT >= 31){
+            AC_11 = wifiManager.isWifiStandardSupported(ScanResult.WIFI_STANDARD_11AC);
+        }else {
+            AC_11 = false;
+        }
 
-        Boolean AC_11 = wifiManager.isWifiStandardSupported(ScanResult.WIFI_STANDARD_11AC);
-        Boolean AX_11 = wifiManager.isWifiStandardSupported(ScanResult.WIFI_STANDARD_11AX);
-        Boolean N_11 = wifiManager.isWifiStandardSupported(ScanResult.WIFI_STANDARD_11N);
-        Boolean legacy = wifiManager.isWifiStandardSupported(ScanResult.WIFI_STANDARD_LEGACY);
+        if (Build.VERSION.SDK_INT >= 30){
+            AX_11 = wifiManager.isWifiStandardSupported(ScanResult.WIFI_STANDARD_11AX);
+        }else {
+            AX_11 = false;
+        }
 
-        wifi_capabilities.add(new StringKeyVal("supports_5G", String.valueOf((wifiManager.is5GHzBandSupported()))));
-        wifi_capabilities.add(new StringKeyVal("supports_6G", String.valueOf((wifiManager.is6GHzBandSupported()))));
+        if (Build.VERSION.SDK_INT >= 30){
+            N_11 = wifiManager.isWifiStandardSupported(ScanResult.WIFI_STANDARD_11N);
+        }else {
+            N_11 = false;
+        }
+
+        if(Build.VERSION.SDK_INT >= 30){
+            legacy = wifiManager.isWifiStandardSupported(ScanResult.WIFI_STANDARD_LEGACY);
+        }else {
+            legacy = false;
+        }
+//        Boolean AX_11 = wifiManager.isWifiStandardSupported(ScanResult.WIFI_STANDARD_11AX);
+
+//        Boolean N_11 = wifiManager.isWifiStandardSupported(ScanResult.WIFI_STANDARD_11N);
+//        Boolean legacy = wifiManager.isWifiStandardSupported(ScanResult.WIFI_STANDARD_LEGACY);
+        if (Build.VERSION.SDK_INT >= 21) {
+            wifi_capabilities.add(new StringKeyVal("supports_5G", String.valueOf((wifiManager.is5GHzBandSupported()))));
+        }else {
+            wifi_capabilities.add(new StringKeyVal("supports_5G", String.valueOf(true)));
+        }
+
+        if (Build.VERSION.SDK_INT >= 30) {
+            wifi_capabilities.add(new StringKeyVal("supports_6G", String.valueOf((wifiManager.is6GHzBandSupported()))));
+        }else {
+            wifi_capabilities.add(new StringKeyVal("supports_6G", String.valueOf(true)));
+        }
 
         if (Build.VERSION.SDK_INT >= 31) {
-           // This was added in API 31, I guess before then 2.4 was always supported.
-           wifi_capabilities.add(new StringKeyVal("supports_2G", String.valueOf((wifiManager.is24GHzBandSupported())))); // This line gives an error
+            // This was added in API 31, I guess before then 2.4 was always supported.
+            wifi_capabilities.add(new StringKeyVal("supports_2G", String.valueOf((wifiManager.is24GHzBandSupported())))); // This line gives an error
         }
         else {
-           wifi_capabilities.add(new StringKeyVal("supports_2G", String.valueOf(true)));
+            wifi_capabilities.add(new StringKeyVal("supports_2G", String.valueOf(true)));
         }
 
         wifi_capabilities.add(new StringKeyVal("11-AC", String.valueOf(AC_11)));
