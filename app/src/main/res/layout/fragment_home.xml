@@ -8,7 +8,9 @@
     tools:context=".ServerConnection"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="140dp"
-    android:keepScreenOn="true">
+    android:keepScreenOn="true"
+    android:fitsSystemWindows="true"
+    app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
 
     <ImageView
@@ -22,24 +24,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.024"
         app:srcCompat="@drawable/ic_candelalogo" />
-
-<!--    <TextView-->
-<!--        android:id="@+id/conn_status"-->
-<!--        android:layout_width="140dp"-->
-<!--        android:layout_height="25dp"-->
-<!--        android:layout_marginBottom="10dp"-->
-<!--        android:background="#4CAF50"-->
-<!--        android:textAlignment="center"-->
-<!--        android:textColor="#000000"-->
-<!--        android:textSize="20dp"-->
-<!--        android:textStyle="bold"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.741"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintVertical_bias="0.058" />-->
-
 
     <TextView
         android:id="@+id/server_ip_info"
@@ -70,102 +54,43 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.95" />
 
-<!--    <ScrollView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="400dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.5"-->
-<!--        app:layout_constraintVertical_bias="0.5"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/data"-->
-<!--        >-->
-
     <TableLayout
         android:id="@+id/table"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         app:layout_constraintBottom_toTopOf="@+id/update_lf"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/server_ip_info"
         tools:ignore="MissingConstraints">
-
-        <!--        <TableRow android:background="@color/teal_200">-->
-
-        <!--            <TextView-->
-        <!--                android:layout_width="0dp"-->
-        <!--                android:layout_height="match_parent"-->
-        <!--                android:layout_weight="2"-->
-        <!--                android:gravity="center"-->
-        <!--                android:padding="10sp"-->
-        <!--                android:text="Sl. No"-->
-        <!--                android:textColor="@color/black"-->
-        <!--                android:textSize="14sp"-->
-        <!--                android:textStyle="bold" />-->
-
-        <!--            <TextView-->
-        <!--                android:layout_width="0dp"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_weight="4"-->
-        <!--                android:gravity="center"-->
-        <!--                android:padding="10sp"-->
-        <!--                android:text="Key"-->
-        <!--                android:textColor="@color/black"-->
-        <!--                android:textSize="14sp"-->
-        <!--                android:textStyle="bold" />-->
-
-        <!--            <TextView-->
-        <!--                android:layout_width="0dp"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_weight="4"-->
-        <!--                android:gravity="center"-->
-        <!--                android:padding="10sp"-->
-        <!--                android:text="Value"-->
-        <!--                android:textColor="@color/black"-->
-        <!--                android:textSize="14sp"-->
-        <!--                android:textStyle="bold">-->
-
-        <!--            </TextView>-->
-        <!--        </TableRow>-->
-
-        <!--        <TableRow-->
-        <!--            android:background="@color/purple_200"-->
-        <!--            android:id="@+id/item">-->
-
-        <!--            <TextView-->
-        <!--                android:layout_width="0dp"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_weight="2"-->
-        <!--                android:gravity="center"-->
-        <!--                android:padding="10sp"-->
-        <!--                android:text="1"-->
-        <!--                android:id="@+id/sl"-->
-        <!--                android:textSize="12sp" />-->
-
-        <!--            <TextView-->
-        <!--                android:layout_width="0dp"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_weight="4"-->
-        <!--                android:gravity="center"-->
-        <!--                android:padding="10sp"-->
-        <!--                android:id="@+id/key"-->
-        <!--                android:text="Manufacturer"-->
-        <!--                android:textSize="12sp" />-->
-
-        <!--            <TextView-->
-        <!--                android:layout_width="0dp"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_weight="4"-->
-        <!--                android:gravity="center"-->
-        <!--                android:padding="10sp"-->
-        <!--                android:id="@+id/value"-->
-        <!--                android:text="samsung"-->
-        <!--                android:textSize="12sp" />-->
-
-        <!--        </TableRow>-->
     </TableLayout>
-<!--    </ScrollView>-->
+
+    <Button
+        android:id="@+id/system_info_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="Sys-info"
+        app:layout_constraintBottom_toTopOf="@+id/table"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.635"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/server_ip_info"
+        app:layout_constraintVertical_bias="0.316" />
+
+    <Button
+        android:id="@+id/wifi_info_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="wifi-info"
+        app:layout_constraintBottom_toTopOf="@+id/table"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.322"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4"
+        app:layout_constraintVertical_bias="0.316" />
+    <!--    </ScrollView>-->
 </androidx.constraintlayout.widget.ConstraintLayout>
