@@ -16,6 +16,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fillViewport="true"
         android:paddingTop="20dp">
 
         <LinearLayout
@@ -44,9 +45,20 @@
 
     </ScrollView>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="#EF1E63" />
+    </LinearLayout>
+
     <ScrollView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -57,7 +69,7 @@
                 android:id="@+id/system_info_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:backgroundTint="#808080"
                 android:minHeight="0dp"
                 android:minWidth="0dp"
                 android:text="@string/sys_info" />
@@ -66,7 +78,7 @@
                 android:id="@+id/wifi_info_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:backgroundTint="#808080"
                 android:minHeight="0dp"
                 android:minWidth="0dp"
                 android:text="@string/wifi_info" />
@@ -74,18 +86,23 @@
         </LinearLayout>
     </ScrollView>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="#EF1E63" />
+    </LinearLayout>
+
 
     <TableLayout
         android:id="@+id/table"
+        android:layout_marginTop="2dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        app:layout_constraintBottom_toTopOf="@+id/update_lf"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/server_ip_info"
-        tools:ignore="MissingConstraints">
+        android:layout_height="fill_parent"
+        android:layout_weight="1">
     </TableLayout>
 
 

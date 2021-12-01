@@ -110,11 +110,10 @@ public class HomeFragment extends Fragment {
                         wifi_info.put("MAC", wifiinfo.getMacAddress());
                         wifi_info.put("BSSID", wifiinfo.getBSSID());
                         wifi_info.put("State", String.valueOf(wifiinfo.getSupplicantState()));
-                        wifi_info.put("WifiStandard", String.valueOf(wifiinfo.getWifiStandard()));
+//                        wifi_info.put("Standard ", String.valueOf(wifiinfo.getWifiStandard())); // Getting error for few phones
                         wifi_info.put("LinkSpeed", String.valueOf(wifiinfo.getLinkSpeed()));
                         wifi_info.put("frequency", String.valueOf(wifiinfo.getFrequency()));
-                        wifi_info.put("PHONE IP", Formatter.formatIpAddress(wifiinfo.getIpAddress()));
-                        wifi_info.put("SSID PASSWORD", password);
+                        wifi_info.put("PASSWORD", password);
                         System.out.println("wifi_info"+wifi_info);
 
                         wifi_table.setPadding(10, 0, 10,0);
@@ -123,17 +122,17 @@ public class HomeFragment extends Fragment {
                         TextView sl_head = new TextView(getActivity());
                         sl_head.setText(" SL. ");
                         sl_head.setTextColor(Color.BLACK);
-                        sl_head.setGravity(Gravity.LEFT);
+                        sl_head.setGravity(Gravity.CENTER);
                         heading.addView(sl_head);
                         TextView key_head = new TextView(getActivity());
                         key_head.setText(" KEY ");
                         key_head.setTextColor(Color.BLACK);
-                        key_head.setGravity(Gravity.LEFT);
+                        key_head.setGravity(Gravity.CENTER);
                         heading.addView(key_head);
                         TextView val_head = new TextView(getActivity());
                         val_head.setText(" VALUE ");
                         val_head.setTextColor(Color.BLACK);
-                        val_head.setGravity(Gravity.LEFT);
+                        val_head.setGravity(Gravity.CENTER);
                         heading.addView(val_head);
                         wifi_table.addView(heading);
 
@@ -147,22 +146,22 @@ public class HomeFragment extends Fragment {
                             }
 
                             TextView sl_view = new TextView(getActivity());
-                            sl_view.setText(String.valueOf(i));
+                            sl_view.setText(String.valueOf(i) + ".");
                             sl_view.setTextSize(12);
                             sl_view.setTextColor(Color.BLACK);
-                            sl_view.setGravity(Gravity.LEFT);
+                            sl_view.setGravity(Gravity.CENTER);
                             tbrow.addView(sl_view);
                             TextView key_view = new TextView(getActivity());
                             key_view.setText(entry.getKey());
                             key_view.setTextSize(12);
                             key_view.setTextColor(Color.BLACK);
-                            key_view.setGravity(Gravity.LEFT);
+                            key_view.setGravity(Gravity.CENTER);
                             tbrow.addView(key_view);
                             TextView val_view = new TextView(getActivity());
                             val_view.setText(entry.getValue());
                             val_view.setTextSize(12);
                             val_view.setTextColor(Color.BLACK);
-                            val_view.setGravity(Gravity.LEFT);
+                            val_view.setGravity(Gravity.CENTER);
                             tbrow.addView(val_view);
                             wifi_table.addView(tbrow);
                             i= i+1;
@@ -186,6 +185,8 @@ public class HomeFragment extends Fragment {
                         WifiManager wifiManager = (WifiManager) getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
                         WifiInfo wifiinfo = wifiManager.getConnectionInfo();
 
+
+
                         system_info.put("MANUFACTURER", Build.MANUFACTURER);
                         system_info.put("MODEL", Build.MODEL);
                         system_info.put("PRODUCT", Build.PRODUCT);
@@ -198,40 +199,53 @@ public class HomeFragment extends Fragment {
                         system_info.put("HARDWARE", Build.HARDWARE);
                         system_info.put("HOST", Build.HOST);
                         system_info.put("ID", Build.ID);
+                        system_info.put("PHONE IP", Formatter.formatIpAddress(wifiinfo.getIpAddress()));
 
 
-                        password = (String) keys.get("current-passwd");
-                        String username = (String) keys.get("user_name");
 
-                        system_info.put("WiFi CAPABILITY", String.valueOf(wifi_capabilities));
-                        system_info.put("WiFi ENCRYPTION", String.valueOf(wifi_encryption));
-                        system_info.put("WiFi MODE", String.valueOf(wifi_mode));
-                        system_info.put("USERNAME", username);
-                        system_info.put("PASSWORD", password);
+//                        password = (String) keys.get("current-passwd");
+//                        String username = (String) keys.get("user_name");
+//                        system_info.put("WiFi CAPABILITY", String.valueOf(wifi_capabilities));
+//                        system_info.put("WiFi ENCRYPTION", String.valueOf(wifi_encryption));
+//                        system_info.put("USERNAME", username);
+//                        system_info.put("PASSWORD", password);
 
-
-                        List<ScanResult> networkList = wifiManager.getScanResults();
-                        ScanResult sss = networkList.get(0);
-                        System.out.println("Capabilities000 " + sss);
-                        System.out.println("networkList " + networkList);
+//                        List<ScanResult> networkList = wifiManager.getScanResults();
+//                        ScanResult sss = networkList.get(0);
+//                        System.out.println("Capabilities000 " + sss);
+//                        System.out.println("networkList " + networkList);
                         Boolean AC_11 = null;
                         Boolean AX_11 = null;
                         Boolean N_11 = null;
                         Boolean legacy = null;
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                            AC_11 = wifiManager.isWifiStandardSupported(ScanResult.WIFI_STANDARD_11AC);
+                            AC_11 = wifiManager.isWifiStandardSupported(ScanResult
+                                    .WIFI_STANDARD_11AC);
+                        }else {
+                            AC_11 = false;
                         }
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                            AX_11 = wifiManager.isWifiStandardSupported(ScanResult.WIFI_STANDARD_11AX);
+                            AX_11 = wifiManager.isWifiStandardSupported(ScanResult
+                                    .WIFI_STANDARD_11AX);
+                        }else {
+                            AX_11 = false;
                         }
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                            N_11 = wifiManager.isWifiStandardSupported(ScanResult.WIFI_STANDARD_11N);
+                            N_11 = wifiManager.isWifiStandardSupported(ScanResult
+                                    .WIFI_STANDARD_11N);
+                        }else {
+                            N_11 = false;
                         }
+
+
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                            legacy = wifiManager.isWifiStandardSupported(ScanResult.WIFI_STANDARD_LEGACY);
+                            legacy = wifiManager.isWifiStandardSupported(ScanResult
+                                    .WIFI_STANDARD_LEGACY);
+                        }else {
+                            legacy = false;
                         }
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -258,8 +272,8 @@ public class HomeFragment extends Fragment {
                         wifi_mode.add(new StringKeyVal("11-N", String.valueOf(N_11)));
                         wifi_mode.add(new StringKeyVal("LEGACY", String.valueOf(legacy)));
 
-                        system_info.put("WI-FI MODE", String.valueOf(wifi_mode));
-                        system_info.put("WI-FI INFO", String.valueOf(wifiinfo));
+//                        system_info.put("WI-FI MODE", String.valueOf(wifi_mode));
+//                        system_info.put("WI-FI INFO", String.valueOf(wifiinfo));
 
                         sys_table.setPadding(10, 0, 10,0);
                         TableRow heading = new TableRow(getActivity());
@@ -267,17 +281,17 @@ public class HomeFragment extends Fragment {
                         TextView sl_head = new TextView(getActivity());
                         sl_head.setText(" SL. ");
                         sl_head.setTextColor(Color.BLACK);
-                        sl_head.setGravity(Gravity.LEFT);
+                        sl_head.setGravity(Gravity.CENTER);
                         heading.addView(sl_head);
                         TextView key_head = new TextView(getActivity());
                         key_head.setText(" KEY ");
                         key_head.setTextColor(Color.BLACK);
-                        key_head.setGravity(Gravity.LEFT);
+                        key_head.setGravity(Gravity.CENTER);
                         heading.addView(key_head);
                         TextView val_head = new TextView(getActivity());
                         val_head.setText(" VALUE ");
                         val_head.setTextColor(Color.BLACK);
-                        val_head.setGravity(Gravity.LEFT);
+                        val_head.setGravity(Gravity.CENTER);
                         heading.addView(val_head);
                         sys_table.addView(heading);
 
@@ -291,22 +305,22 @@ public class HomeFragment extends Fragment {
                             }
 
                             TextView sl_view = new TextView(getActivity());
-                            sl_view.setText(String.valueOf(i));
+                            sl_view.setText(String.valueOf(i) + ".");
                             sl_view.setTextSize(12);
                             sl_view.setTextColor(Color.BLACK);
-                            sl_view.setGravity(Gravity.LEFT);
+                            sl_view.setGravity(Gravity.CENTER);
                             tbrow.addView(sl_view);
                             TextView key_view = new TextView(getActivity());
                             key_view.setText(entry.getKey());
                             key_view.setTextSize(12);
                             key_view.setTextColor(Color.BLACK);
-                            key_view.setGravity(Gravity.LEFT);
+                            key_view.setGravity(Gravity.CENTER);
                             tbrow.addView(key_view);
                             TextView val_view = new TextView(getActivity());
                             val_view.setText(entry.getValue());
                             val_view.setTextSize(12);
                             val_view.setTextColor(Color.BLACK);
-                            val_view.setGravity(Gravity.LEFT);
+                            val_view.setGravity(Gravity.CENTER);
                             tbrow.addView(val_view);
                             sys_table.addView(tbrow);
                             i= i+1;
@@ -314,7 +328,7 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
-                wifi_info_btn.performClick();
+                system_info_btn.performClick();
 
 
 
