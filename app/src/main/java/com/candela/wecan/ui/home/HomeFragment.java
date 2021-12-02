@@ -110,7 +110,9 @@ public class HomeFragment extends Fragment {
                         wifi_info.put("MAC", wifiinfo.getMacAddress());
                         wifi_info.put("BSSID", wifiinfo.getBSSID());
                         wifi_info.put("State",  String.valueOf(wifiinfo.getSupplicantState()));
-//                        wifi_info.put("Standard ", String.valueOf(wifiinfo.getWifiStandard())); // Getting error for few phones
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                           wifi_info.put("Standard ", String.valueOf(wifiinfo.getWifiStandard())); // Getting error for few phones
+                        }
                         wifi_info.put("LinkSpeed", String.valueOf(wifiinfo.getLinkSpeed()));
                         wifi_info.put("frequency", String.valueOf(wifiinfo.getFrequency()));
                         wifi_info.put("PASSWORD", password);
