@@ -40,6 +40,7 @@ public class SlideshowFragment extends Fragment {
                 Button refresh;
                 refresh = getActivity().findViewById(R.id.refresh_btn);
                 try {
+//                    Process clear_process = Runtime.getRuntime().exec("logcat -c");
                     Process process = Runtime.getRuntime().exec("logcat -d");
                     BufferedReader bufferedReader = new BufferedReader(
                             new InputStreamReader(process.getInputStream()));
@@ -58,6 +59,7 @@ public class SlideshowFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         try {
+//                            Process clear_process = Runtime.getRuntime().exec("logcat -c");
                             Process process = Runtime.getRuntime().exec("logcat -d");
                             BufferedReader bufferedReader = new BufferedReader(
                                     new InputStreamReader(process.getInputStream()));
