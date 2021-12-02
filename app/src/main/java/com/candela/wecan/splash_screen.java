@@ -25,7 +25,6 @@ public class splash_screen extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-//                Log.d("Name", "Saurabh Goyalllllllllllllllllllllllllllllllllllllllllllllllllllllllllll ");
                 startActivity(new Intent(splash_screen.this, StartupActivity.class));
                 finish();
             }
