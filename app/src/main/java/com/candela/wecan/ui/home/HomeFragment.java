@@ -89,8 +89,8 @@ public class HomeFragment extends Fragment {
                 String current_ip = (String) keys.get("current-ip");
                 String current_resource = (String) keys.get("current-resource");
                 String current_realm = (String) keys.get("current-realm");
-                ip_show.setText("USERNAME: " + username + "\nSERVER IP: " + current_ip);
-//                ip_show.setText("USERNAME: " + username + "\nSERVER IP: " + current_ip + "\nREALM: " + current_realm + "\nCARD: " + current_resource);
+//                ip_show.setText("USERNAME: " + username + "\nSERVER IP: " + current_ip);
+                ip_show.setText("USERNAME: " + username + "\nSERVER IP: " + current_ip + "\nREALM: " + current_realm + "\nCARD: " + current_resource);
 
 
                 wifi_info_btn.setOnClickListener(new View.OnClickListener() {
