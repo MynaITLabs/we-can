@@ -35,6 +35,8 @@ import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
+import java.util.StringTokenizer;
+import java.io.RandomAccessFile;
 
 import candela.lfresource.AndroidUI;
 import candela.lfresource.PlatformInfo;
@@ -186,6 +188,109 @@ public class ResourceUtils extends AppCompatActivity implements AndroidUI{
         pi.id = Build.ID;
         pi.availMem = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
         pi.totalMem = Runtime.getRuntime().totalMemory();
+
+        // CPU Info
+        pi.cores = 0;
+        pi.processor = "";
+
+        try {
+           RandomAccessFile reader = new RandomAccessFile("/proc/cpuinfo", "r");
+           while (true) {
+              try {
+                 String line = reader.readLine();
+                 if (line == null)
+                    break;
+                 //System.out.println("CPUINFO: " + line);
+                 if (line.startsWith("processor")) {
+                    // processor	: 7
+                    StringTokenizer st = new StringTokenizer(line);
+                    try {
+                       st.nextToken();
+                       st.nextToken();
+                       pi.cores = (int)(Long.parseLong(st.nextToken()));
+                    }
+                    catch (Exception ee) {
+                       ee.printStackTrace();
+                    }
+                 }
+                 if (line.startsWith("Processor")) {
+                    //  Processor	: AArch64 Processor rev 0 (aarch64)
+                    StringTokenizer st = new StringTokenizer(line);
+                    try {
+                       st.nextToken();
+                       st.nextToken();
+                       pi.processor = st.nextToken("\n"); // grab rest
+                    }
+                    catch (Exception ee) {
+                       ee.printStackTrace();
+                    }
+                 }
+              }
+              catch (Exception ee) {
+                 break;
+              }
+           }
+        }
+        catch (Exception ei) {
+           ei.printStackTrace();
+        }
+
+        try {
+           RandomAccessFile reader = new RandomAccessFile("/proc/meminfo", "r");
+           while (true) {
+              try {
+                 String line = reader.readLine();
+                 if (line == null)
+                    break;
+                 //System.out.println("MEMINFO: " + line);
+
+                 if (line.startsWith("MemTotal")) {
+                    //  MemTotal:        5761024 kB
+                    StringTokenizer st = new StringTokenizer(line);
+                    try {
+                       st.nextToken();
+                       pi.system_tot_mem_kb = Long.parseLong(st.nextToken());
+                    }
+                    catch (Exception ee) {
+                       ee.printStackTrace();
+                    }
+                 }
+
+                 if (line.startsWith("MemAvailable")) {
+                    StringTokenizer st = new StringTokenizer(line);
+                    try {
+                       st.nextToken();
+                       pi.system_avail_mem_kb = Long.parseLong(st.nextToken());
+                    }
+                    catch (Exception ee) {
+                       ee.printStackTrace();
+                    }
+                 }
+
+              }
+              catch (Exception ee) {
+                 break;
+              }
+           }
+        }
+        catch (Exception ei) {
+           ei.printStackTrace();
+        }
+
+        pi.load = 0;
+
+        // This does not work, permission-denied when reading /proc/loadavg --Ben
+        // No good fix it seems:  https://issuetracker.google.com/issues/37140047
+        //try {
+        //   RandomAccessFile reader = new RandomAccessFile("/proc/loadavg", "r");
+        //   String line = reader.readLine();
+        //   StringTokenizer st = new StringTokenizer(line);
+        //   pi.load = (float)(Double.parseDouble(st.nextToken()));
+        //}
+        //catch (Exception ei) {
+        //   ei.printStackTrace();
+        //}
+
 //        WIFI-CAPABILITIES
 
 //        List<ScanResult> scanResults = ((WifiManager) getSystemService(Context.WIFI_SERVICE)).getScanResults();
