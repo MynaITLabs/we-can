@@ -9,6 +9,8 @@ import android.util.Log;
 
 import java.io.IOException;
 
+import java.io.IOException;
+
 public class splash_screen extends AppCompatActivity {
 
     @Override
