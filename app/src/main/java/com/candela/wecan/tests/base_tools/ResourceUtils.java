@@ -59,17 +59,19 @@ public class ResourceUtils extends AppCompatActivity implements AndroidUI{
         Vector<StringKeyVal> data_structure = new Vector<StringKeyVal>();
         if (s.equals("wlan0")){
             WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-            data_structure.add(new StringKeyVal("SSID",wifiManager.getConnectionInfo().getSSID().replaceAll("\"","")));
-            data_structure.add(new StringKeyVal("BSSID",wifiManager.getConnectionInfo().getBSSID()));
-            data_structure.add(new StringKeyVal("RSSI",String.valueOf(wifiManager.getConnectionInfo().getRssi())));
-            data_structure.add(new StringKeyVal("Frequency",String.valueOf(wifiManager.getConnectionInfo().getFrequency())));
-            data_structure.add(new StringKeyVal("Link speed",String.valueOf(wifiManager.getConnectionInfo().getLinkSpeed())));
+            //https://developer.android.com/reference/android/net/wifi/WifiManager#getConnectionInfo()
+            WifiInfo info = wifiManager.getConnectionInfo(); // deprecated in v31
+            data_structure.add(new StringKeyVal("SSID", info.getSSID().replaceAll("\"","")));
+            data_structure.add(new StringKeyVal("BSSID", info.getBSSID()));
+            data_structure.add(new StringKeyVal("RSSI", String.valueOf(info.getRssi())));
+            data_structure.add(new StringKeyVal("Frequency",String.valueOf(info.getFrequency())));
+            data_structure.add(new StringKeyVal("Link speed",String.valueOf(info.getLinkSpeed())));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                data_structure.add(new StringKeyVal("Tx Link speed",String.valueOf(wifiManager.getConnectionInfo().getTxLinkSpeedMbps())));
+                data_structure.add(new StringKeyVal("Tx Link speed",String.valueOf(info.getTxLinkSpeedMbps())));
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                data_structure.add(new StringKeyVal("Wi-Fi standard",String.valueOf(wifiManager.getConnectionInfo().getWifiStandard())));
-                data_structure.add(new StringKeyVal("Max Supported Rx Link speed",String.valueOf(wifiManager.getConnectionInfo().getMaxSupportedRxLinkSpeedMbps())));
+                data_structure.add(new StringKeyVal("Wi-Fi standard",String.valueOf(info.getWifiStandard())));
+                data_structure.add(new StringKeyVal("Max Supported Rx Link speed",String.valueOf(info.getMaxSupportedRxLinkSpeedMbps())));
             }
             data_structure.add(new StringKeyVal("DHCP-IPv4",String.valueOf(wifiManager.getDhcpInfo().ipAddress)));
             data_structure.add(new StringKeyVal("DHCP-Gateway",String.valueOf(wifiManager.getDhcpInfo().gateway)));
