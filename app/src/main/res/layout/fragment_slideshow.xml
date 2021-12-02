@@ -22,17 +22,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
+        android:id="@+id/scrollView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3"
-        app:layout_constraintVertical_bias="0.029"
+        app:layout_constraintVertical_bias="0.078"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="28dp">
+        tools:layout_editor_absoluteX="0dp">
 
         <TextView
             android:id="@+id/logcat_tv"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="52dp"
             android:textColor="#000000"
@@ -56,4 +57,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.055" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
