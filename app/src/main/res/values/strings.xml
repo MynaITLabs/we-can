@@ -26,4 +26,5 @@
     <string name="splash_welcome">WELCOM TO WE-CAN PROJECT</string>
     <string name="wifi_info">wifi-info</string>
     <string name="sys_info">Sys-info</string>
+    <string name="live_data">live data</string>
 </resources>

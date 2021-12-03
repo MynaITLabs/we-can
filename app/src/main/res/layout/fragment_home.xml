@@ -83,6 +83,15 @@
                 android:minWidth="0dp"
                 android:text="@string/wifi_info" />
 
+            <Button
+                android:id="@+id/rxtx_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#808080"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:text="@string/live_data" />
+
         </LinearLayout>
     </ScrollView>
 
