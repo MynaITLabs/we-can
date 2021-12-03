@@ -115,7 +115,17 @@
     </TableLayout>
 
 
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:id="@+id/save_data_switch"
+        android:text="Save Data"
+        android:checked="false"
+        android:scaleX="1.5"
+        android:scaleY="1.5">
 
+    </Switch>
 
     <Button
         android:layout_gravity="center"

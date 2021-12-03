@@ -57,7 +57,7 @@ public class HomeFragment extends Fragment {
     private Button refresh_button;
     private static final String FILE_NAME = "data.conf";
     private TextView ip_show;
-    public String ip, ip1;
+    public Boolean live_table_flag = false;
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
@@ -101,6 +101,7 @@ public class HomeFragment extends Fragment {
                 wifi_info_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        live_table_flag = false;
                         sys_table.removeAllViews();
                         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userdata", Context.MODE_PRIVATE);
                         Map<String,?> keys = sharedPreferences.getAll();
@@ -179,6 +180,7 @@ public class HomeFragment extends Fragment {
                 system_info_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        live_table_flag = false;
                         wifi_table.removeAllViews();
                         Vector<StringKeyVal> wifi_capabilities = new Vector<StringKeyVal>();
                         Vector<StringKeyVal> wifi_mode = new Vector<StringKeyVal>();
@@ -338,7 +340,7 @@ public class HomeFragment extends Fragment {
                 rxtx_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Boolean live_table_flag = true;
+                        live_table_flag = true;
                         Handler handler = new Handler();
                         final Runnable r = new Runnable() {
                             @Override
@@ -442,8 +444,13 @@ public class HomeFragment extends Fragment {
                                     live_table.addView(tbrow);
                                     i= i+1;
                                 }
+                                if (live_table_flag){
+                                    handler.postDelayed(this, 5000);
+                                }else {
+                                    handler.removeCallbacks(this);
+                                    live_table_flag = false;
+                                }
 
-                                handler.postDelayed(this, 1000);
                             }
                         };
                         handler.post(r);
