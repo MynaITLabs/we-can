@@ -7,11 +7,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.wifi.ScanResult;
+import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.view.Gravity;
@@ -76,11 +78,14 @@ public class HomeFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.R)
             @Override
             public void onChanged(@Nullable String s) {
-                Button wifi_info_btn, system_info_btn;
+                Button wifi_info_btn, system_info_btn, rxtx_btn;
                 wifi_info_btn = getActivity().findViewById(R.id.wifi_info_btn);
                 system_info_btn = getActivity().findViewById(R.id.system_info_btn);
+                rxtx_btn = getActivity().findViewById(R.id.rxtx_btn);
                 final TableLayout wifi_table = (TableLayout) getView().findViewById(R.id.table);
                 final TableLayout sys_table = (TableLayout) getView().findViewById(R.id.table);
+                final TableLayout live_table = (TableLayout) getView().findViewById(R.id.table);
+
                 ip_show = getView().findViewById(R.id.server_ip_info);
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userdata", Context.MODE_PRIVATE);
                 Map<String,?> keys = sharedPreferences.getAll();
@@ -327,6 +332,121 @@ public class HomeFragment extends Fragment {
                             sys_table.addView(tbrow);
                             i= i+1;
                         }
+                    }
+                });
+
+                rxtx_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Boolean live_table_flag = true;
+                        Handler handler = new Handler();
+                        final Runnable r = new Runnable() {
+                            @Override
+                            public void run() {
+                                live_table.removeAllViews();
+                                WifiManager wifiManager = (WifiManager) getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                                WifiInfo wifiinfo = wifiManager.getConnectionInfo();
+                                String IP = null;
+                                String SSID = null;
+                                String BSSID = null;
+                                int Rssi = 0;
+                                String LinkSpeed = null;
+                                String channel = null;
+                                int Rx = 0;
+                                int Tx = 0;
+                                int Rx_Mbps = 0;
+                                int Tx_Mbps = 0;
+                                int max_Rx = 0;
+                                int max_Tx = 0;
+                                if (wifiinfo.getSupplicantState() == SupplicantState.COMPLETED) {
+                                    IP = Formatter.formatIpAddress(wifiinfo.getIpAddress());
+                                    SSID = wifiinfo.getSSID();
+                                    BSSID = wifiinfo.getBSSID();
+                                    Rssi = wifiinfo.getRssi();
+                                    LinkSpeed = wifiinfo.getLinkSpeed() + " Mbps";
+                                    channel = wifiinfo.getFrequency() + "MHz";
+                                    Rx = wifiinfo.getRxLinkSpeedMbps();
+                                    Tx = wifiinfo.getTxLinkSpeedMbps();
+                                    Rx_Mbps = wifiinfo.getRxLinkSpeedMbps();
+                                    Tx_Mbps = wifiinfo.getTxLinkSpeedMbps();
+                                    max_Rx = wifiinfo.getMaxSupportedRxLinkSpeedMbps();
+                                    max_Tx = wifiinfo.getMaxSupportedTxLinkSpeedMbps();
+                                    System.out.println("Wificlzncz: " + IP + "\n" + SSID + "\n" + BSSID + "\n" + Rssi + "\n" + LinkSpeed + "\n" + channel + "\n" + Rx + "\n" + Tx + "\n" + Rx_Mbps + "\n" + Tx_Mbps);
+//                                    System.out.println(wifiinfo);
+                                }
+                                long availMem = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+                                long totalMem = Runtime.getRuntime().totalMemory();
+                                long usedMem = totalMem - availMem;
+                                double cpu_used_percent = 100 - (usedMem / (double) totalMem) * 100;
+                                Map<String, String> live_data = new HashMap<String, String>();
+                                live_data.put("IP", String.valueOf(IP));
+                                live_data.put("SSID", SSID);
+                                live_data.put("BSSID", BSSID);
+                                live_data.put("Rssi", String.valueOf(Rssi));
+                                live_data.put("LinkSpeed", LinkSpeed);
+                                live_data.put("channel", channel);
+                                live_data.put("Rx", String.valueOf(Rx));
+                                live_data.put("Tx", String.valueOf(Tx));
+                                live_data.put("Rx_Mbps", String.valueOf(Rx_Mbps));
+                                live_data.put("Tx_Mbps", String.valueOf(Tx_Mbps));
+                                live_data.put("Max_Rx", String.valueOf(max_Rx));
+                                live_data.put("Max_Tx", String.valueOf(max_Tx));
+
+                                live_table.setPadding(10, 0, 10,0);
+                                TableRow heading = new TableRow(getActivity());
+                                heading.setBackgroundColor(Color.rgb(120, 156,175));
+                                TextView sl_head = new TextView(getActivity());
+                                sl_head.setText(" SL. ");
+                                sl_head.setTextColor(Color.BLACK);
+                                sl_head.setGravity(Gravity.CENTER);
+                                heading.addView(sl_head);
+                                TextView key_head = new TextView(getActivity());
+                                key_head.setText(" KEY ");
+                                key_head.setTextColor(Color.BLACK);
+                                key_head.setGravity(Gravity.CENTER);
+                                heading.addView(key_head);
+                                TextView val_head = new TextView(getActivity());
+                                val_head.setText(" VALUE ");
+                                val_head.setTextColor(Color.BLACK);
+                                val_head.setGravity(Gravity.CENTER);
+                                heading.addView(val_head);
+                                live_table.addView(heading);
+
+                                int i = 1;
+                                for (Map.Entry<String,String> entry : live_data.entrySet() ) {
+                                    TableRow tbrow = new TableRow(getActivity());
+                                    if (i%2 == 0){
+                                        tbrow.setBackgroundColor(Color.rgb(211,211,211));
+                                    }else {
+                                        tbrow.setBackgroundColor(Color.rgb(192,192,192));
+                                    }
+
+                                    TextView sl_view = new TextView(getActivity());
+                                    sl_view.setText(String.valueOf(i) + ".");
+                                    sl_view.setTextSize(12);
+                                    sl_view.setTextColor(Color.BLACK);
+                                    sl_view.setGravity(Gravity.CENTER);
+                                    tbrow.addView(sl_view);
+                                    TextView key_view = new TextView(getActivity());
+                                    key_view.setText(entry.getKey());
+                                    key_view.setTextSize(12);
+                                    key_view.setTextColor(Color.BLACK);
+                                    key_view.setGravity(Gravity.CENTER);
+                                    tbrow.addView(key_view);
+                                    TextView val_view = new TextView(getActivity());
+                                    val_view.setText(entry.getValue());
+                                    val_view.setTextSize(12);
+                                    val_view.setTextColor(Color.BLACK);
+                                    val_view.setGravity(Gravity.CENTER);
+                                    tbrow.addView(val_view);
+                                    live_table.addView(tbrow);
+                                    i= i+1;
+                                }
+
+                                handler.postDelayed(this, 1000);
+                            }
+                        };
+                        handler.post(r);
                     }
                 });
 
