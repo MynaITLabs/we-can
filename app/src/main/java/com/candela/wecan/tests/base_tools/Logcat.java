@@ -51,10 +51,11 @@ public class Logcat extends AppCompatActivity {
 
         /* Checks if external storage is available to at least read */
     }
+
     public boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
-        if ( Environment.MEDIA_MOUNTED.equals( state ) ||
-                Environment.MEDIA_MOUNTED_READ_ONLY.equals( state ) ) {
+        if ( Environment.MEDIA_MOUNTED.equals( Environment.getExternalStorageState() ) ||
+                Environment.MEDIA_MOUNTED_READ_ONLY.equals( Environment.getExternalStorageState() ) ) {
             return true;
         }
         return false;
@@ -62,7 +63,7 @@ public class Logcat extends AppCompatActivity {
 
     public boolean isExternalStorageReadable() {
         String state = Environment.getExternalStorageState();
-        if ( Environment.MEDIA_MOUNTED.equals( state ) ) {
+        if ( Environment.MEDIA_MOUNTED.equals( Environment.getExternalStorageState() ) ) {
             return true;
         }
         return false;
