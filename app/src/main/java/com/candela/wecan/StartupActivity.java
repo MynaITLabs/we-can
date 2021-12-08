@@ -126,7 +126,7 @@ public class StartupActivity extends AppCompatActivity {
                 public void run() {
                     state = p.lfresource.get_state();
                     if (p.getConnState()){
-                        Toast.makeText(v.getContext(), "Connected to LANforge Server", Toast.LENGTH_LONG).show();
+                        Toast.makeText(v.getContext(), "Connected to LANforge Server", Toast.LENGTH_SHORT).show();
                         String new_resource_id = p.getResource();
                         String new_realm_id = p.getRealm();
                         SharedPreferences.Editor editor = sharedPreferences.edit();

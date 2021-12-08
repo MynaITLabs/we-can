@@ -5,8 +5,10 @@ import static android.view.KeyEvent.KEYCODE_BACK;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
 import android.net.wifi.ScanResult;
 import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiConfiguration;
@@ -27,6 +29,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -36,6 +39,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -90,24 +94,25 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChanged(@Nullable String s) {
 //              FOR TESTING SDK VERSION FOR DIFFRENT PHONES
-                if (Build.VERSION.SDK_INT <= 29){
-                    Toast toast;
-                    toast = Toast.makeText(getContext(), "Your phone's SDK is less than 30.", Toast.LENGTH_SHORT);
-                    TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
-                    v.setTextColor(Color.RED);
-                    toast.show();
-                }else {
-                    Toast toast;
-                    toast = Toast.makeText(getContext(), "Your Phone's SDK IS OK", Toast.LENGTH_LONG);
-                    TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
-                    v.setTextColor(Color.GREEN);
-                    toast.show();
-                }
+//                if (Build.VERSION.SDK_INT <= 29){
+//                    Toast toast;
+//                    toast = Toast.makeText(getContext(), "Your phone's SDK is less than 30.", Toast.LENGTH_SHORT);
+//                    TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
+//                    v.setTextColor(Color.RED);
+//                    toast.show();
+//                }else {
+//                    Toast toast;
+//                    toast = Toast.makeText(getContext(), "Your Phone's SDK IS OK", Toast.LENGTH_LONG);
+//                    TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
+//                    v.setTextColor(Color.GREEN);
+//                    toast.show();
+//                }
 //                BUTTONS FOR ACTIONS TO BE DONE ONCLICK...
                 Button wifi_info_btn, system_info_btn, rxtx_btn;
                 wifi_info_btn = getActivity().findViewById(R.id.wifi_info_btn);
                 system_info_btn = getActivity().findViewById(R.id.system_info_btn);
                 rxtx_btn = getActivity().findViewById(R.id.rxtx_btn);
+                ImageView share_btn = getActivity().findViewById(R.id.share_btn);
 //                SWITCH BUTTON TO SAVE DATA....
                 Switch switch_btn;
                 switch_btn = getActivity().findViewById(R.id.save_data_switch);
@@ -126,6 +131,27 @@ public class HomeFragment extends Fragment {
                 String current_realm = (String) keys.get("current-realm");
 //                ip_show.setText("USERNAME: " + username + "\nSERVER IP: " + current_ip);
                 ip_show.setText("User-Name: " + username + "\nServer: " + current_ip + "\nRealm: " + current_realm + "\nResource: " + current_resource);
+
+                share_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                        sharingIntent.setType("*/*");
+                        File dataDirectory = new File( Environment.getExternalStorageDirectory() + "/WE-CAN/LiveData/LiveData.csv");
+                        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "WE-CAN Live Data Sharing");
+                        Uri uri;
+                        if (Build.VERSION.SDK_INT < 24) {
+                            uri = Uri.fromFile(dataDirectory);
+                        } else {
+                            uri = Uri.parse(dataDirectory.getPath());
+                        }
+//                        Uri uri = Uri.fromFile(dataDirectory);
+//                        Uri uri1 = Uri.parse(dataDirectory.getPath());;
+                        sharingIntent.putExtra(android.content.Intent.EXTRA_STREAM, uri);
+                        startActivity(Intent.createChooser(sharingIntent, null));
+                    }
+                });
+
 
                 switch_btn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
