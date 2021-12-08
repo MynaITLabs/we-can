@@ -1,6 +1,7 @@
 package com.candela.wecan.ui.home;
 
 import static android.net.wifi.WifiConfiguration.*;
+import static android.view.KeyEvent.KEYCODE_BACK;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -19,6 +20,7 @@ import android.provider.Settings;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +54,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -108,7 +111,6 @@ public class HomeFragment extends Fragment {
 //                SWITCH BUTTON TO SAVE DATA....
                 Switch switch_btn;
                 switch_btn = getActivity().findViewById(R.id.save_data_switch);
-//                Boolean switchState = switch_btn.isChecked();
 //                TABLE LAYOUT FOR SHOWING TABLE DATA...
                 final TableLayout wifi_table = (TableLayout) getView().findViewById(R.id.table);
                 final TableLayout sys_table = (TableLayout) getView().findViewById(R.id.table);
@@ -134,34 +136,67 @@ public class HomeFragment extends Fragment {
                                 @Override
                                 public void run() {
 //                                    Data Saving in csv format
-                                    String baseDir = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
-                                    String fileName = "Live_Data.csv";
-                                    String filePath = baseDir + File.separator + fileName;
-                                    System.out.println("filePath: "+filePath);
-                                    File file = new File(filePath);
-                                    if (!file.exists()) {
-                                        try {
-                                            file.createNewFile();
-                                        } catch (IOException ioe) {
-                                            ioe.printStackTrace();
+                                    WifiManager wifiManager = (WifiManager) getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                                    WifiInfo wifiinfo = wifiManager.getConnectionInfo();
+                                    String IP = Formatter.formatIpAddress(wifiinfo.getIpAddress());
+                                    String SSID = wifiinfo.getSSID();
+                                    String BSSID = wifiinfo.getBSSID();
+                                    int Rssi = wifiinfo.getRssi();
+                                    String LinkSpeed = wifiinfo.getLinkSpeed() + " Mbps";
+                                    String channel = wifiinfo.getFrequency() + " MHz";
+                                    int Rx = wifiinfo.getRxLinkSpeedMbps();
+                                    int Tx = wifiinfo.getTxLinkSpeedMbps();
+                                    int Rx_Kbps = wifiinfo.getRxLinkSpeedMbps() * 1000;
+                                    int Tx_Kbps = wifiinfo.getTxLinkSpeedMbps() * 1000;
+                                    long availMem = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+                                    long totalMem = Runtime.getRuntime().totalMemory();
+                                    long usedMem = totalMem - availMem;
+                                    String cpu_used_percent = String.format("%.2f", 100 - (usedMem / (double) totalMem) * 100);
+                                    String currentDateTimeString = java.text.DateFormat.getDateTimeInstance().format(new Date());
+                                    String livedata = currentDateTimeString + "," + IP + "," + SSID + "," + BSSID + "," + Rssi
+                                            + "," + LinkSpeed + "," + channel + "," + Rx_Kbps + ","
+                                            + Tx_Kbps + "," + Rx + "," + Tx + "," + cpu_used_percent + "\n";
+
+                                    if ( Environment.MEDIA_MOUNTED.equals( Environment.getExternalStorageState() ) ||
+                                            Environment.MEDIA_MOUNTED_READ_ONLY.equals( Environment.getExternalStorageState() ) ) {
+
+                                        File appDirectory = new File( Environment.getExternalStorageDirectory() + "/WE-CAN" );
+                                        File logDirectory = new File( appDirectory + "/LiveData" );
+                                        File logFile = new File( logDirectory, "LiveData.csv" );
+//                                        File logFile = new File( logDirectory, "LiveData_" + System.currentTimeMillis() + ".txt" );
+                                        File file = new File(String.valueOf(logFile));
+                                        if(file.exists()){
+                                            try {
+                                                FileOutputStream stream = new FileOutputStream(logFile,true);
+                                                stream.write(livedata.getBytes());
+                                                stream.close();
+                                            } catch (FileNotFoundException e) {
+                                                e.printStackTrace();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }else{
+                                            FileOutputStream stream = null;
+                                            try {
+                                                stream = new FileOutputStream(logFile);
+                                                stream.write("Date/Time,IP,SSID,BSSID,Rssi,Linkspeed,Channel,Rx_Kbps,Tx_Kbps,Rx_Mbps,Tx_Mbps,CPU_Utilization\n".getBytes());
+                                                stream.close();
+                                            } catch (FileNotFoundException e) {
+                                                e.printStackTrace();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+
                                         }
+
                                     }
-                                    try {
-                                        FileOutputStream fileOutputStream = new FileOutputStream(file);
-                                        OutputStreamWriter writer = new OutputStreamWriter(fileOutputStream);
-                                        writer.append("data,data,data,data,data,data,data,data,data");
-                                        writer.close();
-                                        fileOutputStream.close();
-                                    } catch (FileNotFoundException e) {
-                                        e.printStackTrace();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
+                                    //Calling Runable at time interval
                                     if (flag){
                                         handler.postDelayed(this, 1000);
                                     }else{
                                         handler.removeCallbacks(this);
                                     }
+
                                 }
                             };
                             handler.post(save_data);
@@ -227,19 +262,19 @@ public class HomeFragment extends Fragment {
 
                             TextView sl_view = new TextView(getActivity());
                             sl_view.setText(String.valueOf(i) + ".");
-                            sl_view.setTextSize(12);
+                            sl_view.setTextSize(15);
                             sl_view.setTextColor(Color.BLACK);
                             sl_view.setGravity(Gravity.CENTER);
                             tbrow.addView(sl_view);
                             TextView key_view = new TextView(getActivity());
                             key_view.setText(entry.getKey());
-                            key_view.setTextSize(12);
+                            key_view.setTextSize(15);
                             key_view.setTextColor(Color.BLACK);
                             key_view.setGravity(Gravity.CENTER);
                             tbrow.addView(key_view);
                             TextView val_view = new TextView(getActivity());
                             val_view.setText(entry.getValue());
-                            val_view.setTextSize(12);
+                            val_view.setTextSize(15);
                             val_view.setTextColor(Color.BLACK);
                             val_view.setGravity(Gravity.CENTER);
                             tbrow.addView(val_view);
@@ -372,19 +407,19 @@ public class HomeFragment extends Fragment {
 
                             TextView sl_view = new TextView(getActivity());
                             sl_view.setText(String.valueOf(i) + ".");
-                            sl_view.setTextSize(12);
+                            sl_view.setTextSize(15);
                             sl_view.setTextColor(Color.BLACK);
                             sl_view.setGravity(Gravity.CENTER);
                             tbrow.addView(sl_view);
                             TextView key_view = new TextView(getActivity());
                             key_view.setText(entry.getKey());
-                            key_view.setTextSize(12);
+                            key_view.setTextSize(15);
                             key_view.setTextColor(Color.BLACK);
                             key_view.setGravity(Gravity.CENTER);
                             tbrow.addView(key_view);
                             TextView val_view = new TextView(getActivity());
                             val_view.setText(entry.getValue());
-                            val_view.setTextSize(12);
+                            val_view.setTextSize(15);
                             val_view.setTextColor(Color.BLACK);
                             val_view.setGravity(Gravity.CENTER);
                             tbrow.addView(val_view);
@@ -403,7 +438,7 @@ public class HomeFragment extends Fragment {
                             @Override
                             public void run() {
                                 live_table.removeAllViews();
-                                WifiManager wifiManager = (WifiManager) getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                                WifiManager wifiManager = (WifiManager) getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
                                 WifiInfo wifiinfo = wifiManager.getConnectionInfo();
                                 String IP = null;
                                 String SSID = null;
@@ -413,20 +448,24 @@ public class HomeFragment extends Fragment {
                                 String channel = null;
                                 int Rx = 0;
                                 int Tx = 0;
-                                int Rx_Mbps = 0;
-                                int Tx_Mbps = 0;
+                                int Rx_Kbps = 0;
+                                int Tx_Kbps = 0;
                                 if (wifiinfo.getSupplicantState() == SupplicantState.COMPLETED) {
                                     IP = Formatter.formatIpAddress(wifiinfo.getIpAddress());
                                     SSID = wifiinfo.getSSID();
                                     BSSID = wifiinfo.getBSSID();
                                     Rssi = wifiinfo.getRssi();
                                     LinkSpeed = wifiinfo.getLinkSpeed() + " Mbps";
-                                    channel = wifiinfo.getFrequency() + "MHz";
+                                    channel = wifiinfo.getFrequency() + " MHz";
                                     Rx = wifiinfo.getRxLinkSpeedMbps();
                                     Tx = wifiinfo.getTxLinkSpeedMbps();
-                                    Rx_Mbps = wifiinfo.getRxLinkSpeedMbps();
-                                    Tx_Mbps = wifiinfo.getTxLinkSpeedMbps();
-                                    System.out.println("Wificlzncz: " + IP + "\n" + SSID + "\n" + BSSID + "\n" + Rssi + "\n" + LinkSpeed + "\n" + channel + "\n" + Rx + "\n" + Tx + "\n" + Rx_Mbps + "\n" + Tx_Mbps);
+                                    Rx_Kbps = wifiinfo.getRxLinkSpeedMbps() * 1000;
+                                    Tx_Kbps = wifiinfo.getTxLinkSpeedMbps() * 1000;
+//                                    if (Build.VERSION.SDK_INT >= 30){
+//
+//                                    }
+
+//                                    System.out.println("Wificlzncz: " + IP + "\n" + SSID + "\n" + BSSID + "\n" + Rssi + "\n" + LinkSpeed + "\n" + channel + "\n" + Rx + "\n" + Tx + "\n" + Rx_Kbps + "\n" + Tx_Kbps);
 //                                    System.out.println(wifiinfo);
                                 }
                                 long availMem = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
@@ -437,14 +476,14 @@ public class HomeFragment extends Fragment {
                                 live_data.put("IP", String.valueOf(IP));
                                 live_data.put("SSID", SSID);
                                 live_data.put("BSSID", BSSID);
-                                live_data.put("Rssi", String.valueOf(Rssi));
+                                live_data.put("Rssi", String.valueOf(Rssi) + " dBm");
                                 live_data.put("LinkSpeed", LinkSpeed);
-                                live_data.put("channel", channel);
-                                live_data.put("Rx", String.valueOf(Rx));
-                                live_data.put("Tx", String.valueOf(Tx));
-                                live_data.put("Rx_Mbps", String.valueOf(Rx_Mbps));
-                                live_data.put("Tx_Mbps", String.valueOf(Tx_Mbps));
-                                live_data.put("CPU util %", cpu_used_percent);
+                                live_data.put("Channel", channel);
+                                live_data.put("Rx_Mbps", String.valueOf(Rx) + " Mbps");
+                                live_data.put("Tx_Mbps", String.valueOf(Tx) + " Mbps");
+                                live_data.put("Rx_Kbps", String.valueOf(Rx_Kbps) + " Kbps");
+                                live_data.put("Tx_Kbps", String.valueOf(Tx_Kbps) + " Kbps");
+                                live_data.put("CPU util", cpu_used_percent + " %");
                                 live_table.setPadding(10, 0, 10,0);
                                 TableRow heading = new TableRow(getActivity());
                                 heading.setBackgroundColor(Color.rgb(120, 156,175));
@@ -476,29 +515,28 @@ public class HomeFragment extends Fragment {
 
                                     TextView sl_view = new TextView(getActivity());
                                     sl_view.setText(String.valueOf(i) + ".");
-                                    sl_view.setTextSize(12);
+                                    sl_view.setTextSize(15);
                                     sl_view.setTextColor(Color.BLACK);
                                     sl_view.setGravity(Gravity.CENTER);
                                     tbrow.addView(sl_view);
                                     TextView key_view = new TextView(getActivity());
                                     key_view.setText(entry.getKey());
-                                    key_view.setTextSize(12);
+                                    key_view.setTextSize(15);
                                     key_view.setTextColor(Color.BLACK);
                                     key_view.setGravity(Gravity.CENTER);
                                     tbrow.addView(key_view);
                                     TextView val_view = new TextView(getActivity());
                                     val_view.setText(entry.getValue());
-                                    val_view.setTextSize(12);
+                                    val_view.setTextSize(15);
                                     val_view.setTextColor(Color.BLACK);
                                     val_view.setGravity(Gravity.CENTER);
                                     tbrow.addView(val_view);
                                     live_table.addView(tbrow);
                                     i= i+1;
                                 }
-                                if (live_table_flag){
-                                    handler.postDelayed(this, 5000);
-                                    System.out.println("Thread ne Aaag lga di...");
-                                }else {
+                                if (live_table_flag ){
+                                    handler.postDelayed(this, 500);
+                                }else{
                                     handler.removeCallbacks(this);
                                 }
                             }
@@ -506,7 +544,6 @@ public class HomeFragment extends Fragment {
                         handler.post(r);
                     }
                 });
-
 
                 system_info_btn.performClick();
 

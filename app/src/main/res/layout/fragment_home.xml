@@ -37,7 +37,7 @@
                 android:layout_marginLeft="30sp"
                 android:layout_marginRight="30sp"
                 android:layout_gravity="center"
-                android:textColor="#FF0000"
+                android:textColor="#42ba96"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -51,8 +51,8 @@
         android:orientation="vertical">
         <View
             android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:background="#EF1E63" />
+            android:layout_height="2dp"
+            android:background="#D8000C" />
     </LinearLayout>
 
     <ScrollView
@@ -102,8 +102,8 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:background="#EF1E63" />
+            android:layout_height="2dp"
+            android:background="#D8000C" />
     </LinearLayout>
 
 
@@ -121,6 +121,7 @@
         android:layout_height="48dp"
         android:layout_gravity="center"
         android:id="@+id/save_data_switch"
+        android:textColor="@color/light_green"
         android:text="Save Data"
         android:checked="false"
         android:scaleX="1.5"
