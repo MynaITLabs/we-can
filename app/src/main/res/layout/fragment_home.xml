@@ -116,18 +116,32 @@
     </TableLayout>
 
 
-    <Switch
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_gravity="center"
-        android:id="@+id/save_data_switch"
-        android:textColor="@color/light_green"
-        android:text="Save Data"
-        android:checked="false"
-        android:scaleX="1.5"
-        android:scaleY="1.5">
 
-    </Switch>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+
+        <Switch
+            android:id="@+id/save_data_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:checked="false"
+            android:text="Save Data"
+            android:textColor="@color/light_green">
+
+        </Switch>
+
+        <ImageView
+            android:id="@+id/share_btn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@android:drawable/ic_menu_share" />
+
+    </LinearLayout>
 
     <Button
         android:layout_gravity="center"
