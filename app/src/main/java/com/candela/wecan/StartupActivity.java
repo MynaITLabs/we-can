@@ -46,7 +46,7 @@ public class StartupActivity extends AppCompatActivity {
     static final int STARTING = 0;
     static final int RUNNING = 1;
     static final int STOPPED = 2;
-    private TextView server_ip,u_name;
+    private TextView server_ip,u_name,test_name_tv;
     static int state;
     private String ssid, passwd;
     public Context context;
@@ -60,12 +60,15 @@ public class StartupActivity extends AppCompatActivity {
         button = (Button) findViewById(R.id.enter_button);
         server_ip = findViewById(R.id.ip_enter_page);
         u_name = findViewById(R.id.user_name);
+        test_name_tv = findViewById(R.id.test_name);
         SharedPreferences sharedpreferences = getBaseContext().getSharedPreferences("userdata", Context.MODE_PRIVATE);
         Map<String,?> keys = sharedpreferences.getAll();
         String last_ip = (String) keys.get("last");
         String user_name = (String) keys.get("user_name");
+        String test_name = (String) keys.get("test_name");
         server_ip.setText(last_ip);
         u_name.setText(user_name);
+        test_name_tv.setText(test_name);
         checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION, 1);
         checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, 2);
         checkPermission(Manifest.permission.ACCESS_WIFI_STATE, 3);
@@ -84,6 +87,7 @@ public class StartupActivity extends AppCompatActivity {
                     String resource_id = (String) keys.get("resource-" + ip);
                     SharedPreferences.Editor editor = sharedpreferences.edit();
                     editor.putString("user_name" ,  u_name.getText().toString());
+                    editor.putString("test_name" ,  test_name_tv.getText().toString());
                     editor.apply();
                     editor.commit();
                     connect_server(server_ip.getText().toString(), resource_id, realm_id, view, sharedpreferences);
@@ -94,6 +98,7 @@ public class StartupActivity extends AppCompatActivity {
                     editor.putString("resource-" + server_ip.getText().toString(), "-1");
                     editor.putString("realm-" + server_ip.getText().toString(), "-1");
                     editor.putString("user_name" ,  u_name.getText().toString());
+                    editor.putString("test_name" ,  u_name.getText().toString());
                     editor.apply();
                     editor.commit();
                     Map<String,?> keys = sharedpreferences.getAll();
