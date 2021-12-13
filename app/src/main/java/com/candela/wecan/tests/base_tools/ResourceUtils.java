@@ -354,9 +354,21 @@ public class ResourceUtils extends AppCompatActivity implements AndroidUI{
         wifi_capabilities.add(new StringKeyVal("LEGACY", String.valueOf(legacy)));
 
 //        WIFI-ENCRYPTION
-        Boolean wpa3sea = wifiManager.isWpa3SaeSupported();
-        Boolean Wpa3SuiteB = wifiManager.isWpa3SuiteBSupported();
-        Boolean passpoint = wifiManager.isP2pSupported();
+        Boolean wpa3sea = false;
+        Boolean Wpa3SuiteB = false;
+        Boolean passpoint = false;
+        if (Build.VERSION.SDK_INT>29){
+            wpa3sea = wifiManager.isWpa3SaeSupported();
+        }
+        if (Build.VERSION.SDK_INT>29){
+            Wpa3SuiteB = wifiManager.isWpa3SuiteBSupported();
+        }
+
+        if (Build.VERSION.SDK_INT>29){
+            passpoint = wifiManager.isP2pSupported();
+        }
+
+
         wifi_encryption.add(new StringKeyVal("wpa3sea", String.valueOf(wpa3sea)));
         wifi_encryption.add(new StringKeyVal("Wpa3SuiteB", String.valueOf(Wpa3SuiteB)));
         wifi_encryption.add(new StringKeyVal("passpoint", String.valueOf(passpoint)));
