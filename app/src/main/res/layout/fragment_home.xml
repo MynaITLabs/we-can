@@ -109,7 +109,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:overScrollMode="always">
     <TableLayout
         android:id="@+id/table"
@@ -130,8 +130,8 @@
             android:id="@+id/save_data_switch"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
-            android:gravity="center"
             android:checked="false"
+            android:gravity="center"
             android:text="Save Data"
             android:textColor="@color/light_green">
 
@@ -146,10 +146,10 @@
     </LinearLayout>
 
     <Button
-        android:layout_gravity="center"
         android:id="@+id/update_lf"
         android:layout_width="285dp"
         android:layout_height="62dp"
+        android:layout_gravity="center"
         android:backgroundTint="#4CAF50"
         android:text="UPdate"
         app:layout_constraintBottom_toBottomOf="parent"

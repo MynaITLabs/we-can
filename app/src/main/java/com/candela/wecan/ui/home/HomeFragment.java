@@ -54,6 +54,9 @@ import android.widget.Toast;
 import com.candela.wecan.R;
 import com.candela.wecan.databinding.FragmentHomeBinding;
 import com.candela.wecan.tests.base_tools.CardUtils;
+import com.candela.wecan.tests.base_tools.GetPhoneWifiInfo;
+
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -529,8 +532,8 @@ public class HomeFragment extends Fragment {
 //                                Scan wi-fi
                                 wifiManager.setWifiEnabled(true);
                                 wifiManager.startScan();
+                                Map<String, String> scan_data = new LinkedHashMap<String, String>();
                                 List<ScanResult> scan_result = wifiManager.getScanResults();
-                                ArrayList<String> wifi_arr = new ArrayList<String>();
                                 for (int i = 0; i < scan_result.size(); i++) {
                                     String ssid = scan_result.get(i).SSID; //Get the SSID
                                     String bssid =  scan_result.get(i).BSSID; //Get the BSSID
@@ -540,26 +543,20 @@ public class HomeFragment extends Fragment {
                                     int channelWidth = scan_result.get(i).channelWidth; //Get channelWidth
                                     int level = scan_result.get(i).level; //Get level/rssi
                                     int frequency = scan_result.get(i).frequency; //Get frequency
-                                    int dist_in_meters = (int) (Math.pow(10.0d, (27.55d - 40d * Math.log10(frequency) + 6.7d - level) / 20.0d) * 1000);
+                                    float dist = (float) Math.pow(10.0d, (27.55d - 40d * Math.log10(frequency) + 6.7d - level) / 20.0d) * 1000;
+                                    String dist_in_meters = String.format("%.02f", dist);
                                     data = "\nSSID: " + ssid + "\nbssid: " + bssid + "\ncapability: " + capability + "\ncenterFreq0: " +
                                             centerFreq0 + "\ncenterFreq1: " + centerFreq1 + "\nchannelWidth: " + channelWidth +
                                             "\nlevel: " + level + "\nfrequency: " + frequency + "\ndistance: " + dist_in_meters + " meters\n\n";
-                                    wifi_arr.add(data); //append to the other data
+                                    scan_data.put(String.valueOf(i+1), String.valueOf(data));
                                 }
                                 wifiManager.startScan();
-                                Map<String, String> scan_data = new LinkedHashMap<String, String>();
-                                scan_data.put("Scan", String.valueOf(wifi_arr));
-                                wifi_arr.clear();
                                 scan_table.setPadding(10, 0, 10, 0);
                                 TableRow heading = new TableRow(getActivity());
                                 heading.setBackgroundColor(Color.rgb(120, 156, 175));
-                                TextView sl_head = new TextView(getActivity());
-                                sl_head.setText(" SL. ");
-                                sl_head.setTextColor(Color.BLACK);
-                                sl_head.setGravity(Gravity.LEFT);
-                                heading.addView(sl_head);
+
                                 TextView val_head = new TextView(getActivity());
-                                val_head.setText(" VALUE ");
+                                val_head.setText("LIVE WI-FI SCAN");
                                 val_head.setTextColor(Color.BLACK);
                                 val_head.setGravity(Gravity.LEFT);
                                 heading.addView(val_head);
@@ -574,18 +571,6 @@ public class HomeFragment extends Fragment {
                                         tbrow.setBackgroundColor(Color.rgb(192, 192, 192));
                                     }
 
-                                    TextView sl_view = new TextView(getActivity());
-                                    sl_view.setText(String.valueOf(i) + ".");
-                                    sl_view.setTextSize(15);
-                                    sl_view.setTextColor(Color.BLACK);
-                                    sl_view.setGravity(Gravity.LEFT);
-                                    tbrow.addView(sl_view);
-                                    TextView key_view = new TextView(getActivity());
-                                    key_view.setText(entry.getKey());
-                                    key_view.setTextSize(15);
-                                    key_view.setTextColor(Color.BLACK);
-                                    key_view.setGravity(Gravity.LEFT);
-                                    tbrow.addView(key_view);
                                     TextView val_view = new TextView(getActivity());
                                     val_view.setText(entry.getValue());
                                     val_view.setTextSize(15);
