@@ -98,7 +98,7 @@ public class StartupActivity extends AppCompatActivity {
                     editor.putString("resource-" + server_ip.getText().toString(), "-1");
                     editor.putString("realm-" + server_ip.getText().toString(), "-1");
                     editor.putString("user_name" ,  u_name.getText().toString());
-                    editor.putString("test_name" ,  u_name.getText().toString());
+                    editor.putString("test_name" ,  test_name_tv.getText().toString());
                     editor.apply();
                     editor.commit();
                     Map<String,?> keys = sharedpreferences.getAll();
