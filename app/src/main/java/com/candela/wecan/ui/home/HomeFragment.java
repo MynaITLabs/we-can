@@ -54,6 +54,9 @@ import android.widget.Toast;
 import com.candela.wecan.R;
 import com.candela.wecan.databinding.FragmentHomeBinding;
 import com.candela.wecan.tests.base_tools.CardUtils;
+import com.candela.wecan.tests.base_tools.GetPhoneWifiInfo;
+
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -123,7 +126,7 @@ public class HomeFragment extends Fragment {
                 String current_realm = (String) keys.get("current-realm");
                 ip_show.setText("User-Name: " + username + "\nServer: " + current_ip + "\nRealm: " + current_realm + "\nResource: " + current_resource);
 
-//                Share Data Button
+//              Share Data Button
                 share_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -164,24 +167,31 @@ public class HomeFragment extends Fragment {
                                 String channel = wifiinfo.getFrequency() + " MHz";
                                 int Rx = wifiinfo.getRxLinkSpeedMbps();
                                 int Tx = wifiinfo.getTxLinkSpeedMbps();
-                                int Rx_Kbps = wifiinfo.getRxLinkSpeedMbps() * 1000;
-                                int Tx_Kbps = wifiinfo.getTxLinkSpeedMbps() * 1000;
+                                int Rx_Kbps = wifiinfo.getRxLinkSpeedMbps() * 1024;
+                                int Tx_Kbps = wifiinfo.getTxLinkSpeedMbps() * 1024;
                                 long availMem = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
                                 long totalMem = Runtime.getRuntime().totalMemory();
                                 long usedMem = totalMem - availMem;
                                 String cpu_used_percent = String.format("%.2f", (usedMem / (double) totalMem) * 100);
                                 String currentDateTimeString = java.text.DateFormat.getDateTimeInstance().format(new Date());
                                 String livedata = currentDateTimeString + "," + IP + "," + SSID + "," + BSSID + "," + Rssi
-                                        + "," + LinkSpeed + "," + channel + "," + Rx_Kbps + ","
-                                        + Tx_Kbps + "," + Rx + "," + Tx + "," + cpu_used_percent + "\n";
+                                        + "," + LinkSpeed + "," + channel + "," + Rx_Kbps + "Kbps,"
+                                        + Tx_Kbps + "Kbps," + Rx + "Mbps," + Tx + "Mbps," + cpu_used_percent + "\n";
 
                                 if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) ||
                                         Environment.MEDIA_MOUNTED_READ_ONLY.equals(Environment.getExternalStorageState())) {
-
-                                    File appDirectory = new File(Environment.getExternalStorageDirectory() + "/WE-CAN");
-                                    File logDirectory = new File(appDirectory + "/LiveData");
-                                    File logFile = new File(logDirectory, "LiveData.csv");
+//                                  Getting file as Test Name
+                                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userdata", Context.MODE_PRIVATE);
+                                    Map<String,?> keys = sharedPreferences.getAll();
+                                    String test_name= (String) keys.get("test_name");
+                                    File appDirectory = new File(String.valueOf(Environment.getExternalStorageDirectory()) + "/WE-CAN");
+                                    File logDirectory = new File(appDirectory + "/LiveData/");
+                                    File logFile = new File(logDirectory, test_name + ".csv");
                                     File file = new File(String.valueOf(logFile));
+                                    if (!logDirectory.exists()){
+                                        logDirectory.mkdirs();
+                                        System.out.println("logDirectory:  " + logDirectory);
+                                    }
                                     if (file.exists()) {
                                         try {
                                             FileOutputStream stream = new FileOutputStream(logFile, true);
@@ -193,7 +203,7 @@ public class HomeFragment extends Fragment {
                                             e.printStackTrace();
                                         }
                                     } else {
-                                        FileOutputStream stream = null;
+                                        FileOutputStream stream;
                                         try {
                                             stream = new FileOutputStream(logFile);
                                             stream.write("Date/Time,IP,SSID,BSSID,Rssi,Linkspeed,Channel,Rx_Kbps,Tx_Kbps,Rx_Mbps,Tx_Mbps,CPU_Utilization\n".getBytes());
@@ -203,7 +213,6 @@ public class HomeFragment extends Fragment {
                                         } catch (IOException e) {
                                             e.printStackTrace();
                                         }
-
                                     }
                                 }
                                 //Calling Runable at time interval
@@ -212,15 +221,13 @@ public class HomeFragment extends Fragment {
                                 } else {
                                     handler.removeCallbacks(this);
                                 }
-
                             }
                         };
                         handler.post(save_data);
                     }
                 });
 
-
-//                Getting System Information
+//              Getting System Information
                 system_info_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -364,8 +371,7 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
-
-//                live Data showing continuously on click Live Data Button
+//              live Data showing continuously on click Live Data Button
                 live_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -512,8 +518,10 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
+//              Perform Click on System Info
                 system_info_btn.performClick();
 
+//              Scanning Nearest Wi-Fi
                 scan_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -529,8 +537,8 @@ public class HomeFragment extends Fragment {
 //                                Scan wi-fi
                                 wifiManager.setWifiEnabled(true);
                                 wifiManager.startScan();
+                                Map<String, String> scan_data = new LinkedHashMap<String, String>();
                                 List<ScanResult> scan_result = wifiManager.getScanResults();
-                                ArrayList<String> wifi_arr = new ArrayList<String>();
                                 for (int i = 0; i < scan_result.size(); i++) {
                                     String ssid = scan_result.get(i).SSID; //Get the SSID
                                     String bssid =  scan_result.get(i).BSSID; //Get the BSSID
@@ -540,26 +548,20 @@ public class HomeFragment extends Fragment {
                                     int channelWidth = scan_result.get(i).channelWidth; //Get channelWidth
                                     int level = scan_result.get(i).level; //Get level/rssi
                                     int frequency = scan_result.get(i).frequency; //Get frequency
-                                    int dist_in_meters = (int) (Math.pow(10.0d, (27.55d - 40d * Math.log10(frequency) + 6.7d - level) / 20.0d) * 1000);
+                                    float dist = (float) Math.pow(10.0d, (27.55d - 40d * Math.log10(frequency) + 6.7d - level) / 20.0d) * 1000;
+                                    String dist_in_meters = String.format("%.02f", dist);
                                     data = "\nSSID: " + ssid + "\nbssid: " + bssid + "\ncapability: " + capability + "\ncenterFreq0: " +
                                             centerFreq0 + "\ncenterFreq1: " + centerFreq1 + "\nchannelWidth: " + channelWidth +
                                             "\nlevel: " + level + "\nfrequency: " + frequency + "\ndistance: " + dist_in_meters + " meters\n\n";
-                                    wifi_arr.add(data); //append to the other data
+                                    scan_data.put(String.valueOf(i+1), String.valueOf(data));
                                 }
                                 wifiManager.startScan();
-                                Map<String, String> scan_data = new LinkedHashMap<String, String>();
-                                scan_data.put("Scan", String.valueOf(wifi_arr));
-                                wifi_arr.clear();
                                 scan_table.setPadding(10, 0, 10, 0);
                                 TableRow heading = new TableRow(getActivity());
                                 heading.setBackgroundColor(Color.rgb(120, 156, 175));
-                                TextView sl_head = new TextView(getActivity());
-                                sl_head.setText(" SL. ");
-                                sl_head.setTextColor(Color.BLACK);
-                                sl_head.setGravity(Gravity.LEFT);
-                                heading.addView(sl_head);
+
                                 TextView val_head = new TextView(getActivity());
-                                val_head.setText(" VALUE ");
+                                val_head.setText("LIVE WI-FI SCAN");
                                 val_head.setTextColor(Color.BLACK);
                                 val_head.setGravity(Gravity.LEFT);
                                 heading.addView(val_head);
@@ -574,18 +576,6 @@ public class HomeFragment extends Fragment {
                                         tbrow.setBackgroundColor(Color.rgb(192, 192, 192));
                                     }
 
-                                    TextView sl_view = new TextView(getActivity());
-                                    sl_view.setText(String.valueOf(i) + ".");
-                                    sl_view.setTextSize(15);
-                                    sl_view.setTextColor(Color.BLACK);
-                                    sl_view.setGravity(Gravity.LEFT);
-                                    tbrow.addView(sl_view);
-                                    TextView key_view = new TextView(getActivity());
-                                    key_view.setText(entry.getKey());
-                                    key_view.setTextSize(15);
-                                    key_view.setTextColor(Color.BLACK);
-                                    key_view.setGravity(Gravity.LEFT);
-                                    tbrow.addView(key_view);
                                     TextView val_view = new TextView(getActivity());
                                     val_view.setText(entry.getValue());
                                     val_view.setTextSize(15);
